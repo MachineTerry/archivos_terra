@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TERRA - Personajes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Rajdhani:wght@400;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a0f;
+            color: #ffffff;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        
+        /* Layout principal */
+        .main-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+        
+        /* Panel izquierdo con menú */
+        .left-panel {
+            width: 300px;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid rgba(0, 212, 255, 0.2);
+            padding: 40px 25px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: fixed;
+            height: 100vh;
+            z-index: 100;
+        }
+        
+        .panel-logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 15px;
+            opacity: 0.3;
+            color: #00d4ff;
+        }
+        
+        .panel-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 8px;
+            text-align: center;
+            margin-bottom: 6px;
+            background: linear-gradient(135deg, #ffffff 0%, #00d4ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .panel-subtitle {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 2px;
+            color: rgba(255, 255, 255, 0.4);
+            text-align: center;
+            margin-bottom: 35px;
+        }
+        
+        .panel-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .panel-nav-link {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+            text-align: center;
+            padding: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.02);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .panel-nav-link::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 3px;
+            height: 100%;
+            background: #00d4ff;
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .panel-nav-link:hover,
+        .panel-nav-link.active {
+            color: #00d4ff;
+            border-color: rgba(0, 212, 255, 0.4);
+            background: rgba(0, 212, 255, 0.08);
+        }
+        
+        .panel-nav-link.active::before {
+            transform: scaleY(1);
+        }
+        
+        .panel-info {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 1px;
+            color: rgba(255, 255, 255, 0.25);
+            text-align: center;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        
+        /* Área de contenido */
+        .content-area {
+            margin-left: 300px;
+            flex: 1;
+            position: relative;
+            min-height: 100vh;
+            background: linear-gradient(135deg, 
+                #0a0a0f 0%, 
+                #141420 25%, 
+                #1a1a2e 50%, 
+                #0f2027 75%, 
+                #203a43 100%);
+        }
+        
+        /* Overlay de información (FONDO COMPLETO) */
+        .info-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 100px 80px;
+            background: linear-gradient(135deg,
+                rgba(10, 10, 15, 0.95) 0%,
+                rgba(20, 20, 30, 0.9) 50%,
+                rgba(15, 32, 39, 0.95) 100%);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+            z-index: 1;
+            overflow-y: auto;
+        }
+        
+        .info-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        
+        .info-content {
+            max-width: 800px;
+        }
+        
+        .info-name {
+            font-size: 4rem;
+            font-weight: 700;
+            letter-spacing: 8px;
+            margin-bottom: 50px;
+            text-shadow: 2px 2px 30px rgba(0, 0, 0, 0.8);
+        }
+        
+        .info-section {
+            margin-bottom: 35px;
+        }
+        
+        .info-label {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            opacity: 0.7;
+        }
+        
+        .info-text {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            padding-left: 20px;
+            border-left: 3px solid;
+        }
+        
+        .info-description {
+            font-size: 1.15rem;
+            line-height: 1.9;
+            opacity: 0.9;
+            margin-top: 30px;
+        }
+        
+        /* Área de cards */
+        .cards-area {
+            position: relative;
+            z-index: 10;
+            padding: 60px 80px 40px;
+        }
+        
+        .section-title {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.85rem;
+            letter-spacing: 3px;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 25px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Grid horizontal de cards */
+        .cards-grid {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+        }
+        
+        /* Cards verticales */
+        .character-card {
+            width: 180px;
+            height: 260px;
+            background: rgba(20, 20, 25, 0.6);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+        
+        .character-card:hover {
+            border-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-8px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .character-card.active {
+            border-width: 3px;
+            box-shadow: 0 0 40px currentColor;
+        }
+        
+        .card-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0.6;
+            transition: opacity 0.3s ease;
+        }
+        
+        .character-card:hover .card-image {
+            opacity: 0.85;
+        }
+        
+        .card-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 15px;
+            background: linear-gradient(to top, 
+                rgba(0, 0, 0, 0.95) 0%, 
+                rgba(0, 0, 0, 0.7) 50%,
+                transparent 100%);
+            z-index: 2;
+        }
+        
+        .card-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-align: center;
+        }
+        
+        /* Colores por personaje */
+        .character-card[data-character="kotarou"] { color: #ff453a; }
+        .character-card[data-character="taichi"] { color: #0a84ff; }
+        .character-card[data-character="lucy"] { color: #ffd60a; }
+        .character-card[data-character="shiro"] { color: #30d158; }
+        .character-card[data-character="uenoyama"] { color: #5e5ce6; }
+        .character-card[data-character="sasaki"] { color: #bf5af2; }
+        .character-card[data-character="usui"] { color: #ff9f0a; }
+    </style>
+</head>
+<body>
+    <div class="main-layout">
+        <!-- Panel izquierdo -->
+        <div class="left-panel">
+            <div>
+                <svg class="panel-logo" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="100" cy="100" r="80" stroke="currentColor" stroke-width="2"/>
+                    <circle cx="100" cy="100" r="60" stroke="currentColor" stroke-width="2"/>
+                    <circle cx="100" cy="100" r="40" stroke="currentColor" stroke-width="2"/>
+                    <path d="M100 40 L100 160 M40 100 L160 100" stroke="currentColor" stroke-width="2"/>
+                </svg>
+                <div class="panel-title">TERRA</div>
+                <div class="panel-subtitle">AGENCIA DE EXORCISTAS</div>
+                
+                <nav class="panel-nav">
+                    <a href="#" class="panel-nav-link">INICIO</a>
+                    <a href="#" class="panel-nav-link active">PERSONAJES</a>
+                    <a href="#" class="panel-nav-link">HISTORIA</a>
+                    <a href="#" class="panel-nav-link">MUNDO</a>
+                    <a href="#" class="panel-nav-link">CONTACTO</a>
+                </nav>
+            </div>
+            
+            <div class="panel-info">ARCHIVO_TERRA<br/>YOKOHAMA_DIVISION</div>
+        </div>
+        
+        <!-- Área de contenido -->
+        <div class="content-area">
+            <!-- Overlay de información (FONDO) -->
+            <div class="info-overlay" id="infoOverlay">
+                <div class="info-content" id="infoContent"></div>
+            </div>
+            
+            <!-- Cards -->
+            <div class="cards-area">
+                <!-- Miembros ADE -->
+                <div class="section-title">▸ AGENCIA DE DETECTIVES EXORCISTAS</div>
+                <div class="cards-grid">
+                    <div class="character-card" data-character="kotarou" onclick="showCharacter('kotarou', this)">
+                        <div class="card-image" style="background-color: rgba(40,40,40,0.5);"></div>
+                        <div class="card-overlay">
+                            <div class="card-name">KOTAROU</div>
+                        </div>
+                    </div>
+                    
+                    <div class="character-card" data-character="taichi" onclick="showCharacter('taichi', this)">
+                        <div class="card-image" style="background-color: rgba(40,40,40,0.5);"></div>
+                        <div class="card-overlay">
+                            <div class="card-name">TAICHI</div>
+                        </div>
+                    </div>
+                    
+                    <div class="character-card" data-character="lucy" onclick="showCharacter('lucy', this)">
+                        <div class="card-image" style="background-color: rgba(40,40,40,0.5);"></div>
+                        <div class="card-overlay">
+                            <div class="card-name">LUCY</div>
+                        </div>
+                    </div>
+                    
+                    <div class="character-card" data-character="shiro" onclick="showCharacter('shiro', this)">
+                        <div class="card-image" style="background-color: rgba(40,40,40,0.5);"></div>
+                        <div class="card-overlay">
+                            <div class="card-name">SHIRO</div>
+                        </div>
+                    </div>
+                    
+                    <div class="character-card" data-character="uenoyama" onclick="showCharacter('uenoyama', this)">
+                        <div class="card-image" style="background-color: rgba(40,40,40,0.5);"></div>
+                        <div class="card-overlay">
+                            <div class="card-name">UENOYAMA</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Usuarios independientes -->
+                <div class="section-title">▸ USUARIOS INDEPENDIENTES</div>
+                <div class="cards-grid">
+                    <div class="character-card" data-character="sasaki" onclick="showCharacter('sasaki', this)">
+                        <div class="card-image" style="background-color: rgba(40,40,40,0.5);"></div>
+                        <div class="card-overlay">
+                            <div class="card-name">SASAKI</div>
+                        </div>
+                    </div>
+                    
+                    <div class="character-card" data-character="usui" onclick="showCharacter('usui', this)">
+                        <div class="card-image" style="background-color: rgba(40,40,40,0.5);"></div>
+                        <div class="card-overlay">
+                            <div class="card-name">USUI</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const charactersData = {
+            kotarou: {
+                name: 'KIRIGAYA KOTAROU',
+                iris: 'Sol de la Verdad',
+                technique: 'Control | Contención',
+                techniqueDesc: 'Control manipula la energía de objetos para moverlos y alterar su masa/gravedad. Contención libera energía almacenada para aumentar capacidades físicas y mentales, requiere daño físico para activarse.'
+            },
+            taichi: {
+                name: 'NATSUME TAICHI',
+                iris: 'Luna de Desintegración',
+                technique: 'Torrente del Juicio | Rocío de Gracia',
+                techniqueDesc: 'Torrente manifiesta energía en armas blancas de agua. Rocío cura heridas graves pero no puede usarse dos veces seguidas en la misma persona. No resucita.'
+            },
+            lucy: {
+                name: 'LUCY',
+                iris: 'N/A',
+                technique: 'Luz Inalcanzable | Tejedora de Luz',
+                techniqueDesc: 'Luz genera energía cinética para aumentar velocidad exponencialmente. Tejedora revitaliza vegetación usando energía acumulada.'
+            },
+            shiro: {
+                name: 'SHIRO',
+                iris: 'N/A',
+                technique: 'Petrificación | Transmutación',
+                techniqueDesc: 'Petrificación endurece la piel en metal/roca. Transmutación crea armas pesadas con materiales absorbidos.'
+            },
+            uenoyama: {
+                name: 'UENOYAMA RINGO',
+                iris: 'N/A',
+                technique: 'Génesis Helada | Estasis Perpetua',
+                techniqueDesc: 'Génesis materializa hielo y estructuras sólidas. Estasis congela áreas y objetos, creando sellos que pueden ser rotos por habilidades Mentem.'
+            },
+            sasaki: {
+                name: 'SASAKI',
+                iris: 'Armonía del Vacío',
+                technique: 'Contrapunto | Crescendo',
+                techniqueDesc: 'Contrapunto contraataca poderes enemigos. Crescendo potencia habilidades aliadas. Requiere conocer previamente el poder del objetivo.'
+            },
+            usui: {
+                name: 'KIRIGAYA USUI',
+                iris: 'N/A',
+                technique: 'Combustión | Consanguíneo',
+                techniqueDesc: 'Combustión usa sangre para aumentar capacidades físicas y crear armas de fuego. Consanguíneo comparte poder con quienes considera dignos, monitoreando su energía vital.'
+            }
+        };
+        
+        const colors = {
+            kotarou: '#ff453a',
+            taichi: '#0a84ff',
+            lucy: '#ffd60a',
+            shiro: '#30d158',
+            uenoyama: '#5e5ce6',
+            sasaki: '#bf5af2',
+            usui: '#ff9f0a'
+        };
+        
+        function showCharacter(characterId, cardElement) {
+            const data = charactersData[characterId];
+            const color = colors[characterId];
+            const infoOverlay = document.getElementById('infoOverlay');
+            const infoContent = document.getElementById('infoContent');
+            
+            // Remover active de todas las cards
+            document.querySelectorAll('.character-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            
+            // Activar card clickeada
+            cardElement.classList.add('active');
+            
+            // Cargar información
+            infoContent.innerHTML = `
+                <div class="info-name" style="color: ${color}">${data.name}</div>
+                
+                <div class="info-section">
+                    <div class="info-label" style="color: ${color}">▸ IRIS</div>
+                    <div class="info-text" style="border-color: ${color}">${data.iris}</div>
+                </div>
+                
+                <div class="info-section">
+                    <div class="info-label" style="color: ${color}">▸ TÉCNICA ANIMA</div>
+                    <div class="info-text" style="border-color: ${color}">${data.technique}</div>
+                </div>
+                
+                <div class="info-description">
+                    ${data.techniqueDesc}
+                </div>
+            `;
+            
+            // Mostrar overlay
+            infoOverlay.classList.add('active');
+        }
+    </script>
+</body>
+</html>
