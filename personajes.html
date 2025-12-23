@@ -28,7 +28,7 @@
 
         /* Panel izquierdo con menú */
         .left-panel {
-            width: 300px;
+            width: 280px;
             background: rgba(10, 10, 10, 0.95);
             backdrop-filter: blur(20px);
             border-right: 1px solid rgba(0, 212, 255, 0.2);
@@ -124,7 +124,7 @@
 
         /* Área de contenido */
         .content-area {
-            margin-left: 300px;
+            margin-left: 280px;
             flex: 1;
             position: relative;
             min-height: 100vh;
@@ -134,14 +134,17 @@
                 #1a1a2e 50%,
                 #0f2027 75%,
                 #203a43 100%);
-            overflow-x: hidden;
+            overflow: hidden;
         }
 
         /* Área de cards */
         .cards-area {
             position: relative;
             z-index: 10;
-            padding: 60px 40px 40px;
+            padding: 60px 50px 40px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         .section-title {
@@ -149,68 +152,75 @@
             font-size: 0.85rem;
             letter-spacing: 3px;
             color: rgba(255, 255, 255, 0.5);
-            margin-bottom: 25px;
+            margin-bottom: 30px;
             padding-bottom: 12px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.5s ease;
         }
 
-        /* Contenedor de sección con scroll horizontal */
-        .section-container {
-            margin-bottom: 50px;
-            overflow: visible;
+        .section-title.shifted {
+            transform: translateX(-20px);
+            opacity: 0.3;
+        }
+
+        /* Contenedor principal de cards */
+        .cards-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
         }
 
         /* Grid horizontal de cards */
         .cards-grid {
             display: flex;
-            gap: 20px;
-            align-items: flex-start;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            gap: 25px;
+            align-items: center;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 20px 0;
         }
 
-        /* Wrapper para card + info panel */
-        .card-wrapper {
-            display: flex;
-            align-items: flex-start;
-            gap: 0;
-            flex-shrink: 0;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .card-wrapper.displaced {
-            opacity: 0.3;
-            transform: translateX(30px) scale(0.95);
-            filter: blur(2px);
-        }
-
-        /* Cards verticales */
+        /* Cards verticales - estado normal */
         .character-card {
-            width: 180px;
-            height: 260px;
+            width: 160px;
+            height: 240px;
             background: rgba(20, 20, 25, 0.6);
             border: 2px solid rgba(255, 255, 255, 0.15);
-            border-radius: 8px;
+            border-radius: 10px;
             position: relative;
             overflow: hidden;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             flex-shrink: 0;
         }
 
         .character-card:hover {
             border-color: rgba(255, 255, 255, 0.4);
-            transform: translateY(-8px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
         }
 
+        /* Card activa - MÁS GRANDE */
         .character-card.active {
+            width: 280px;
+            height: 420px;
             border-width: 3px;
-            box-shadow: 0 0 40px currentColor;
-            transform: translateY(-8px);
+            box-shadow: 0 0 60px currentColor;
+            transform: translateY(0);
+            z-index: 20;
         }
 
         .character-card.active:hover {
-            transform: translateY(-8px);
+            transform: translateY(0);
+        }
+
+        /* Cards desplazadas */
+        .character-card.displaced {
+            opacity: 0.15;
+            transform: translateX(100px) scale(0.8);
+            filter: blur(4px);
+            pointer-events: none;
         }
 
         .card-image {
@@ -221,13 +231,13 @@
             height: 100%;
             background-size: cover;
             background-position: center;
-            opacity: 0.6;
+            opacity: 0.5;
             transition: opacity 0.3s ease;
         }
 
         .character-card:hover .card-image,
         .character-card.active .card-image {
-            opacity: 0.85;
+            opacity: 0.8;
         }
 
         .card-overlay {
@@ -235,7 +245,7 @@
             bottom: 0;
             left: 0;
             right: 0;
-            padding: 15px;
+            padding: 20px;
             background: linear-gradient(to top,
                 rgba(0, 0, 0, 0.95) 0%,
                 rgba(0, 0, 0, 0.7) 50%,
@@ -248,30 +258,37 @@
             font-weight: 600;
             letter-spacing: 2px;
             text-align: center;
+            transition: font-size 0.5s ease;
         }
 
-        /* Panel de información (carpeta desplegable) */
+        .character-card.active .card-name {
+            font-size: 1.5rem;
+            letter-spacing: 4px;
+        }
+
+        /* Panel de información - GRANDE y al lado */
         .info-panel {
             width: 0;
-            height: 260px;
+            height: 420px;
             background: linear-gradient(135deg,
-                rgba(15, 15, 20, 0.98) 0%,
-                rgba(20, 20, 30, 0.95) 100%);
-            border: 2px solid transparent;
+                rgba(12, 12, 18, 0.98) 0%,
+                rgba(18, 18, 28, 0.95) 100%);
+            border: 3px solid transparent;
             border-left: none;
-            border-radius: 0 8px 8px 0;
+            border-radius: 0 12px 12px 0;
             overflow: hidden;
             opacity: 0;
             transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             flex-direction: column;
             position: relative;
+            flex-shrink: 0;
+            margin-left: -3px;
         }
 
         .info-panel.active {
-            width: 420px;
+            width: 500px;
             opacity: 1;
-            margin-left: -2px;
         }
 
         .info-panel::before {
@@ -279,69 +296,69 @@
             position: absolute;
             left: 0;
             top: 0;
-            width: 4px;
+            width: 5px;
             height: 100%;
             background: currentColor;
         }
 
         .info-panel-content {
-            padding: 20px 25px;
+            padding: 35px 40px;
             overflow-y: auto;
             flex: 1;
         }
 
         .info-name {
-            font-size: 1.6rem;
+            font-size: 2.2rem;
             font-weight: 700;
-            letter-spacing: 4px;
-            margin-bottom: 18px;
+            letter-spacing: 5px;
+            margin-bottom: 30px;
             text-shadow: 2px 2px 20px rgba(0, 0, 0, 0.8);
         }
 
         .info-section {
-            margin-bottom: 14px;
+            margin-bottom: 22px;
         }
 
         .info-label {
             font-family: 'Roboto Mono', monospace;
-            font-size: 0.7rem;
+            font-size: 0.85rem;
             letter-spacing: 2px;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
             opacity: 0.7;
         }
 
         .info-text {
-            font-size: 0.95rem;
+            font-size: 1.15rem;
             line-height: 1.6;
-            padding-left: 12px;
-            border-left: 2px solid;
+            padding-left: 15px;
+            border-left: 3px solid;
         }
 
         .info-description {
-            font-size: 0.85rem;
-            line-height: 1.7;
+            font-size: 1rem;
+            line-height: 1.8;
             opacity: 0.85;
-            margin-top: 15px;
-            padding-top: 15px;
+            margin-top: 25px;
+            padding-top: 25px;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         /* Botón cerrar */
         .close-btn {
             position: absolute;
-            top: 10px;
-            right: 10px;
-            width: 24px;
-            height: 24px;
+            top: 15px;
+            right: 15px;
+            width: 32px;
+            height: 32px;
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 4px;
+            border-radius: 6px;
             color: rgba(255, 255, 255, 0.6);
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 14px;
+            font-size: 18px;
             transition: all 0.3s ease;
             z-index: 10;
         }
@@ -349,6 +366,15 @@
         .close-btn:hover {
             background: rgba(255, 255, 255, 0.2);
             color: #fff;
+            transform: scale(1.1);
+        }
+
+        /* Wrapper para card + panel */
+        .card-wrapper {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         /* Colores por personaje */
@@ -367,13 +393,21 @@
         .character-card[data-character="usui"],
         .info-panel[data-character="usui"] { color: #ff9f0a; }
 
-        .info-panel.active[data-character="kotarou"] { border-color: rgba(255, 69, 58, 0.5); }
-        .info-panel.active[data-character="taichi"] { border-color: rgba(10, 132, 255, 0.5); }
-        .info-panel.active[data-character="lucy"] { border-color: rgba(255, 214, 10, 0.5); }
-        .info-panel.active[data-character="shiro"] { border-color: rgba(48, 209, 88, 0.5); }
-        .info-panel.active[data-character="uenoyama"] { border-color: rgba(94, 92, 230, 0.5); }
-        .info-panel.active[data-character="sasaki"] { border-color: rgba(191, 90, 242, 0.5); }
-        .info-panel.active[data-character="usui"] { border-color: rgba(255, 159, 10, 0.5); }
+        .info-panel.active[data-character="kotarou"] { border-color: rgba(255, 69, 58, 0.6); }
+        .info-panel.active[data-character="taichi"] { border-color: rgba(10, 132, 255, 0.6); }
+        .info-panel.active[data-character="lucy"] { border-color: rgba(255, 214, 10, 0.6); }
+        .info-panel.active[data-character="shiro"] { border-color: rgba(48, 209, 88, 0.6); }
+        .info-panel.active[data-character="uenoyama"] { border-color: rgba(94, 92, 230, 0.6); }
+        .info-panel.active[data-character="sasaki"] { border-color: rgba(191, 90, 242, 0.6); }
+        .info-panel.active[data-character="usui"] { border-color: rgba(255, 159, 10, 0.6); }
+
+        .character-card.active[data-character="kotarou"] { border-color: rgba(255, 69, 58, 0.8); }
+        .character-card.active[data-character="taichi"] { border-color: rgba(10, 132, 255, 0.8); }
+        .character-card.active[data-character="lucy"] { border-color: rgba(255, 214, 10, 0.8); }
+        .character-card.active[data-character="shiro"] { border-color: rgba(48, 209, 88, 0.8); }
+        .character-card.active[data-character="uenoyama"] { border-color: rgba(94, 92, 230, 0.8); }
+        .character-card.active[data-character="sasaki"] { border-color: rgba(191, 90, 242, 0.8); }
+        .character-card.active[data-character="usui"] { border-color: rgba(255, 159, 10, 0.8); }
     </style>
 </head>
 <body>
@@ -404,15 +438,14 @@
 
         <!-- Área de contenido -->
         <div class="content-area">
-            <!-- Cards -->
             <div class="cards-area">
-                <!-- Usuarios Anima -->
-                <div class="section-title">▸ USUARIOS ANIMA</div>
-                <div class="section-container">
-                    <div class="cards-grid" id="mainGrid">
+                <div class="section-title" id="sectionTitle">▸ USUARIOS ANIMA</div>
+
+                <div class="cards-container">
+                    <div class="cards-grid" id="cardsGrid">
                         <div class="card-wrapper" data-character="kotarou">
                             <div class="character-card" data-character="kotarou" onclick="showCharacter('kotarou', this)">
-                                <div class="card-image" style="background-color: rgba(40,40,40,0.5);"></div>
+                                <div class="card-image" style="background-color: rgba(60,30,30,0.5);"></div>
                                 <div class="card-overlay">
                                     <div class="card-name">KOTAROU</div>
                                 </div>
@@ -425,7 +458,7 @@
 
                         <div class="card-wrapper" data-character="taichi">
                             <div class="character-card" data-character="taichi" onclick="showCharacter('taichi', this)">
-                                <div class="card-image" style="background-color: rgba(40,40,40,0.5);"></div>
+                                <div class="card-image" style="background-color: rgba(30,40,60,0.5);"></div>
                                 <div class="card-overlay">
                                     <div class="card-name">TAICHI</div>
                                 </div>
@@ -438,7 +471,7 @@
 
                         <div class="card-wrapper" data-character="lucy">
                             <div class="character-card" data-character="lucy" onclick="showCharacter('lucy', this)">
-                                <div class="card-image" style="background-color: rgba(40,40,40,0.5);"></div>
+                                <div class="card-image" style="background-color: rgba(60,55,30,0.5);"></div>
                                 <div class="card-overlay">
                                     <div class="card-name">LUCY</div>
                                 </div>
@@ -451,7 +484,7 @@
 
                         <div class="card-wrapper" data-character="shiro">
                             <div class="character-card" data-character="shiro" onclick="showCharacter('shiro', this)">
-                                <div class="card-image" style="background-color: rgba(40,40,40,0.5);"></div>
+                                <div class="card-image" style="background-color: rgba(30,50,40,0.5);"></div>
                                 <div class="card-overlay">
                                     <div class="card-name">SHIRO</div>
                                 </div>
@@ -464,7 +497,7 @@
 
                         <div class="card-wrapper" data-character="uenoyama">
                             <div class="character-card" data-character="uenoyama" onclick="showCharacter('uenoyama', this)">
-                                <div class="card-image" style="background-color: rgba(40,40,40,0.5);"></div>
+                                <div class="card-image" style="background-color: rgba(40,40,60,0.5);"></div>
                                 <div class="card-overlay">
                                     <div class="card-name">UENOYAMA</div>
                                 </div>
@@ -477,7 +510,7 @@
 
                         <div class="card-wrapper" data-character="sasaki">
                             <div class="character-card" data-character="sasaki" onclick="showCharacter('sasaki', this)">
-                                <div class="card-image" style="background-color: rgba(40,40,40,0.5);"></div>
+                                <div class="card-image" style="background-color: rgba(50,35,55,0.5);"></div>
                                 <div class="card-overlay">
                                     <div class="card-name">SASAKI</div>
                                 </div>
@@ -490,7 +523,7 @@
 
                         <div class="card-wrapper" data-character="usui">
                             <div class="character-card" data-character="usui" onclick="showCharacter('usui', this)">
-                                <div class="card-image" style="background-color: rgba(40,40,40,0.5);"></div>
+                                <div class="card-image" style="background-color: rgba(55,40,30,0.5);"></div>
                                 <div class="card-overlay">
                                     <div class="card-name">USUI</div>
                                 </div>
@@ -562,11 +595,14 @@
             usui: '#ff9f0a'
         };
 
+        const characterOrder = ['kotarou', 'taichi', 'lucy', 'shiro', 'uenoyama', 'sasaki', 'usui'];
         let activeCharacter = null;
 
         function showCharacter(characterId, cardElement) {
             const data = charactersData[characterId];
             const color = colors[characterId];
+            const cardsGrid = document.getElementById('cardsGrid');
+            const sectionTitle = document.getElementById('sectionTitle');
 
             // Si ya está activo el mismo personaje, cerrar
             if (activeCharacter === characterId) {
@@ -609,35 +645,54 @@
             // Activar panel
             panel.classList.add('active');
 
-            // Desplazar cards siguientes
-            const wrappers = document.querySelectorAll('.card-wrapper');
+            // Desplazar título
+            sectionTitle.classList.add('shifted');
+
+            // Calcular posición del personaje para centrar
+            const characterIndex = characterOrder.indexOf(characterId);
+
+            // Calcular offset para centrar (card grande + panel = ~780px, queremos centrar eso)
+            // Cada card normal = 160px + 25px gap = 185px
+            // Desplazamos para que la card activa quede más a la izquierda
+            const offsetPerCard = 185;
+            const baseOffset = characterIndex * offsetPerCard;
+
+            // Aplicar transformación para centrar
+            cardsGrid.style.transform = `translateX(-${baseOffset}px)`;
+
+            // Desplazar cards posteriores
+            const allCards = document.querySelectorAll('.character-card');
             let foundActive = false;
 
-            wrappers.forEach(wrapper => {
-                if (wrapper.dataset.character === characterId) {
+            allCards.forEach(card => {
+                if (card.dataset.character === characterId) {
                     foundActive = true;
                 } else if (foundActive) {
-                    wrapper.classList.add('displaced');
+                    card.classList.add('displaced');
                 }
             });
         }
 
         function closeAllPanels() {
             activeCharacter = null;
+            const cardsGrid = document.getElementById('cardsGrid');
+            const sectionTitle = document.getElementById('sectionTitle');
+
+            // Resetear transformación
+            cardsGrid.style.transform = 'translateX(0)';
+
+            // Mostrar título
+            sectionTitle.classList.remove('shifted');
 
             // Remover active de todas las cards
             document.querySelectorAll('.character-card').forEach(card => {
                 card.classList.remove('active');
+                card.classList.remove('displaced');
             });
 
             // Cerrar todos los paneles
             document.querySelectorAll('.info-panel').forEach(panel => {
                 panel.classList.remove('active');
-            });
-
-            // Quitar desplazamiento de todos los wrappers
-            document.querySelectorAll('.card-wrapper').forEach(wrapper => {
-                wrapper.classList.remove('displaced');
             });
         }
 
