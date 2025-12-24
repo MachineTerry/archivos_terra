@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TERRA - Personajes</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Rajdhani:wght@400;500;600;700&family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <title>TERRA - Usuarios Anima</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -28,9 +28,9 @@
             display: flex;
         }
 
-        /* Navegación lateral con miniaturas */
+        /* Navegación lateral con miniaturas y menú */
         .character-nav {
-            width: 120px;
+            width: 140px;
             height: 100vh;
             background: rgba(10, 10, 15, 0.95);
             backdrop-filter: blur(20px);
@@ -45,19 +45,51 @@
         }
 
         .nav-logo {
-            font-family: 'Rajdhani', sans-serif;
+            font-family: 'Space Grotesk', sans-serif;
             font-size: 1.5rem;
             font-weight: 700;
             letter-spacing: 3px;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             color: rgba(255, 255, 255, 0.9);
             text-align: center;
+        }
+
+        /* Menú de navegación */
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            width: 100%;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-link {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+            text-align: center;
+            padding: 8px 6px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.02);
+            transition: all 0.3s ease;
+            border-radius: 6px;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: rgba(255, 255, 255, 0.9);
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.08);
         }
 
         .character-thumbnail {
             width: 70px;
             height: 70px;
-            border-radius: 50%;
+            border-radius: 12px;
             background: rgba(30, 30, 40, 0.8);
             border: 2px solid rgba(255, 255, 255, 0.2);
             cursor: pointer;
@@ -136,7 +168,7 @@
         }
 
         .character-category {
-            font-family: 'Roboto Mono', monospace;
+            font-family: 'JetBrains Mono', monospace;
             font-size: 0.75rem;
             letter-spacing: 3px;
             color: rgba(255, 255, 255, 0.5);
@@ -144,41 +176,65 @@
         }
 
         .character-name {
-            font-family: 'Rajdhani', sans-serif;
+            font-family: 'Space Grotesk', sans-serif;
             font-size: 4rem;
             font-weight: 700;
             letter-spacing: 6px;
             line-height: 1.1;
-            margin-bottom: 40px;
+            margin-bottom: 20px;
             text-shadow: 2px 2px 20px rgba(0, 0, 0, 0.5);
         }
 
-        .info-section {
-            margin-bottom: 35px;
-        }
-
-        .info-label {
-            font-family: 'Roboto Mono', monospace;
-            font-size: 0.85rem;
+        .character-name small {
+            display: block;
+            font-size: 1.8rem;
+            opacity: 0.9;
+            font-weight: 600;
             letter-spacing: 2px;
-            margin-bottom: 12px;
-            opacity: 0.6;
+            margin-top: 5px;
         }
 
-        .info-value {
-            font-size: 1.4rem;
-            font-weight: 500;
-            line-height: 1.4;
-            padding-left: 20px;
-            border-left: 3px solid;
+        .tags {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        .tag {
+            border-radius: 999px;
+            padding: 8px 14px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .info-description {
             font-size: 1rem;
             line-height: 1.8;
-            opacity: 0.85;
-            margin-top: 30px;
+            opacity: 0.9;
             max-width: 600px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+            padding: 18px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.04);
+        }
+
+        .character-footer {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            justify-content: space-between;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 20px;
+            font-size: 0.9rem;
+        }
+
+        .character-id {
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: 2px;
+            font-size: 0.85rem;
         }
 
         /* Panel de imagen (derecha) */
@@ -199,6 +255,7 @@
             align-items: center;
             justify-content: center;
             position: relative;
+            flex-direction: column;
         }
 
         .image-placeholder::before {
@@ -206,19 +263,19 @@
             position: absolute;
             width: 400px;
             height: 400px;
-            border: 2px solid rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.08);
             border-radius: 50%;
         }
 
-        .image-placeholder::after {
-            content: 'IMAGEN DEL PERSONAJE';
-            font-family: 'Roboto Mono', monospace;
+        .placeholder-text {
+            font-family: 'JetBrains Mono', monospace;
             font-size: 0.75rem;
             letter-spacing: 2px;
-            color: rgba(255, 255, 255, 0.3);
+            color: rgba(255, 255, 255, 0.2);
+            z-index: 1;
         }
 
-        /* Imagen real del personaje (cuando esté disponible) */
+        /* Imagen real del personaje */
         .character-image img {
             max-width: 100%;
             max-height: 100%;
@@ -228,72 +285,40 @@
 
         /* Degradados por personaje */
         .card-background.kotarou {
-            background: linear-gradient(135deg,
-                #1a0f0f 0%,
-                #2d1515 25%,
-                #3d1a1a 50%,
-                #1f1010 75%,
-                #0a0a0f 100%);
+            background: radial-gradient(800px 350px at 20% 60%, rgba(255,90,90,0.08), transparent 15%),
+                        linear-gradient(135deg, #1a0f0f 0%, #2d1515 25%, #3d1a1a 50%, #1f1010 75%, #0a0a0f 100%);
         }
 
         .card-background.taichi {
-            background: linear-gradient(135deg,
-                #0f141a 0%,
-                #15202d 25%,
-                #1a2a3d 50%,
-                #10161f 75%,
-                #0a0a0f 100%);
+            background: radial-gradient(700px 350px at 80% 20%, rgba(90,143,255,0.07), transparent 12%),
+                        linear-gradient(135deg, #0f141a 0%, #15202d 25%, #1a2a3d 50%, #10161f 75%, #0a0a0f 100%);
         }
 
         .card-background.lucy {
-            background: linear-gradient(135deg,
-                #1a1a0f 0%,
-                #2d2815 25%,
-                #3d3520 50%,
-                #1f1910 75%,
-                #0a0a0f 100%);
+            background: linear-gradient(135deg, #1a1a0f 0%, #2d2815 25%, #3d3520 50%, #1f1910 75%, #0a0a0f 100%);
         }
 
         .card-background.shiro {
-            background: linear-gradient(135deg,
-                #0f1a14 0%,
-                #15291f 25%,
-                #1a3d2a 50%,
-                #101f16 75%,
-                #0a0a0f 100%);
+            background: linear-gradient(135deg, #0f1a14 0%, #15291f 25%, #1a3d2a 50%, #101f16 75%, #0a0a0f 100%);
         }
 
         .card-background.uenoyama {
-            background: linear-gradient(135deg,
-                #14141a 0%,
-                #20202d 25%,
-                #2a2a3d 50%,
-                #16161f 75%,
-                #0a0a0f 100%);
+            background: linear-gradient(135deg, #14141a 0%, #20202d 25%, #2a2a3d 50%, #16161f 75%, #0a0a0f 100%);
         }
 
         .card-background.sasaki {
-            background: linear-gradient(135deg,
-                #1a141a 0%,
-                #2d202d 25%,
-                #3d2a3d 50%,
-                #1f161f 75%,
-                #0a0a0f 100%);
+            background: linear-gradient(135deg, #1a141a 0%, #2d202d 25%, #3d2a3d 50%, #1f161f 75%, #0a0a0f 100%);
         }
 
         .card-background.usui {
-            background: linear-gradient(135deg,
-                #1a0f14 0%,
-                #2d1520 25%,
-                #3d1a2a 50%,
-                #1f1016 75%,
-                #0a0a0f 100%);
+            background: radial-gradient(700px 350px at 30% 30%, rgba(255,51,51,0.1), transparent 12%),
+                        linear-gradient(135deg, #1a0f14 0%, #2d1520 25%, #3d1a2a 50%, #1f1016 75%, #0a0a0f 100%);
         }
 
         /* Colores de acento por personaje */
         .character-card[data-character="kotarou"] .character-name,
-        .character-card[data-character="kotarou"] .info-label,
-        .character-card[data-character="kotarou"] .info-value {
+        .character-card[data-character="kotarou"] .character-category,
+        .character-card[data-character="kotarou"] .tag {
             color: #ff6b6b;
             border-color: #ff6b6b;
         }
@@ -303,8 +328,8 @@
         }
 
         .character-card[data-character="taichi"] .character-name,
-        .character-card[data-character="taichi"] .info-label,
-        .character-card[data-character="taichi"] .info-value {
+        .character-card[data-character="taichi"] .character-category,
+        .character-card[data-character="taichi"] .tag {
             color: #4a9eff;
             border-color: #4a9eff;
         }
@@ -314,8 +339,8 @@
         }
 
         .character-card[data-character="lucy"] .character-name,
-        .character-card[data-character="lucy"] .info-label,
-        .character-card[data-character="lucy"] .info-value {
+        .character-card[data-character="lucy"] .character-category,
+        .character-card[data-character="lucy"] .tag {
             color: #ffd93d;
             border-color: #ffd93d;
         }
@@ -325,8 +350,8 @@
         }
 
         .character-card[data-character="shiro"] .character-name,
-        .character-card[data-character="shiro"] .info-label,
-        .character-card[data-character="shiro"] .info-value {
+        .character-card[data-character="shiro"] .character-category,
+        .character-card[data-character="shiro"] .tag {
             color: #6bcf7f;
             border-color: #6bcf7f;
         }
@@ -336,8 +361,8 @@
         }
 
         .character-card[data-character="uenoyama"] .character-name,
-        .character-card[data-character="uenoyama"] .info-label,
-        .character-card[data-character="uenoyama"] .info-value {
+        .character-card[data-character="uenoyama"] .character-category,
+        .character-card[data-character="uenoyama"] .tag {
             color: #a78bfa;
             border-color: #a78bfa;
         }
@@ -347,8 +372,8 @@
         }
 
         .character-card[data-character="sasaki"] .character-name,
-        .character-card[data-character="sasaki"] .info-label,
-        .character-card[data-character="sasaki"] .info-value {
+        .character-card[data-character="sasaki"] .character-category,
+        .character-card[data-character="sasaki"] .tag {
             color: #d97fff;
             border-color: #d97fff;
         }
@@ -358,8 +383,8 @@
         }
 
         .character-card[data-character="usui"] .character-name,
-        .character-card[data-character="usui"] .info-label,
-        .character-card[data-character="usui"] .info-value {
+        .character-card[data-character="usui"] .character-category,
+        .character-card[data-character="usui"] .tag {
             color: #ff8ba7;
             border-color: #ff8ba7;
         }
@@ -368,45 +393,43 @@
             color: #ff8ba7;
         }
 
-        /* Navegación con flechas */
-        .nav-arrow {
+        /* Navegación con flechas - REUBICADAS en la parte superior */
+        .nav-arrows {
             position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 50px;
-            height: 50px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            top: 30px;
+            right: 30px;
+            display: flex;
+            gap: 12px;
+            z-index: 50;
+        }
+
+        .nav-arrow {
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             transition: all 0.3s ease;
-            z-index: 50;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             color: rgba(255, 255, 255, 0.6);
         }
 
         .nav-arrow:hover {
-            background: rgba(255, 255, 255, 0.2);
-            color: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.15);
+            color: rgba(255, 255, 255, 0.95);
+            transform: scale(1.05);
         }
 
-        .nav-arrow.prev {
-            left: 140px;
-        }
-
-        .nav-arrow.next {
-            right: 30px;
-        }
-
-        /* Separador visual entre secciones */
+        /* Separador visual */
         .section-divider {
             width: 30px;
             height: 2px;
-            background: rgba(255, 255, 255, 0.3);
-            margin: 20px 0;
+            background: rgba(255, 255, 255, 0.2);
+            margin: 10px 0;
         }
 
         /* Responsive */
@@ -444,18 +467,19 @@
                 font-size: 2.5rem;
             }
 
-            .info-value {
-                font-size: 1.2rem;
+            .nav-arrows {
+                top: 15px;
+                right: 15px;
             }
 
             .nav-arrow {
-                width: 40px;
-                height: 40px;
-                font-size: 1.2rem;
+                width: 38px;
+                height: 38px;
+                font-size: 1.1rem;
             }
 
-            .nav-arrow.prev {
-                left: 90px;
+            .nav-menu {
+                display: none;
             }
         }
     </style>
@@ -465,27 +489,36 @@
         <!-- Navegación lateral -->
         <div class="character-nav">
             <div class="nav-logo">TERRA</div>
+
+            <!-- Menú de navegación -->
+            <nav class="nav-menu">
+                <a href="#" class="nav-link">INICIO</a>
+                <a href="#" class="nav-link active">PERSONAJES</a>
+                <a href="#" class="nav-link">HISTORIA</a>
+                <a href="#" class="nav-link">MUNDO</a>
+            </nav>
+
             <div class="section-divider"></div>
 
             <!-- Miniaturas de personajes -->
             <div class="character-thumbnail active" data-character="kotarou" onclick="showCharacter('kotarou')">
-                <div style="display: flex; align-items: center; justify-content: center; height: 100%; font-size: 0.7rem; font-weight: 600;">K</div>
+                <div style="display: flex; align-items: center; justify-content: center; height: 100%; font-size: 0.8rem; font-weight: 600;">K</div>
             </div>
 
             <div class="character-thumbnail" data-character="taichi" onclick="showCharacter('taichi')">
-                <div style="display: flex; align-items: center; justify-content: center; height: 100%; font-size: 0.7rem; font-weight: 600;">T</div>
+                <div style="display: flex; align-items: center; justify-content: center; height: 100%; font-size: 0.8rem; font-weight: 600;">T</div>
             </div>
 
             <div class="character-thumbnail" data-character="lucy" onclick="showCharacter('lucy')">
-                <div style="display: flex; align-items: center; justify-content: center; height: 100%; font-size: 0.7rem; font-weight: 600;">L</div>
+                <div style="display: flex; align-items: center; justify-content: center; height: 100%; font-size: 0.8rem; font-weight: 600;">L</div>
             </div>
 
             <div class="character-thumbnail" data-character="shiro" onclick="showCharacter('shiro')">
-                <div style="display: flex; align-items: center; justify-content: center; height: 100%; font-size: 0.7rem; font-weight: 600;">S</div>
+                <div style="display: flex; align-items: center; justify-content: center; height: 100%; font-size: 0.8rem; font-weight: 600;">S</div>
             </div>
 
             <div class="character-thumbnail" data-character="uenoyama" onclick="showCharacter('uenoyama')">
-                <div style="display: flex; align-items: center; justify-content: center; height: 100%; font-size: 0.7rem; font-weight: 600;">U</div>
+                <div style="display: flex; align-items: center; justify-content: center; height: 100%; font-size: 0.8rem; font-weight: 600;">U</div>
             </div>
 
             <div class="section-divider"></div>
@@ -501,9 +534,11 @@
 
         <!-- Área de visualización del personaje -->
         <div class="character-display">
-            <!-- Flechas de navegación -->
-            <div class="nav-arrow prev" onclick="navigateCharacter(-1)">‹</div>
-            <div class="nav-arrow next" onclick="navigateCharacter(1)">›</div>
+            <!-- Flechas de navegación - REUBICADAS arriba a la derecha -->
+            <div class="nav-arrows">
+                <div class="nav-arrow" onclick="navigateCharacter(-1)">‹</div>
+                <div class="nav-arrow" onclick="navigateCharacter(1)">›</div>
+            </div>
 
             <!-- KOTAROU -->
             <div class="character-card active" data-character="kotarou">
@@ -511,29 +546,29 @@
 
                 <div class="character-info">
                     <div class="character-category">USUARIO ANIMA // TERRA</div>
-                    <div class="character-name">KIRIGAYA<br/>KOTAROU</div>
+                    <div class="character-name">KIRIGAYA <small>KOTAROU</small></div>
 
-                    <div class="info-section">
-                        <div class="info-label">IRIS</div>
-                        <div class="info-value">Sol de la Verdad</div>
-                    </div>
-
-                    <div class="info-section">
-                        <div class="info-label">TÉCNICA ANIMA</div>
-                        <div class="info-value">Control | Contención</div>
+                    <div class="tags">
+                        <div class="tag">Control</div>
+                        <div class="tag">Contención</div>
                     </div>
 
                     <div class="info-description">
-                        Control manipula la energía de objetos para moverlos y alterar su masa/gravedad.
-                        Contención libera energía almacenada para aumentar capacidades físicas y mentales,
-                        requiere daño físico para activarse.
+                        <strong>Control</strong> manipula la energía de objetos para moverlos y alterar su masa/gravedad.
+                        <br><br>
+                        <strong>Contención</strong> libera energía almacenada para aumentar capacidades físicas y mentales; requiere daño físico para activarse.
+                    </div>
+
+                    <div class="character-footer">
+                        <div style="font-weight:700">KOTAROU</div>
+                        <div class="character-id">UA-001</div>
                     </div>
                 </div>
 
                 <div class="character-image">
-                    <div class="image-placeholder"></div>
-                    <!-- Cuando tengas la imagen, reemplaza el placeholder con: -->
-                    <!-- <img src="ruta/a/imagen-kotarou.png" alt="Kotarou"> -->
+                    <div class="image-placeholder">
+                        <span class="placeholder-text">ILUSTRACIÓN DEL PERSONAJE</span>
+                    </div>
                 </div>
             </div>
 
@@ -542,27 +577,30 @@
                 <div class="card-background taichi"></div>
 
                 <div class="character-info">
-                    <div class="character-category">USUARIO ANIMA // TERRA</div>
-                    <div class="character-name">NATSUME<br/>TAICHI</div>
+                    <div class="character-category">LÍDER // AGENCIA ADE</div>
+                    <div class="character-name">NATSUME <small>TAICHI</small></div>
 
-                    <div class="info-section">
-                        <div class="info-label">IRIS</div>
-                        <div class="info-value">Luna de Desintegración</div>
-                    </div>
-
-                    <div class="info-section">
-                        <div class="info-label">TÉCNICA ANIMA</div>
-                        <div class="info-value">Torrente del Juicio | Rocío de Gracia</div>
+                    <div class="tags">
+                        <div class="tag">Torrente del Juicio</div>
+                        <div class="tag">Rocío de Gracia</div>
                     </div>
 
                     <div class="info-description">
-                        Torrente manifiesta energía en armas blancas de agua. Rocío cura heridas graves
-                        pero no puede usarse dos veces seguidas en la misma persona. No resucita.
+                        <strong>Torrente del Juicio</strong> manifiesta energía vital en torrentes de agua moldeables en armas blancas.
+                        <br><br>
+                        <strong>Rocío de Gracia</strong> herramienta curativa limitada que requiere daño grave para activarse.
+                    </div>
+
+                    <div class="character-footer">
+                        <div style="font-weight:700">TAICHI</div>
+                        <div class="character-id">UA-002</div>
                     </div>
                 </div>
 
                 <div class="character-image">
-                    <div class="image-placeholder"></div>
+                    <div class="image-placeholder">
+                        <span class="placeholder-text">ILUSTRACIÓN DEL PERSONAJE</span>
+                    </div>
                 </div>
             </div>
 
@@ -574,24 +612,27 @@
                     <div class="character-category">USUARIO ANIMA // TERRA</div>
                     <div class="character-name">LUCY</div>
 
-                    <div class="info-section">
-                        <div class="info-label">IRIS</div>
-                        <div class="info-value">N/A</div>
-                    </div>
-
-                    <div class="info-section">
-                        <div class="info-label">TÉCNICA ANIMA</div>
-                        <div class="info-value">Luz Inalcanzable | Tejedora de Luz</div>
+                    <div class="tags">
+                        <div class="tag">Luz Inalcanzable</div>
+                        <div class="tag">Tejedora de Luz</div>
                     </div>
 
                     <div class="info-description">
-                        Luz genera energía cinética para aumentar velocidad exponencialmente.
-                        Tejedora revitaliza vegetación usando energía acumulada.
+                        <strong>Luz Inalcanzable</strong> genera energía cinética para aumentar velocidad exponencialmente.
+                        <br><br>
+                        <strong>Tejedora de Luz</strong> revitaliza vegetación usando energía acumulada.
+                    </div>
+
+                    <div class="character-footer">
+                        <div style="font-weight:700">LUCY</div>
+                        <div class="character-id">UA-003</div>
                     </div>
                 </div>
 
                 <div class="character-image">
-                    <div class="image-placeholder"></div>
+                    <div class="image-placeholder">
+                        <span class="placeholder-text">ILUSTRACIÓN DEL PERSONAJE</span>
+                    </div>
                 </div>
             </div>
 
@@ -603,24 +644,27 @@
                     <div class="character-category">USUARIO ANIMA // TERRA</div>
                     <div class="character-name">SHIRO</div>
 
-                    <div class="info-section">
-                        <div class="info-label">IRIS</div>
-                        <div class="info-value">N/A</div>
-                    </div>
-
-                    <div class="info-section">
-                        <div class="info-label">TÉCNICA ANIMA</div>
-                        <div class="info-value">Petrificación | Transmutación</div>
+                    <div class="tags">
+                        <div class="tag">Petrificación</div>
+                        <div class="tag">Transmutación</div>
                     </div>
 
                     <div class="info-description">
-                        Petrificación endurece la piel en metal/roca. Transmutación crea armas
-                        pesadas con materiales absorbidos.
+                        <strong>Petrificación</strong> endurece la piel en metal/roca.
+                        <br><br>
+                        <strong>Transmutación</strong> crea armas pesadas con materiales absorbidos.
+                    </div>
+
+                    <div class="character-footer">
+                        <div style="font-weight:700">SHIRO</div>
+                        <div class="character-id">UA-004</div>
                     </div>
                 </div>
 
                 <div class="character-image">
-                    <div class="image-placeholder"></div>
+                    <div class="image-placeholder">
+                        <span class="placeholder-text">ILUSTRACIÓN DEL PERSONAJE</span>
+                    </div>
                 </div>
             </div>
 
@@ -630,26 +674,29 @@
 
                 <div class="character-info">
                     <div class="character-category">USUARIO ANIMA // TERRA</div>
-                    <div class="character-name">UENOYAMA<br/>RINGO</div>
+                    <div class="character-name">UENOYAMA <small>RINGO</small></div>
 
-                    <div class="info-section">
-                        <div class="info-label">IRIS</div>
-                        <div class="info-value">N/A</div>
-                    </div>
-
-                    <div class="info-section">
-                        <div class="info-label">TÉCNICA ANIMA</div>
-                        <div class="info-value">Génesis Helada | Estasis Perpetua</div>
+                    <div class="tags">
+                        <div class="tag">Génesis Helada</div>
+                        <div class="tag">Estasis Perpetua</div>
                     </div>
 
                     <div class="info-description">
-                        Génesis materializa hielo y estructuras sólidas. Estasis congela áreas y objetos,
-                        creando sellos que pueden ser rotos por habilidades Mentem.
+                        <strong>Génesis Helada</strong> materializa hielo y estructuras sólidas.
+                        <br><br>
+                        <strong>Estasis Perpetua</strong> congela áreas y objetos, creando sellos que pueden ser rotos por habilidades Mentem.
+                    </div>
+
+                    <div class="character-footer">
+                        <div style="font-weight:700">UENOYAMA</div>
+                        <div class="character-id">UA-005</div>
                     </div>
                 </div>
 
                 <div class="character-image">
-                    <div class="image-placeholder"></div>
+                    <div class="image-placeholder">
+                        <span class="placeholder-text">ILUSTRACIÓN DEL PERSONAJE</span>
+                    </div>
                 </div>
             </div>
 
@@ -661,24 +708,27 @@
                     <div class="character-category">USUARIO INDEPENDIENTE</div>
                     <div class="character-name">SASAKI</div>
 
-                    <div class="info-section">
-                        <div class="info-label">IRIS</div>
-                        <div class="info-value">Armonía del Vacío</div>
-                    </div>
-
-                    <div class="info-section">
-                        <div class="info-label">TÉCNICA ANIMA</div>
-                        <div class="info-value">Contrapunto | Crescendo</div>
+                    <div class="tags">
+                        <div class="tag">Contrapunto</div>
+                        <div class="tag">Crescendo</div>
                     </div>
 
                     <div class="info-description">
-                        Contrapunto contraataca poderes enemigos. Crescendo potencia habilidades aliadas.
-                        Requiere conocer previamente el poder del objetivo.
+                        <strong>Contrapunto</strong> contraataca poderes enemigos.
+                        <br><br>
+                        <strong>Crescendo</strong> potencia habilidades aliadas. Requiere conocer previamente el poder del objetivo.
+                    </div>
+
+                    <div class="character-footer">
+                        <div style="font-weight:700">SASAKI</div>
+                        <div class="character-id">UI-001</div>
                     </div>
                 </div>
 
                 <div class="character-image">
-                    <div class="image-placeholder"></div>
+                    <div class="image-placeholder">
+                        <span class="placeholder-text">ILUSTRACIÓN DEL PERSONAJE</span>
+                    </div>
                 </div>
             </div>
 
@@ -687,27 +737,30 @@
                 <div class="card-background usui"></div>
 
                 <div class="character-info">
-                    <div class="character-category">USUARIO INDEPENDIENTE</div>
-                    <div class="character-name">KIRIGAYA<br/>USUI</div>
+                    <div class="character-category">LÍDER // SHINIGAMI TENSEI</div>
+                    <div class="character-name">USUI</div>
 
-                    <div class="info-section">
-                        <div class="info-label">IRIS</div>
-                        <div class="info-value">N/A</div>
-                    </div>
-
-                    <div class="info-section">
-                        <div class="info-label">TÉCNICA ANIMA</div>
-                        <div class="info-value">Combustión | Consanguíneo</div>
+                    <div class="tags">
+                        <div class="tag">Combustión</div>
+                        <div class="tag">Consanguíneo</div>
                     </div>
 
                     <div class="info-description">
-                        Combustión usa sangre para aumentar capacidades físicas y crear armas de fuego.
-                        Consanguíneo comparte poder con quienes considera dignos, monitoreando su energía vital.
+                        <strong>Combustión</strong> usa su sangre como combustible para aumentar capacidades físicas y crear armas ígneas.
+                        <br><br>
+                        <strong>Consanguíneo</strong> comparte su poder mediante transmisión sanguínea con aliados considerados "dignos".
+                    </div>
+
+                    <div class="character-footer">
+                        <div style="font-weight:700">USUI</div>
+                        <div class="character-id">ST-001</div>
                     </div>
                 </div>
 
                 <div class="character-image">
-                    <div class="image-placeholder"></div>
+                    <div class="image-placeholder">
+                        <span class="placeholder-text">ILUSTRACIÓN DEL PERSONAJE</span>
+                    </div>
                 </div>
             </div>
         </div>
