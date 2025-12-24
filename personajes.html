@@ -3,20 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TERRA ARCHIVE - USUARIOS ANIMA</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <title>TERRA - Usuarios Anima</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Space+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-primary: #0a0a0a;
             --bg-secondary: #111;
-            --bg-overlay: rgba(10, 10, 15, 0.95);
+            --bg-card: rgba(20, 20, 25, 0.7);
             --text-primary: #fff;
             --text-secondary: #aaa;
-            --accent-blue: #00a8ff;
-            --accent-red: #ff4757;
-            --accent-yellow: #feca57;
-            --accent-green: #10ac84;
-            --accent-purple: #9b59b6;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --accent-kotarou: #ff453a;
+            --accent-taichi: #0a84ff;
+            --accent-lucy: #ffd60a;
+            --accent-shiro: #30d158;
+            --accent-uenoyama: #5e5ce6;
+            --accent-sasaki: #bf5af2;
+            --accent-usui: #ff9f0a;
         }
         
         * {
@@ -33,23 +36,21 @@
             overflow-x: hidden;
         }
         
-        /* Layout principal - MENÚ IZQUIERDO */
-        .main-layout {
+        /* Layout principal */
+        .app-container {
             display: flex;
             min-height: 100vh;
         }
         
-        /* PANEL IZQUIERDO FIJO (como en tus imágenes) */
+        /* Panel izquierdo - Menú */
         .side-menu {
             width: 280px;
             background: var(--bg-secondary);
-            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            border-right: 1px solid var(--border-color);
+            padding: 40px 25px;
             position: fixed;
             height: 100vh;
-            padding: 40px 25px;
-            display: flex;
-            flex-direction: column;
-            z-index: 1000;
+            z-index: 100;
         }
         
         .logo {
@@ -59,7 +60,7 @@
             letter-spacing: 4px;
             margin-bottom: 40px;
             text-align: center;
-            background: linear-gradient(90deg, #fff, #00a8ff);
+            background: linear-gradient(90deg, #fff, #aaa);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -67,31 +68,29 @@
         .nav-menu {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 12px;
             margin-bottom: 40px;
         }
         
         .nav-item {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: var(--text-secondary);
             text-decoration: none;
             padding: 12px 20px;
             border-radius: 6px;
             transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
         }
         
         .nav-item:hover {
             background: rgba(255, 255, 255, 0.05);
-            color: var(--accent-blue);
+            color: #fff;
         }
         
         .nav-item.active {
-            background: rgba(0, 168, 255, 0.1);
-            color: var(--accent-blue);
-            border-left: 3px solid var(--accent-blue);
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border-left: 3px solid #fff;
         }
         
         .menu-footer {
@@ -101,31 +100,25 @@
             color: rgba(255, 255, 255, 0.3);
             text-align: center;
             padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-top: 1px solid var(--border-color);
         }
         
-        /* CONTENIDO PRINCIPAL */
-        .content-area {
+        /* Contenido principal */
+        .main-content {
             margin-left: 280px;
             flex: 1;
-            min-height: 100vh;
-            background: linear-gradient(135deg, 
-                rgba(10, 10, 15, 0.9) 0%,
-                rgba(20, 20, 30, 0.8) 50%,
-                rgba(10, 25, 35, 0.9) 100%);
+            padding: 40px;
         }
         
-        /* Encabezado con título */
+        /* Header del contenido */
         .content-header {
-            padding: 40px 50px 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            margin-bottom: 40px;
         }
         
         .page-title {
             font-family: 'Space Grotesk', sans-serif;
             font-size: 2.5rem;
-            font-weight: 700;
-            letter-spacing: 2px;
+            font-weight: 600;
             margin-bottom: 10px;
             background: linear-gradient(90deg, #fff, #aaa);
             -webkit-background-clip: text;
@@ -134,178 +127,212 @@
         
         .page-subtitle {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             color: var(--text-secondary);
             letter-spacing: 1px;
         }
         
-        /* CONTENEDOR DE CARDS (scroll horizontal) */
-        .cards-container {
-            padding: 30px 50px;
-            overflow-x: auto;
-            white-space: nowrap;
-            margin-bottom: 40px;
-        }
-        
-        .cards-container::-webkit-scrollbar {
-            height: 8px;
-        }
-        
-        .cards-container::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 4px;
-        }
-        
-        .cards-container::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 4px;
-        }
-        
-        /* Grid horizontal de cards (como carpetas/archivos) */
+        /* Grid de cards GRANDES */
         .cards-grid {
-            display: inline-flex;
-            gap: 25px;
-            padding-bottom: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
         }
         
-        /* Cards individuales - estilo tipo archivo */
-        .file-card {
-            width: 200px;
-            min-width: 200px;
-            background: rgba(20, 20, 25, 0.7);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 8px;
+        /* Cards grandes con imagen */
+        .character-card {
+            background: var(--bg-card);
+            border-radius: 12px;
             overflow: hidden;
             cursor: pointer;
             transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+            position: relative;
+            height: 500px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .character-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+        }
+        
+        .character-card.active {
+            border-color: currentColor;
+            box-shadow: 0 0 0 2px currentColor, 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
+        
+        /* Área de imagen (grande) */
+        .card-image {
+            height: 70%;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, 
+                rgba(40, 40, 40, 0.8) 0%, 
+                rgba(60, 60, 60, 0.6) 100%);
+        }
+        
+        /* Placeholder para imagen del personaje */
+        .image-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            opacity: 0.3;
             position: relative;
         }
         
-        .file-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(255, 255, 255, 0.3);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-        }
+        /* Degradado de color específico para cada personaje */
+        .kotarou .card-image { background: linear-gradient(135deg, rgba(255, 69, 58, 0.2), rgba(40, 40, 40, 0.8)); }
+        .taichi .card-image { background: linear-gradient(135deg, rgba(10, 132, 255, 0.2), rgba(40, 40, 40, 0.8)); }
+        .lucy .card-image { background: linear-gradient(135deg, rgba(255, 214, 10, 0.2), rgba(40, 40, 40, 0.8)); }
+        .shiro .card-image { background: linear-gradient(135deg, rgba(48, 209, 88, 0.2), rgba(40, 40, 40, 0.8)); }
+        .uenoyama .card-image { background: linear-gradient(135deg, rgba(94, 92, 230, 0.2), rgba(40, 40, 40, 0.8)); }
+        .sasaki .card-image { background: linear-gradient(135deg, rgba(191, 90, 242, 0.2), rgba(40, 40, 40, 0.8)); }
+        .usui .card-image { background: linear-gradient(135deg, rgba(255, 159, 10, 0.2), rgba(40, 40, 40, 0.8)); }
         
-        .file-card.active {
-            border-color: currentColor;
-            box-shadow: 0 0 0 2px currentColor, 0 10px 30px rgba(0, 0, 0, 0.6);
-        }
-        
-        .file-header {
-            padding: 20px;
-            text-align: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            background: rgba(0, 0, 0, 0.3);
-        }
-        
-        .file-icon {
-            font-size: 2rem;
-            margin-bottom: 10px;
-            opacity: 0.8;
-        }
-        
-        .file-name {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.1rem;
-            font-weight: 600;
-            letter-spacing: 1px;
-            margin-bottom: 5px;
-        }
-        
-        .file-role {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-        }
-        
-        .file-tags {
-            padding: 15px;
+        /* Info de la card */
+        .card-info {
+            padding: 25px;
+            flex: 1;
             display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background: rgba(15, 15, 15, 0.8);
+        }
+        
+        .card-header {
+            margin-bottom: 15px;
+        }
+        
+        .card-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .card-role {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+        }
+        
+        .card-tags {
+            display: flex;
+            gap: 8px;
             flex-wrap: wrap;
-            gap: 5px;
         }
         
         .tag {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.65rem;
-            padding: 3px 8px;
+            font-size: 0.75rem;
+            padding: 4px 10px;
             background: rgba(255, 255, 255, 0.1);
             border-radius: 12px;
             color: var(--text-secondary);
         }
         
-        /* PANEL DE INFORMACIÓN CENTRADO */
-        .info-panel {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 0 50px 50px;
+        /* Panel de información detallada */
+        .detail-panel {
+            position: fixed;
+            top: 0;
+            left: 280px;
+            right: 0;
+            bottom: 0;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 50;
+            padding: 60px;
             display: none;
+            overflow-y: auto;
             opacity: 0;
-            transform: translateY(20px);
-            animation: fadeIn 0.5s ease forwards;
+            transform: translateX(50px);
+            transition: all 0.4s ease;
+        }
+        
+        .detail-panel.active {
+            display: block;
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .detail-content {
+            max-width: 900px;
+            margin: 0 auto;
+            animation: fadeIn 0.5s ease;
         }
         
         @keyframes fadeIn {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
-        .info-panel.active {
-            display: block;
-        }
-        
-        .character-header {
+        .detail-header {
+            margin-bottom: 50px;
             text-align: center;
-            margin-bottom: 40px;
-            padding-bottom: 30px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
         
-        .character-name {
+        .detail-name {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 3rem;
+            font-size: 3.5rem;
             font-weight: 700;
-            letter-spacing: 2px;
             margin-bottom: 15px;
+            letter-spacing: 2px;
         }
         
-        .character-subtitle {
+        .detail-subtitle {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 1rem;
+            font-size: 1.1rem;
             color: var(--text-secondary);
+            margin-bottom: 25px;
+        }
+        
+        .detail-badge {
+            display: inline-block;
+            padding: 8px 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
         }
         
         /* Grid de información */
         .info-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 30px;
-            margin-bottom: 40px;
+            gap: 40px;
+            margin-bottom: 50px;
         }
         
         .info-card {
             background: rgba(30, 30, 35, 0.5);
-            border-radius: 8px;
-            padding: 25px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            padding: 30px;
+            border: 1px solid var(--border-color);
         }
         
-        .card-title {
+        .info-title {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: 600;
-            margin-bottom: 15px;
-            color: var(--accent-blue);
+            margin-bottom: 20px;
+            color: #fff;
             display: flex;
             align-items: center;
             gap: 10px;
         }
         
-        .card-content {
-            font-size: 0.95rem;
+        .info-content {
+            font-size: 1rem;
             line-height: 1.7;
             color: var(--text-secondary);
         }
@@ -313,85 +340,53 @@
         .ability-list {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 20px;
         }
         
         .ability-item {
-            background: rgba(255, 255, 255, 0.03);
-            padding: 15px;
-            border-radius: 6px;
-            border-left: 3px solid;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid;
         }
         
         .ability-name {
             font-family: 'Space Grotesk', sans-serif;
             font-weight: 600;
-            font-size: 1rem;
-            margin-bottom: 8px;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
         }
         
         .ability-desc {
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             line-height: 1.6;
             color: rgba(255, 255, 255, 0.7);
         }
         
-        /* Sección de afiliaciones */
-        .affiliation-section {
-            margin-bottom: 30px;
-        }
-        
-        .section-title {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        /* Colores por personaje */
-        .kotarou-color { color: var(--accent-red); }
-        .taichi-color { color: var(--accent-blue); }
-        .lucy-color { color: var(--accent-yellow); }
-        .shiro-color { color: var(--accent-green); }
-        .uenoyama-color { color: var(--accent-purple); }
-        .sasaki-color { color: #bf5af2; }
-        .usui-color { color: #ff9f0a; }
-        .akane-color { color: #ff6b6b; }
-        .miyamura-color { color: #00cec9; }
-        .kirara-color { color: #fd79a8; }
-        
         /* Botón de cerrar */
         .close-btn {
             display: block;
-            margin: 30px auto 0;
-            padding: 12px 30px;
+            margin: 40px auto 0;
+            padding: 15px 40px;
             background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid var(--border-color);
             color: var(--text-primary);
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.9rem;
-            border-radius: 6px;
+            font-size: 1rem;
+            border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
         }
         
         .close-btn:hover {
             background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
         }
         
         /* Responsive */
-        @media (max-width: 1024px) {
-            .side-menu {
-                width: 240px;
-            }
-            
-            .content-area {
-                margin-left: 240px;
+        @media (max-width: 1200px) {
+            .cards-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             }
             
             .info-grid {
@@ -399,33 +394,45 @@
             }
         }
         
-        @media (max-width: 768px) {
+        @media (max-width: 900px) {
             .side-menu {
                 width: 100%;
                 height: auto;
                 position: relative;
             }
             
-            .content-area {
+            .main-content {
                 margin-left: 0;
             }
             
-            .content-header,
-            .cards-container,
-            .info-panel {
-                padding: 30px 20px;
+            .detail-panel {
+                left: 0;
+                padding: 40px 20px;
             }
             
-            .character-name {
-                font-size: 2.2rem;
+            .detail-name {
+                font-size: 2.5rem;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .character-card {
+                height: 450px;
+            }
+            
+            .main-content {
+                padding: 20px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Layout principal -->
-    <div class="main-layout">
-        <!-- Menú lateral izquierdo (FIJO) -->
+    <div class="app-container">
+        <!-- Menú lateral -->
         <div class="side-menu">
             <div class="logo">TERRA</div>
             
@@ -435,147 +442,169 @@
                 <a href="#" class="nav-item">HISTORIA</a>
                 <a href="#" class="nav-item">ORGANIZACIONES</a>
                 <a href="#" class="nav-item">ARCHIVOS</a>
-                <a href="#" class="nav-item">CONTACTO</a>
             </nav>
             
             <div class="menu-footer">
-                AGENCIA ADE • ARCHIVO V2.1<br/>
-                ACCESO AUTORIZADO
+                ARCHIVO V2.1 • ACCESO AUTORIZADO<br/>
+                AGENCIA ADE • DIVISIÓN YOKOHAMA
             </div>
         </div>
         
-        <!-- Área de contenido principal -->
-        <div class="content-area">
-            <!-- Encabezado -->
+        <!-- Contenido principal -->
+        <div class="main-content">
             <div class="content-header">
                 <h1 class="page-title">USUARIOS ANIMA</h1>
-                <p class="page-subtitle">PERFILES REGISTRADOS • SISTEMA DE ARCHIVO TERRA</p>
+                <p class="page-subtitle">REGISTRO DE USUARIOS CON HABILIDADES ESPECIALES • AGENCIA ADE</p>
             </div>
             
-            <!-- Cards de usuarios (scroll horizontal) -->
-            <div class="affiliation-section">
-                <div class="section-title">▸ AGENCIA ADE</div>
-                <div class="cards-container">
-                    <div class="cards-grid">
-                        <!-- Miembros ADE -->
-                        <div class="file-card kotarou-color" data-character="kotarou" onclick="showCharacter('kotarou')">
-                            <div class="file-header">
-                                <div class="file-icon">⚡</div>
-                                <div class="file-name">KOTAROU</div>
-                                <div class="file-role">ESTRATEGA</div>
-                            </div>
-                            <div class="file-tags">
-                                <span class="tag">CONTROL</span>
-                                <span class="tag">CONTENCIÓN</span>
-                                <span class="tag">IRIS SOL</span>
-                            </div>
+            <!-- Grid de cards grandes -->
+            <div class="cards-grid">
+                <!-- Kotarou -->
+                <div class="character-card kotarou" data-character="kotarou" onclick="showDetail('kotarou')">
+                    <div class="card-image">
+                        <div class="image-placeholder" style="color: var(--accent-kotarou);">
+                            ⚡
                         </div>
-                        
-                        <div class="file-card taichi-color" data-character="taichi" onclick="showCharacter('taichi')">
-                            <div class="file-header">
-                                <div class="file-icon">🌊</div>
-                                <div class="file-name">TAICHI</div>
-                                <div class="file-role">LÍDER</div>
-                            </div>
-                            <div class="file-tags">
-                                <span class="tag">TORRENTE</span>
-                                <span class="tag">ROCÍO</span>
-                                <span class="tag">IRIS LUNA</span>
-                            </div>
+                    </div>
+                    <div class="card-info">
+                        <div class="card-header">
+                            <div class="card-name" style="color: var(--accent-kotarou);">KOTAROU</div>
+                            <div class="card-role">ESTRATEGA • AGENCIA ADE</div>
                         </div>
-                        
-                        <div class="file-card lucy-color" data-character="lucy" onclick="showCharacter('lucy')">
-                            <div class="file-header">
-                                <div class="file-icon">⚡</div>
-                                <div class="file-name">LUCY</div>
-                                <div class="file-role">ASALTA</div>
-                            </div>
-                            <div class="file-tags">
-                                <span class="tag">LUZ</span>
-                                <span class="tag">TEJEDORA</span>
-                                <span class="tag">VELOCIDAD</span>
-                            </div>
+                        <div class="card-tags">
+                            <span class="tag">CONTROL</span>
+                            <span class="tag">CONTENCIÓN</span>
+                            <span class="tag">IRIS SOL</span>
                         </div>
-                        
-                        <div class="file-card shiro-color" data-character="shiro" onclick="showCharacter('shiro')">
-                            <div class="file-header">
-                                <div class="file-icon">🛡️</div>
-                                <div class="file-name">SHIRO</div>
-                                <div class="file-role">TANQUE</div>
-                            </div>
-                            <div class="file-tags">
-                                <span class="tag">PETRIFICACIÓN</span>
-                                <span class="tag">TRANSMUTACIÓN</span>
-                                <span class="tag">DEFENSA</span>
-                            </div>
+                    </div>
+                </div>
+                
+                <!-- Taichi -->
+                <div class="character-card taichi" data-character="taichi" onclick="showDetail('taichi')">
+                    <div class="card-image">
+                        <div class="image-placeholder" style="color: var(--accent-taichi);">
+                            🌊
                         </div>
-                        
-                        <div class="file-card uenoyama-color" data-character="uenoyama" onclick="showCharacter('uenoyama')">
-                            <div class="file-header">
-                                <div class="file-icon">❄️</div>
-                                <div class="file-name">UENOYAMA</div>
-                                <div class="file-role">CONTROL</div>
-                            </div>
-                            <div class="file-tags">
-                                <span class="tag">GÉNESIS</span>
-                                <span class="tag">ESTASIS</span>
-                                <span class="tag">HIELO</span>
-                            </div>
+                    </div>
+                    <div class="card-info">
+                        <div class="card-header">
+                            <div class="card-name" style="color: var(--accent-taichi);">TAICHI</div>
+                            <div class="card-role">LÍDER • AGENCIA ADE</div>
                         </div>
-                        
-                        <div class="file-card akane-color" data-character="akane" onclick="showCharacter('akane')">
-                            <div class="file-header">
-                                <div class="file-icon">📋</div>
-                                <div class="file-name">AKANE</div>
-                                <div class="file-role">DIRECTOR</div>
-                            </div>
-                            <div class="file-tags">
-                                <span class="tag">SELLOS</span>
-                                <span class="tag">MUÑECOS</span>
-                                <span class="tag">LIDERAZGO</span>
-                            </div>
+                        <div class="card-tags">
+                            <span class="tag">TORRENTE</span>
+                            <span class="tag">ROCÍO</span>
+                            <span class="tag">IRIS LUNA</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Lucy -->
+                <div class="character-card lucy" data-character="lucy" onclick="showDetail('lucy')">
+                    <div class="card-image">
+                        <div class="image-placeholder" style="color: var(--accent-lucy);">
+                            ⚡
+                        </div>
+                    </div>
+                    <div class="card-info">
+                        <div class="card-header">
+                            <div class="card-name" style="color: var(--accent-lucy);">LUCY</div>
+                            <div class="card-role">ASALTA • AGENCIA ADE</div>
+                        </div>
+                        <div class="card-tags">
+                            <span class="tag">LUZ</span>
+                            <span class="tag">TEJEDORA</span>
+                            <span class="tag">VELOCIDAD</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Shiro -->
+                <div class="character-card shiro" data-character="shiro" onclick="showDetail('shiro')">
+                    <div class="card-image">
+                        <div class="image-placeholder" style="color: var(--accent-shiro);">
+                            🛡️
+                        </div>
+                    </div>
+                    <div class="card-info">
+                        <div class="card-header">
+                            <div class="card-name" style="color: var(--accent-shiro);">SHIRO</div>
+                            <div class="card-role">TANQUE • AGENCIA ADE</div>
+                        </div>
+                        <div class="card-tags">
+                            <span class="tag">PETRIFICACIÓN</span>
+                            <span class="tag">TRANSMUTACIÓN</span>
+                            <span class="tag">DEFENSA</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Uenoyama -->
+                <div class="character-card uenoyama" data-character="uenoyama" onclick="showDetail('uenoyama')">
+                    <div class="card-image">
+                        <div class="image-placeholder" style="color: var(--accent-uenoyama);">
+                            ❄️
+                        </div>
+                    </div>
+                    <div class="card-info">
+                        <div class="card-header">
+                            <div class="card-name" style="color: var(--accent-uenoyama);">UENOYAMA</div>
+                            <div class="card-role">CONTROL • AGENCIA ADE</div>
+                        </div>
+                        <div class="card-tags">
+                            <span class="tag">GÉNESIS</span>
+                            <span class="tag">ESTASIS</span>
+                            <span class="tag">HIELO</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sasaki -->
+                <div class="character-card sasaki" data-character="sasaki" onclick="showDetail('sasaki')">
+                    <div class="card-image">
+                        <div class="image-placeholder" style="color: var(--accent-sasaki);">
+                            🎵
+                        </div>
+                    </div>
+                    <div class="card-info">
+                        <div class="card-header">
+                            <div class="card-name" style="color: var(--accent-sasaki);">SASAKI</div>
+                            <div class="card-role">MERCENARIA • INDEPENDIENTE</div>
+                        </div>
+                        <div class="card-tags">
+                            <span class="tag">CONTRAPUNTO</span>
+                            <span class="tag">CRESCENDO</span>
+                            <span class="tag">IRIS VACÍO</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Usui -->
+                <div class="character-card usui" data-character="usui" onclick="showDetail('usui')">
+                    <div class="card-image">
+                        <div class="image-placeholder" style="color: var(--accent-usui);">
+                            🔥
+                        </div>
+                    </div>
+                    <div class="card-info">
+                        <div class="card-header">
+                            <div class="card-name" style="color: var(--accent-usui);">USUI</div>
+                            <div class="card-role">LÍDER • SHINIGAMI TENSEI</div>
+                        </div>
+                        <div class="card-tags">
+                            <span class="tag">COMBUSTIÓN</span>
+                            <span class="tag">CONSANGUÍNEO</span>
+                            <span class="tag">SANGRE</span>
                         </div>
                     </div>
                 </div>
             </div>
-            
-            <!-- Sección de usuarios externos -->
-            <div class="affiliation-section">
-                <div class="section-title">▸ OPERATIVOS EXTERNOS</div>
-                <div class="cards-container">
-                    <div class="cards-grid">
-                        <div class="file-card sasaki-color" data-character="sasaki" onclick="showCharacter('sasaki')">
-                            <div class="file-header">
-                                <div class="file-icon">🎵</div>
-                                <div class="file-name">SASAKI</div>
-                                <div class="file-role">MERCENARIA</div>
-                            </div>
-                            <div class="file-tags">
-                                <span class="tag">CONTRAPUNTO</span>
-                                <span class="tag">CRESCENDO</span>
-                                <span class="tag">IRIS VACÍO</span>
-                            </div>
-                        </div>
-                        
-                        <div class="file-card usui-color" data-character="usui" onclick="showCharacter('usui')">
-                            <div class="file-header">
-                                <div class="file-icon">🔥</div>
-                                <div class="file-name">USUI</div>
-                                <div class="file-role">LÍDER</div>
-                            </div>
-                            <div class="file-tags">
-                                <span class="tag">COMBUSTIÓN</span>
-                                <span class="tag">CONSANGUÍNEO</span>
-                                <span class="tag">SHINIGAMI</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Panel de información centrado (OCULTO inicialmente) -->
-            <div class="info-panel" id="infoPanel">
-                <!-- Información se carga aquí -->
+        </div>
+        
+        <!-- Panel de detalle -->
+        <div class="detail-panel" id="detailPanel">
+            <div class="detail-content" id="detailContent">
+                <!-- Se carga dinámicamente -->
             </div>
         </div>
     </div>
@@ -585,134 +614,231 @@
             kotarou: {
                 name: 'KIRIGAYA KOTAROU',
                 role: 'ESTRATEGA DE CAMPO • AGENCIA ADE',
-                colorClass: 'kotarou-color',
+                affiliation: 'AGENCIA ADE',
                 iris: 'SOL DE LA VERDAD',
+                color: 'var(--accent-kotarou)',
+                description: 'Estratega analítico especializado en control de campo. Su capacidad para manipular energías gravitacionales le permite alterar la masa y movimiento de objetos, convirtiéndolo en un activo invaluable para operaciones tácticas que requieren precisión y control ambiental.',
                 abilities: [
-                    { name: 'CONTROL', desc: 'Manipulación de energía gravitacional para controlar objetos y alterar masa.' },
-                    { name: 'CONTENCIÓN', desc: 'Liberación de energía almacenada para potenciación física y mental temporal.' }
+                    {
+                        name: 'CONTROL',
+                        description: 'Manipulación de la energía gravitacional de objetos cercanos. Permite el movimiento remoto, alteración de masa, y control de trayectorias con concentración visual sostenida.'
+                    },
+                    {
+                        name: 'CONTENCIÓN',
+                        description: 'Liberación controlada de energía almacenada para potenciación física y mental temporal. Requiere activación mediante daño físico y puede causar anemia por uso excesivo.'
+                    }
                 ],
-                description: 'Estratega analítico especializado en control de campo. Su habilidad para manipular energías gravitacionales lo convierte en un activo invaluable para operaciones tácticas.',
-                details: 'Requiere concentración constante y contacto visual. El uso excesivo causa fatiga.'
+                details: 'Su habilidad requiere contacto visual constante con los objetivos. La fatiga se acumula proporcionalmente al peso y número de objetos manipulados. Experiencia de 6 años en la agencia.'
             },
             taichi: {
                 name: 'NATSUME TAICHI',
                 role: 'LÍDER DE OPERACIONES • AGENCIA ADE',
-                colorClass: 'taichi-color',
+                affiliation: 'AGENCIA ADE',
                 iris: 'LUNA DE DESINTEGRACIÓN',
+                color: 'var(--accent-taichi)',
+                description: 'Líder experimentado con 8 años en combate sobrenatural. Su determinación y habilidades acuáticas ofensivas definen el frente de batalla del equipo ADE. Fue el primer exorcista usuario de técnica en formarse en el sector de combate.',
                 abilities: [
-                    { name: 'TORRENTE DEL JUICIO', desc: 'Manifestación de armas blancas compuestas de agua energizada.' },
-                    { name: 'ROCÍO DE GRACIA', desc: 'Habilidad curativa limitada con restricciones temporales estrictas.' }
+                    {
+                        name: 'TORRENTE DEL JUICIO',
+                        description: 'Manifestación de armas blancas compuestas de agua energizada con propiedades cortantes excepcionales. La precisión y filo aumentan con concentración de energía Anima.'
+                    },
+                    {
+                        name: 'ROCÍO DE GRACIA',
+                        description: 'Habilidad curativa limitada que puede estabilizar heridas graves. No puede usarse dos veces seguidas en la misma persona y no tiene capacidad de resurrección.'
+                    }
                 ],
-                description: 'Líder experimentado con años en combate sobrenatural. Su determinación define el frente de batalla del equipo ADE.',
-                details: 'El poder escala con energia vital. Experiencia: 8 años en campo.'
+                details: 'El poder de sus habilidades escala con su determinación. Requiere guantes negros para contener su Iris cuando no está sellado. Conectado energéticamente a Kotarou.'
             },
             lucy: {
                 name: 'LUCY',
                 role: 'ASALTA VELOZ • AGENCIA ADE',
-                colorClass: 'lucy-color',
-                iris: 'NO APLICA',
+                affiliation: 'AGENCIA ADE',
+                iris: 'NO POSEE',
+                color: 'var(--accent-lucy)',
+                description: 'Una de las usuarias más veloces registradas en la ADE. Sus movimientos supersónicos y especialización en ataques sorpresa la convierten en la punta de lanza del equipo. Encontrada junto a su hermana Shiro en circunstancias especiales por Akane y Taichi.',
                 abilities: [
-                    { name: 'LUZ INALCANZABLE', desc: 'Generación de fricción cinética para alcanzar velocidades extremas.' },
-                    { name: 'TEJEDORA DE LUZ', desc: 'Revitalización de materia orgánica mediante transferencia energética.' }
+                    {
+                        name: 'LUZ INALCANZABLE',
+                        description: 'Generación de fricción cinética para alcanzar velocidades que duplican lo normal. La velocidad aumenta exponencialmente con la fricción contra energía externa.'
+                    },
+                    {
+                        name: 'TEJEDORA DE LUZ',
+                        description: 'Revitalización de vegetación y organismos botánicos usando energía acumulada durante el movimiento. Requiere haber usado previamente Luz Inalcanzable.'
+                    }
                 ],
-                description: 'Operativa de asalto ultrarrápido. Especializada en ataques sorpresa y reconocimiento veloz.',
-                details: 'Equipada con prótesis especializadas ADE-MK4. Velocidad máxima: Mach 2.3.'
+                details: 'Equipada con prótesis especializadas ADE-MK4 diseñadas para manejar cargas energéticas extremas. Velocidad máxima registrada: Mach 2.3. Hermana gemela de Shiro. Usuaria Corporis con conexión solar secundaria.'
             },
             shiro: {
                 name: 'SHIRO',
                 role: 'TANQUE OFENSIVO • AGENCIA ADE',
-                colorClass: 'shiro-color',
-                iris: 'NO APLICA',
+                affiliation: 'AGENCIA ADE',
+                iris: 'NO POSEE',
+                color: 'var(--accent-shiro)',
+                description: 'Especialista en defensa y combate cuerpo a cuerpo. Su capacidad para endurecer su fisiología transformándola en materiales de alta densidad lo convierte en la barrera viviente del equipo. Complementa perfectamente el estilo de combate de su hermana Lucy.',
                 abilities: [
-                    { name: 'PETRIFICACIÓN', desc: 'Transformación epidérmica en materiales de alta densidad y resistencia.' },
-                    { name: 'TRANSMUTACIÓN', desc: 'Conversión de energía absorbida en armamento pesado y defensivo.' }
+                    {
+                        name: 'PETRIFICACIÓN',
+                        description: 'Transformación epidérmica en materiales como metal y roca. Aumenta drásticamente la resistencia física pero reduce la velocidad proporcionalmente. La duración depende de la energía acumulada.'
+                    },
+                    {
+                        name: 'TRANSMUTACIÓN',
+                        description: 'Conversión de energía absorbida en armamento pesado como espadones, hachas y lanzas. Requiere haber sido impactado previamente para acumular materiales.'
+                    }
                 ],
-                description: 'Especialista en defensa y combate cuerpo a cuerpo. Barrera viviente del equipo con resistencia sobrehumana.',
-                details: 'Resistencia máxima: Nivel 9 en escala ADE. Hermana gemela de Lucy.'
+                details: 'Resistencia máxima: Nivel 9 en escala ADE. Su objeto vinculante está almacenado en las instalaciones de la ADE. Hermana gemela de Lucy. Usuaria Corporis.'
             },
             uenoyama: {
                 name: 'UENOYAMA RINGO',
                 role: 'ESPECIALISTA EN CONTROL • AGENCIA ADE',
-                colorClass: 'uenoyama-color',
-                iris: 'NO APLICA',
+                affiliation: 'AGENCIA ADE',
+                iris: 'NO POSEE',
+                color: 'var(--accent-uenoyama)',
+                description: 'Especialista en control criogénico y una de las pocas usuarias bajo la categoría Mentem en la ADE. Su precisión y enfoque metódico permiten manipulaciones tácticas del entorno de batalla mediante habilidades psicoquinéticas de cristalización.',
                 abilities: [
-                    { name: 'GÉNESIS HELADA', desc: 'Materialización de estructuras de hielo con aplicaciones tácticas.' },
-                    { name: 'ESTASIS PERPETUA', desc: 'Creación de campos de congelación para control de área.' }
+                    {
+                        name: 'GÉNESIS HELADA',
+                        description: 'Materialización de escarcha, hielo y estructuras sólidas a partir de energía Anima en estado cinético. Más efectivo en ambientes con vapor o humedad.'
+                    },
+                    {
+                        name: 'ESTASIS PERPETUA',
+                        description: 'Creación de campos de congelación que ralentizan o inmovilizan objetivos. Puede generar sellos de hielo que solo pueden ser rotos por habilidades Mentem.'
+                    }
                 ],
-                description: 'Especialista en control criogénico. Manipulación precisa del entorno de batalla mediante habilidades térmicas.',
-                details: 'Objeto vinculante: Pipa antigua. Resistente a temperaturas extremas.'
-            },
-            akane: {
-                name: 'AKANE NATSUME',
-                role: 'DIRECTOR Y ESTRATEGA • AGENCIA ADE',
-                colorClass: 'akane-color',
-                iris: 'NO APLICA',
-                abilities: [
-                    { name: 'MARCA PERPETUA', desc: 'Sellado temporal de habilidades ajenas mediante marcas energéticas.' },
-                    { name: 'ALMA DE MUÑECO', desc: 'Proyección de conciencia en objetos para reconocimiento.' }
-                ],
-                description: 'Fundador y director de la Agencia ADE. Conocimiento enciclopédico del mundo sobrenatural.',
-                details: 'Fundador de ADE. Experiencia: 15+ años en investigación paranormal.'
+                details: 'Objeto vinculante: una pipa antigua. Capaz de resistir temperaturas extremadamente bajas. Pasa más tiempo en el sector de investigación que en combate. Mano derecha de Akane Natsume.'
             },
             sasaki: {
                 name: 'SASAKI',
-                role: 'MERCENARIA INDEPENDIENTE',
-                colorClass: 'sasaki-color',
+                role: 'USUARIA ANIMA INDEPENDIENTE',
+                affiliation: 'INDEPENDIENTE',
                 iris: 'ARMONÍA DEL VACÍO',
+                color: 'var(--accent-sasaki)',
+                description: 'Mercenaria independiente con habilidades de manipulación musical heredadas de su padre. Su enfoque no convencional basado en resonancias sonoras y emocionales la hace una aliada valiosa pero impredecible en el campo de batalla.',
                 abilities: [
-                    { name: 'CONTRAPUNTO', desc: 'Reflejo de habilidades enemigas tras análisis del patrón energético.' },
-                    { name: 'CRESCENDO', desc: 'Amplificación de habilidades aliadas dentro de rango de resonancia.' }
+                    {
+                        name: 'CONTRAPUNTO',
+                        description: 'Reflejo de habilidades enemigas de vuelta a su usuario original. Requiere estar dentro de un radio de 25 metros y haber analizado previamente el patrón energético del objetivo.'
+                    },
+                    {
+                        name: 'CRESCENDO',
+                        description: 'Amplificación de habilidades aliadas dentro de su rango de resonancia. No puede crear defensas mientras usa esta habilidad.'
+                    }
                 ],
-                description: 'Mercenaria independiente con habilidades de manipulación sonora. Aliada valiosa pero impredecible.',
-                details: 'Requiere instrumentos para activación completa. Opera bajo contrato independiente.'
+                details: 'Requiere instrumentos musicales u objetos relacionados con el sonido para activación completa. Heredó un Iris de categoría Sol pero no mantiene tanto tiempo los sellos como Kotarou. Puede controlar espectros mediante su sinfonía.'
             },
             usui: {
                 name: 'USUI',
                 role: 'LÍDER DE SHINIGAMI TENSEI',
-                colorClass: 'usui-color',
-                iris: 'NO APLICA',
+                affiliation: 'SHINIGAMI TENSEI',
+                iris: 'NO POSEE',
+                color: 'var(--accent-usui)',
+                description: 'Líder carismático de la organización Shinigami Tensei, paralela a la ADE. Su filosofía y métodos difieren significativamente, pero comparte el objetivo fundamental de proteger el mundo humano de amenazas sobrenaturales. Prefiere el combate estratégico sobre el confrontamiento directo.',
                 abilities: [
-                    { name: 'COMBUSTIÓN', desc: 'Uso de vitalidad como combustible para potenciación y armas ígneas.' },
-                    { name: 'CONSANGUÍNEO', desc: 'Compartición de poder mediante vínculos sanguíneos con aliados.' }
+                    {
+                        name: 'COMBUSTIÓN',
+                        description: 'Uso de su propia vitalidad como combustible para crear armas ígneas y aumentar capacidades físicas. El consumo de vitalidad representa una desventaja táctica que compensa con agilidad.'
+                    },
+                    {
+                        name: 'CONSANGUÍNEO',
+                        description: 'Compartición de poder mediante vínculos sanguíneos con aliados considerados "dignos". Le permite monitorear el estado vital y uso de energía de todos vinculados.'
+                    }
                 ],
-                description: 'Líder de organización paralela a la ADE. Filosofía y métodos diferentes, objetivo compartido.',
-                details: 'Líder de Shinigami Tensei. Objeto vinculante: Moneda de oro de la era Heian.'
+                details: 'Objeto vinculante: una moneda de oro muy antigua de la era Heian. No se mantiene constantemente en campo de batalla, prefiriendo armas convencionales o tácticas estratégicas. Puede rastrear el estado de todos vinculados a él.'
             }
         };
 
-        function showCharacter(characterId) {
+        function showDetail(characterId) {
             const data = charactersData[characterId];
-            const infoPanel = document.getElementById('infoPanel');
+            const detailPanel = document.getElementById('detailPanel');
+            const detailContent = document.getElementById('detailContent');
             
             // Remover active de todas las cards
-            document.querySelectorAll('.file-card').forEach(card => {
+            document.querySelectorAll('.character-card').forEach(card => {
                 card.classList.remove('active');
             });
             
             // Activar card seleccionada
-            document.querySelector(`.file-card[data-character="${characterId}"]`).classList.add('active');
+            document.querySelector(`.character-card[data-character="${characterId}"]`).classList.add('active');
             
-            // Crear contenido del panel
-            infoPanel.innerHTML = `
-                <div class="character-header">
-                    <div class="character-name ${data.colorClass}">${data.name}</div>
-                    <div class="character-subtitle">${data.role}</div>
+            // Crear contenido del detalle
+            detailContent.innerHTML = `
+                <div class="detail-header">
+                    <div class="detail-name" style="color: ${data.color}">${data.name}</div>
+                    <div class="detail-subtitle">${data.role}</div>
+                    <div class="detail-badge">${data.affiliation}</div>
                 </div>
                 
                 <div class="info-grid">
                     <div class="info-card">
-                        <div class="card-title">
-                            <span>IRIS</span>
-                        </div>
-                        <div class="card-content">
-                            <strong>${data.iris}</strong>
-                            <p style="margin-top: 10px; font-size: 0.9rem;">${data.iris === 'NO APLICA' ? 'Este usuario no posee un Iris activo registrado.' : 'Habilidad perceptiva/destructiva de alto nivel en la jerarquía Iris.'}</p>
-                        </div>
+                        <div class="info-title">DESCRIPCIÓN</div>
+                        <div class="info-content">${data.description}</div>
                     </div>
                     
                     <div class="info-card">
-                        <div class="card-title">
-                            <span>DESCRIPCIÓN</span>
+                        <div class="info-title">IRIS</div>
+                        <div class="info-content">
+                            <strong style="color: ${data.color}">${data.iris}</strong>
+                            <p style="margin-top: 15px; font-size: 0.95rem;">
+                                ${data.iris === 'NO POSEE' 
+                                    ? 'Este usuario no posee un Iris activo. Sus habilidades derivan exclusivamente de energía Anima especializada.' 
+                                    : 'Habilidad de alto nivel en la jerarquía Iris. Capacidad única con efectos especializados según su categoría (Sol, Luna o Vacío).'
+                                }
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="info-card">
+                    <div class="info-title">TÉCNICAS ANIMA</div>
+                    <div class="ability-list">
+                        ${data.abilities.map(ability => `
+                            <div class="ability-item" style="border-left-color: ${data.color}">
+                                <div class="ability-name" style="color: ${data.color}">${ability.name}</div>
+                                <div class="ability-desc">${ability.description}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+                
+                <div class="info-card">
+                    <div class="info-title">INFORMACIÓN ADICIONAL</div>
+                    <div class="info-content">${data.details}</div>
+                </div>
+                
+                <button class="close-btn" onclick="closeDetail()">VOLVER A USUARIOS</button>
+            `;
+            
+            // Mostrar panel
+            detailPanel.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeDetail() {
+            const detailPanel = document.getElementById('detailPanel');
+            detailPanel.classList.remove('active');
+            document.body.style.overflow = 'auto';
+            
+            // Remover active de todas las cards
+            document.querySelectorAll('.character-card').forEach(card => {
+                card.classList.remove('active');
+            });
+        }
+
+        // Cerrar con Escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeDetail();
+            }
+        });
+
+        // Cerrar al hacer clic fuera del contenido
+        document.getElementById('detailPanel').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeDetail();
+            }
+        });
+    </script>
+</body>
+</html>                            <span>DESCRIPCIÓN</span>
                         </div>
                         <div class="card-content">
                             ${data.description}
