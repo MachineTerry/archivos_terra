@@ -1,813 +1,1730 @@
 <!DOCTYPE html>
+
 <html lang="es">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>TERRA - Usuarios Anima</title>
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+
+        :root {
+
+            --accent-kotarou: #ff6b6b;
+
+            --accent-taichi: #4a9eff;
+
+            --accent-lucy: #ffd93d;
+
+            --accent-shiro: #6bcf7f;
+
+            --accent-uenoyama: #a78bfa;
+
+            --accent-sasaki: #d97fff;
+
+            --accent-usui: #ff8ba7;
+
+            --accent-akane: #5accff;
+
         }
+
+ 
+
+        * {
+
+            margin: 0;
+
+            padding: 0;
+
+            box-sizing: border-box;
+
+        }
+
+ 
 
         body {
+
             font-family: 'Inter', sans-serif;
+
             background: #0a0a0f;
+
             color: #ffffff;
+
             overflow: hidden;
+
             height: 100vh;
+
         }
+
+ 
 
         /* Contenedor principal */
+
         .character-viewer {
+
             width: 100%;
+
             height: 100vh;
+
             position: relative;
+
             display: flex;
+
         }
 
-        /* Navegación lateral con miniaturas y menú */
+ 
+
+        /* Navegación lateral con miniaturas */
+
         .character-nav {
-            width: 140px;
+
+            width: 120px;
+
             height: 100vh;
+
             background: rgba(10, 10, 15, 0.95);
+
             backdrop-filter: blur(20px);
+
             border-right: 1px solid rgba(255, 255, 255, 0.1);
+
             display: flex;
+
             flex-direction: column;
+
             align-items: center;
+
             padding: 30px 15px;
+
             gap: 15px;
+
             z-index: 100;
+
             overflow-y: auto;
+
         }
+
+ 
 
         .nav-logo {
+
             font-family: 'Space Grotesk', sans-serif;
+
             font-size: 1.5rem;
+
             font-weight: 700;
+
             letter-spacing: 3px;
-            margin-bottom: 10px;
+
+            margin-bottom: 20px;
+
             color: rgba(255, 255, 255, 0.9);
+
             text-align: center;
+
         }
 
-        /* Menú de navegación */
-        .nav-menu {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            width: 100%;
-            margin-bottom: 15px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .nav-link {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.7rem;
-            letter-spacing: 1px;
-            color: rgba(255, 255, 255, 0.5);
-            text-decoration: none;
-            text-align: center;
-            padding: 8px 6px;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            background: rgba(255, 255, 255, 0.02);
-            transition: all 0.3s ease;
-            border-radius: 6px;
-        }
-
-        .nav-link:hover,
-        .nav-link.active {
-            color: rgba(255, 255, 255, 0.9);
-            border-color: rgba(255, 255, 255, 0.2);
-            background: rgba(255, 255, 255, 0.08);
-        }
+ 
 
         .character-thumbnail {
+
             width: 70px;
+
             height: 70px;
+
             border-radius: 12px;
+
             background: rgba(30, 30, 40, 0.8);
+
             border: 2px solid rgba(255, 255, 255, 0.2);
+
             cursor: pointer;
+
             transition: all 0.3s ease;
+
             position: relative;
+
             overflow: hidden;
+
         }
+
+ 
 
         .character-thumbnail::before {
+
             content: '';
+
             position: absolute;
+
             top: 0;
+
             left: 0;
+
             width: 100%;
+
             height: 100%;
+
             background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
+
         }
+
+ 
 
         .character-thumbnail:hover {
+
             transform: scale(1.1);
+
             border-color: rgba(255, 255, 255, 0.4);
+
         }
+
+ 
 
         .character-thumbnail.active {
+
             border-width: 3px;
+
             transform: scale(1.15);
+
             box-shadow: 0 0 20px currentColor;
+
         }
+
+ 
 
         /* Área principal del personaje */
+
         .character-display {
+
             flex: 1;
+
             height: 100vh;
+
             position: relative;
+
             overflow: hidden;
+
         }
+
+ 
 
         /* Cards de personajes (fullscreen) */
+
         .character-card {
+
             position: absolute;
+
             top: 0;
+
             left: 0;
+
             width: 100%;
+
             height: 100%;
+
             opacity: 0;
+
             pointer-events: none;
+
             transition: opacity 0.6s ease;
+
             display: flex;
+
         }
+
+ 
 
         .character-card.active {
+
             opacity: 1;
+
             pointer-events: auto;
+
         }
+
+ 
 
         /* Fondo con degradado */
+
         .card-background {
+
             position: absolute;
+
             top: 0;
+
             left: 0;
+
             width: 100%;
+
             height: 100%;
+
             z-index: 1;
+
         }
 
-        /* Panel de información (izquierda) */
+ 
+
+        /* Panel de información (izquierda) - CON SCROLL */
+
         .character-info {
+
             width: 45%;
+
             height: 100%;
+
             padding: 80px 60px;
+
             display: flex;
+
             flex-direction: column;
-            justify-content: center;
+
+            justify-content: flex-start;
+
             position: relative;
+
             z-index: 10;
+
+            overflow-y: auto;
+
+            overflow-x: hidden;
+
         }
+
+ 
+
+        /* Scrollbar personalizado */
+
+        .character-info::-webkit-scrollbar {
+
+            width: 8px;
+
+        }
+
+ 
+
+        .character-info::-webkit-scrollbar-track {
+
+            background: rgba(255, 255, 255, 0.02);
+
+            border-radius: 10px;
+
+        }
+
+ 
+
+        .character-info::-webkit-scrollbar-thumb {
+
+            background: rgba(255, 255, 255, 0.1);
+
+            border-radius: 10px;
+
+        }
+
+ 
+
+        .character-info::-webkit-scrollbar-thumb:hover {
+
+            background: rgba(255, 255, 255, 0.2);
+
+        }
+
+ 
+
+        .info-content {
+
+            padding-top: 40px;
+
+            padding-bottom: 60px;
+
+        }
+
+ 
 
         .character-category {
+
             font-family: 'JetBrains Mono', monospace;
+
             font-size: 0.75rem;
+
             letter-spacing: 3px;
+
             color: rgba(255, 255, 255, 0.5);
+
             margin-bottom: 15px;
+
         }
+
+ 
 
         .character-name {
+
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 4rem;
+
+            font-size: 3.5rem;
+
             font-weight: 700;
+
             letter-spacing: 6px;
+
             line-height: 1.1;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 20px rgba(0, 0, 0, 0.5);
-        }
 
-        .character-name small {
-            display: block;
-            font-size: 1.8rem;
-            opacity: 0.9;
-            font-weight: 600;
-            letter-spacing: 2px;
-            margin-top: 5px;
-        }
-
-        .tags {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
             margin-bottom: 30px;
+
+            text-shadow: 2px 2px 20px rgba(0, 0, 0, 0.5);
+
         }
 
-        .tag {
-            border-radius: 999px;
-            padding: 8px 14px;
+ 
+
+        .character-affiliation {
+
             font-family: 'JetBrains Mono', monospace;
+
             font-size: 0.85rem;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
 
-        .info-description {
-            font-size: 1rem;
-            line-height: 1.8;
-            opacity: 0.9;
-            max-width: 600px;
-            background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-            padding: 18px;
-            border-radius: 10px;
-            border: 1px solid rgba(255,255,255,0.04);
-        }
-
-        .character-footer {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            justify-content: space-between;
-            color: rgba(255, 255, 255, 0.6);
-            margin-top: 20px;
-            font-size: 0.9rem;
-        }
-
-        .character-id {
-            font-family: 'JetBrains Mono', monospace;
             letter-spacing: 2px;
-            font-size: 0.85rem;
+
+            opacity: 0.6;
+
+            margin-bottom: 10px;
+
         }
+
+ 
+
+        .character-iris {
+
+            font-size: 1.1rem;
+
+            font-weight: 600;
+
+            margin-bottom: 25px;
+
+            padding-left: 15px;
+
+            border-left: 3px solid;
+
+        }
+
+ 
+
+        .character-description {
+
+            font-size: 0.95rem;
+
+            line-height: 1.8;
+
+            opacity: 0.85;
+
+            margin-bottom: 35px;
+
+        }
+
+ 
+
+        .abilities-section {
+
+            margin-bottom: 30px;
+
+        }
+
+ 
+
+        .section-title {
+
+            font-family: 'JetBrains Mono', monospace;
+
+            font-size: 0.9rem;
+
+            letter-spacing: 2px;
+
+            margin-bottom: 18px;
+
+            opacity: 0.7;
+
+        }
+
+ 
+
+        .ability {
+
+            background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+
+            padding: 20px;
+
+            border-radius: 10px;
+
+            border: 1px solid rgba(255,255,255,0.06);
+
+            margin-bottom: 15px;
+
+        }
+
+ 
+
+        .ability-name {
+
+            font-family: 'Space Grotesk', sans-serif;
+
+            font-size: 1.1rem;
+
+            font-weight: 600;
+
+            margin-bottom: 10px;
+
+            letter-spacing: 1px;
+
+        }
+
+ 
+
+        .ability-description {
+
+            font-size: 0.9rem;
+
+            line-height: 1.7;
+
+            opacity: 0.85;
+
+        }
+
+ 
+
+        .details-section {
+
+            background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+
+            padding: 18px;
+
+            border-radius: 10px;
+
+            border: 1px solid rgba(255,255,255,0.04);
+
+            margin-bottom: 20px;
+
+        }
+
+ 
+
+        .details-text {
+
+            font-size: 0.9rem;
+
+            line-height: 1.7;
+
+            opacity: 0.8;
+
+        }
+
+ 
+
+        .notes-section {
+
+            font-size: 0.85rem;
+
+            line-height: 1.6;
+
+            opacity: 0.6;
+
+            font-style: italic;
+
+        }
+
+ 
 
         /* Panel de imagen (derecha) */
+
         .character-image {
+
             width: 55%;
+
             height: 100%;
+
             position: relative;
+
             z-index: 5;
+
             display: flex;
+
             align-items: center;
+
             justify-content: center;
+
         }
+
+ 
 
         .image-placeholder {
+
             width: 100%;
+
             height: 100%;
+
             display: flex;
+
             align-items: center;
+
             justify-content: center;
+
             position: relative;
+
             flex-direction: column;
+
         }
+
+ 
 
         .image-placeholder::before {
+
             content: '';
+
             position: absolute;
+
             width: 400px;
+
             height: 400px;
+
             border: 2px solid rgba(255, 255, 255, 0.08);
+
             border-radius: 50%;
+
         }
+
+ 
 
         .placeholder-text {
+
             font-family: 'JetBrains Mono', monospace;
+
             font-size: 0.75rem;
+
             letter-spacing: 2px;
+
             color: rgba(255, 255, 255, 0.2);
+
             z-index: 1;
+
         }
+
+ 
 
         /* Imagen real del personaje */
+
         .character-image img {
+
             max-width: 100%;
+
             max-height: 100%;
+
             object-fit: contain;
+
             filter: drop-shadow(0 20px 60px rgba(0, 0, 0, 0.8));
+
         }
+
+ 
 
         /* Degradados por personaje */
+
         .card-background.kotarou {
+
             background: radial-gradient(800px 350px at 20% 60%, rgba(255,90,90,0.08), transparent 15%),
+
                         linear-gradient(135deg, #1a0f0f 0%, #2d1515 25%, #3d1a1a 50%, #1f1010 75%, #0a0a0f 100%);
+
         }
+
+ 
 
         .card-background.taichi {
+
             background: radial-gradient(700px 350px at 80% 20%, rgba(90,143,255,0.07), transparent 12%),
+
                         linear-gradient(135deg, #0f141a 0%, #15202d 25%, #1a2a3d 50%, #10161f 75%, #0a0a0f 100%);
+
         }
+
+ 
 
         .card-background.lucy {
+
             background: linear-gradient(135deg, #1a1a0f 0%, #2d2815 25%, #3d3520 50%, #1f1910 75%, #0a0a0f 100%);
+
         }
+
+ 
 
         .card-background.shiro {
+
             background: linear-gradient(135deg, #0f1a14 0%, #15291f 25%, #1a3d2a 50%, #101f16 75%, #0a0a0f 100%);
+
         }
+
+ 
 
         .card-background.uenoyama {
+
             background: linear-gradient(135deg, #14141a 0%, #20202d 25%, #2a2a3d 50%, #16161f 75%, #0a0a0f 100%);
+
         }
+
+ 
 
         .card-background.sasaki {
+
             background: linear-gradient(135deg, #1a141a 0%, #2d202d 25%, #3d2a3d 50%, #1f161f 75%, #0a0a0f 100%);
+
         }
+
+ 
 
         .card-background.usui {
+
             background: radial-gradient(700px 350px at 30% 30%, rgba(255,51,51,0.1), transparent 12%),
+
                         linear-gradient(135deg, #1a0f14 0%, #2d1520 25%, #3d1a2a 50%, #1f1016 75%, #0a0a0f 100%);
+
         }
+
+ 
+
+        .card-background.akane {
+
+            background: radial-gradient(700px 350px at 50% 50%, rgba(90,204,255,0.06), transparent 12%),
+
+                        linear-gradient(135deg, #0f1418 0%, #152025 25%, #1a2a30 50%, #101618 75%, #0a0a0f 100%);
+
+        }
+
+ 
 
         /* Colores de acento por personaje */
+
         .character-card[data-character="kotarou"] .character-name,
-        .character-card[data-character="kotarou"] .character-category,
-        .character-card[data-character="kotarou"] .tag {
-            color: #ff6b6b;
-            border-color: #ff6b6b;
+
+        .character-card[data-character="kotarou"] .character-iris,
+
+        .character-card[data-character="kotarou"] .ability-name {
+
+            color: var(--accent-kotarou);
+
+            border-color: var(--accent-kotarou);
+
         }
+
         .character-thumbnail[data-character="kotarou"] {
-            border-color: #ff6b6b;
-            color: #ff6b6b;
+
+            border-color: var(--accent-kotarou);
+
+            color: var(--accent-kotarou);
+
         }
+
+ 
 
         .character-card[data-character="taichi"] .character-name,
-        .character-card[data-character="taichi"] .character-category,
-        .character-card[data-character="taichi"] .tag {
-            color: #4a9eff;
-            border-color: #4a9eff;
+
+        .character-card[data-character="taichi"] .character-iris,
+
+        .character-card[data-character="taichi"] .ability-name {
+
+            color: var(--accent-taichi);
+
+            border-color: var(--accent-taichi);
+
         }
+
         .character-thumbnail[data-character="taichi"] {
-            border-color: #4a9eff;
-            color: #4a9eff;
+
+            border-color: var(--accent-taichi);
+
+            color: var(--accent-taichi);
+
         }
+
+ 
 
         .character-card[data-character="lucy"] .character-name,
-        .character-card[data-character="lucy"] .character-category,
-        .character-card[data-character="lucy"] .tag {
-            color: #ffd93d;
-            border-color: #ffd93d;
+
+        .character-card[data-character="lucy"] .character-iris,
+
+        .character-card[data-character="lucy"] .ability-name {
+
+            color: var(--accent-lucy);
+
+            border-color: var(--accent-lucy);
+
         }
+
         .character-thumbnail[data-character="lucy"] {
-            border-color: #ffd93d;
-            color: #ffd93d;
+
+            border-color: var(--accent-lucy);
+
+            color: var(--accent-lucy);
+
         }
+
+ 
 
         .character-card[data-character="shiro"] .character-name,
-        .character-card[data-character="shiro"] .character-category,
-        .character-card[data-character="shiro"] .tag {
-            color: #6bcf7f;
-            border-color: #6bcf7f;
+
+        .character-card[data-character="shiro"] .character-iris,
+
+        .character-card[data-character="shiro"] .ability-name {
+
+            color: var(--accent-shiro);
+
+            border-color: var(--accent-shiro);
+
         }
+
         .character-thumbnail[data-character="shiro"] {
-            border-color: #6bcf7f;
-            color: #6bcf7f;
+
+            border-color: var(--accent-shiro);
+
+            color: var(--accent-shiro);
+
         }
+
+ 
 
         .character-card[data-character="uenoyama"] .character-name,
-        .character-card[data-character="uenoyama"] .character-category,
-        .character-card[data-character="uenoyama"] .tag {
-            color: #a78bfa;
-            border-color: #a78bfa;
+
+        .character-card[data-character="uenoyama"] .character-iris,
+
+        .character-card[data-character="uenoyama"] .ability-name {
+
+            color: var(--accent-uenoyama);
+
+            border-color: var(--accent-uenoyama);
+
         }
+
         .character-thumbnail[data-character="uenoyama"] {
-            border-color: #a78bfa;
-            color: #a78bfa;
+
+            border-color: var(--accent-uenoyama);
+
+            color: var(--accent-uenoyama);
+
         }
+
+ 
 
         .character-card[data-character="sasaki"] .character-name,
-        .character-card[data-character="sasaki"] .character-category,
-        .character-card[data-character="sasaki"] .tag {
-            color: #d97fff;
-            border-color: #d97fff;
+
+        .character-card[data-character="sasaki"] .character-iris,
+
+        .character-card[data-character="sasaki"] .ability-name {
+
+            color: var(--accent-sasaki);
+
+            border-color: var(--accent-sasaki);
+
         }
+
         .character-thumbnail[data-character="sasaki"] {
-            border-color: #d97fff;
-            color: #d97fff;
+
+            border-color: var(--accent-sasaki);
+
+            color: var(--accent-sasaki);
+
         }
+
+ 
 
         .character-card[data-character="usui"] .character-name,
-        .character-card[data-character="usui"] .character-category,
-        .character-card[data-character="usui"] .tag {
-            color: #ff8ba7;
-            border-color: #ff8ba7;
-        }
-        .character-thumbnail[data-character="usui"] {
-            border-color: #ff8ba7;
-            color: #ff8ba7;
+
+        .character-card[data-character="usui"] .character-iris,
+
+        .character-card[data-character="usui"] .ability-name {
+
+            color: var(--accent-usui);
+
+            border-color: var(--accent-usui);
+
         }
 
-        /* Navegación con flechas - REUBICADAS en la parte superior */
-        .nav-arrows {
-            position: absolute;
-            top: 30px;
-            right: 30px;
-            display: flex;
-            gap: 12px;
-            z-index: 50;
+        .character-thumbnail[data-character="usui"] {
+
+            border-color: var(--accent-usui);
+
+            color: var(--accent-usui);
+
         }
+
+ 
+
+        .character-card[data-character="akane"] .character-name,
+
+        .character-card[data-character="akane"] .character-iris,
+
+        .character-card[data-character="akane"] .ability-name {
+
+            color: var(--accent-akane);
+
+            border-color: var(--accent-akane);
+
+        }
+
+        .character-thumbnail[data-character="akane"] {
+
+            border-color: var(--accent-akane);
+
+            color: var(--accent-akane);
+
+        }
+
+ 
+
+        /* Navegación con flechas */
+
+        .nav-arrows {
+
+            position: absolute;
+
+            top: 30px;
+
+            right: 30px;
+
+            display: flex;
+
+            gap: 12px;
+
+            z-index: 50;
+
+        }
+
+ 
 
         .nav-arrow {
+
             width: 45px;
+
             height: 45px;
+
             background: rgba(255, 255, 255, 0.08);
+
             border: 1px solid rgba(255, 255, 255, 0.15);
+
             border-radius: 50%;
+
             display: flex;
+
             align-items: center;
+
             justify-content: center;
+
             cursor: pointer;
+
             transition: all 0.3s ease;
+
             font-size: 1.3rem;
+
             color: rgba(255, 255, 255, 0.6);
+
         }
+
+ 
 
         .nav-arrow:hover {
+
             background: rgba(255, 255, 255, 0.15);
+
             color: rgba(255, 255, 255, 0.95);
+
             transform: scale(1.05);
+
         }
+
+ 
 
         /* Separador visual */
+
         .section-divider {
+
             width: 30px;
+
             height: 2px;
+
             background: rgba(255, 255, 255, 0.2);
+
             margin: 10px 0;
+
         }
+
+ 
 
         /* Responsive */
+
         @media (max-width: 1024px) {
+
             .character-info {
+
                 width: 100%;
+
                 padding: 60px 40px;
+
             }
+
+ 
 
             .character-image {
+
                 display: none;
+
             }
 
+ 
+
             .character-name {
+
                 font-size: 3rem;
+
             }
+
         }
+
+ 
 
         @media (max-width: 768px) {
+
             .character-nav {
+
                 width: 80px;
+
                 padding: 20px 10px;
+
             }
+
+ 
 
             .character-thumbnail {
+
                 width: 50px;
+
                 height: 50px;
+
             }
+
+ 
 
             .nav-logo {
+
                 font-size: 1.2rem;
+
             }
+
+ 
 
             .character-name {
+
                 font-size: 2.5rem;
+
             }
+
+ 
 
             .nav-arrows {
+
                 top: 15px;
+
                 right: 15px;
+
             }
+
+ 
 
             .nav-arrow {
+
                 width: 38px;
+
                 height: 38px;
+
                 font-size: 1.1rem;
+
             }
 
-            .nav-menu {
-                display: none;
-            }
         }
+
     </style>
+
 </head>
+
 <body>
+
     <div class="character-viewer">
+
         <!-- Navegación lateral -->
+
         <div class="character-nav">
+
             <div class="nav-logo">TERRA</div>
 
-            <!-- Menú de navegación -->
-            <nav class="nav-menu">
-                <a href="#" class="nav-link">INICIO</a>
-                <a href="#" class="nav-link active">PERSONAJES</a>
-                <a href="#" class="nav-link">HISTORIA</a>
-                <a href="#" class="nav-link">MUNDO</a>
-            </nav>
-
             <div class="section-divider"></div>
+
+ 
 
             <!-- Miniaturas de personajes -->
+
             <div class="character-thumbnail active" data-character="kotarou" onclick="showCharacter('kotarou')">
+
                 <div style="display: flex; align-items: center; justify-content: center; height: 100%; font-size: 0.8rem; font-weight: 600;">K</div>
+
             </div>
+
+ 
 
             <div class="character-thumbnail" data-character="taichi" onclick="showCharacter('taichi')">
+
                 <div style="display: flex; align-items: center; justify-content: center; height: 100%; font-size: 0.8rem; font-weight: 600;">T</div>
+
             </div>
+
+ 
 
             <div class="character-thumbnail" data-character="lucy" onclick="showCharacter('lucy')">
+
                 <div style="display: flex; align-items: center; justify-content: center; height: 100%; font-size: 0.8rem; font-weight: 600;">L</div>
+
             </div>
+
+ 
 
             <div class="character-thumbnail" data-character="shiro" onclick="showCharacter('shiro')">
+
                 <div style="display: flex; align-items: center; justify-content: center; height: 100%; font-size: 0.8rem; font-weight: 600;">S</div>
+
             </div>
 
+ 
+
             <div class="character-thumbnail" data-character="uenoyama" onclick="showCharacter('uenoyama')">
+
                 <div style="display: flex; align-items: center; justify-content: center; height: 100%; font-size: 0.8rem; font-weight: 600;">U</div>
+
             </div>
+
+ 
 
             <div class="section-divider"></div>
 
+ 
+
             <div class="character-thumbnail" data-character="sasaki" onclick="showCharacter('sasaki')">
+
                 <div style="display: flex; align-items: center; justify-content: center; height: 100%; font-size: 0.7rem; font-weight: 600;">SA</div>
+
             </div>
+
+ 
 
             <div class="character-thumbnail" data-character="usui" onclick="showCharacter('usui')">
+
                 <div style="display: flex; align-items: center; justify-content: center; height: 100%; font-size: 0.7rem; font-weight: 600;">US</div>
+
             </div>
+
+ 
+
+            <div class="character-thumbnail" data-character="akane" onclick="showCharacter('akane')">
+
+                <div style="display: flex; align-items: center; justify-content: center; height: 100%; font-size: 0.7rem; font-weight: 600;">AK</div>
+
+            </div>
+
         </div>
+
+ 
 
         <!-- Área de visualización del personaje -->
-        <div class="character-display">
-            <!-- Flechas de navegación - REUBICADAS arriba a la derecha -->
+
+        <div class="character-display" id="characterDisplay">
+
+            <!-- Flechas de navegación -->
+
             <div class="nav-arrows">
+
                 <div class="nav-arrow" onclick="navigateCharacter(-1)">‹</div>
+
                 <div class="nav-arrow" onclick="navigateCharacter(1)">›</div>
+
             </div>
 
-            <!-- KOTAROU -->
-            <div class="character-card active" data-character="kotarou">
-                <div class="card-background kotarou"></div>
+ 
 
-                <div class="character-info">
-                    <div class="character-category">USUARIO ANIMA // TERRA</div>
-                    <div class="character-name">KIRIGAYA <small>KOTAROU</small></div>
+            <!-- Los personajes se generarán dinámicamente con JavaScript -->
 
-                    <div class="tags">
-                        <div class="tag">Control</div>
-                        <div class="tag">Contención</div>
-                    </div>
-
-                    <div class="info-description">
-                        <strong>Control</strong> manipula la energía de objetos para moverlos y alterar su masa/gravedad.
-                        <br><br>
-                        <strong>Contención</strong> libera energía almacenada para aumentar capacidades físicas y mentales; requiere daño físico para activarse.
-                    </div>
-
-                    <div class="character-footer">
-                        <div style="font-weight:700">KOTAROU</div>
-                        <div class="character-id">UA-001</div>
-                    </div>
-                </div>
-
-                <div class="character-image">
-                    <div class="image-placeholder">
-                        <span class="placeholder-text">ILUSTRACIÓN DEL PERSONAJE</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- TAICHI -->
-            <div class="character-card" data-character="taichi">
-                <div class="card-background taichi"></div>
-
-                <div class="character-info">
-                    <div class="character-category">LÍDER // AGENCIA ADE</div>
-                    <div class="character-name">NATSUME <small>TAICHI</small></div>
-
-                    <div class="tags">
-                        <div class="tag">Torrente del Juicio</div>
-                        <div class="tag">Rocío de Gracia</div>
-                    </div>
-
-                    <div class="info-description">
-                        <strong>Torrente del Juicio</strong> manifiesta energía vital en torrentes de agua moldeables en armas blancas.
-                        <br><br>
-                        <strong>Rocío de Gracia</strong> herramienta curativa limitada que requiere daño grave para activarse.
-                    </div>
-
-                    <div class="character-footer">
-                        <div style="font-weight:700">TAICHI</div>
-                        <div class="character-id">UA-002</div>
-                    </div>
-                </div>
-
-                <div class="character-image">
-                    <div class="image-placeholder">
-                        <span class="placeholder-text">ILUSTRACIÓN DEL PERSONAJE</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- LUCY -->
-            <div class="character-card" data-character="lucy">
-                <div class="card-background lucy"></div>
-
-                <div class="character-info">
-                    <div class="character-category">USUARIO ANIMA // TERRA</div>
-                    <div class="character-name">LUCY</div>
-
-                    <div class="tags">
-                        <div class="tag">Luz Inalcanzable</div>
-                        <div class="tag">Tejedora de Luz</div>
-                    </div>
-
-                    <div class="info-description">
-                        <strong>Luz Inalcanzable</strong> genera energía cinética para aumentar velocidad exponencialmente.
-                        <br><br>
-                        <strong>Tejedora de Luz</strong> revitaliza vegetación usando energía acumulada.
-                    </div>
-
-                    <div class="character-footer">
-                        <div style="font-weight:700">LUCY</div>
-                        <div class="character-id">UA-003</div>
-                    </div>
-                </div>
-
-                <div class="character-image">
-                    <div class="image-placeholder">
-                        <span class="placeholder-text">ILUSTRACIÓN DEL PERSONAJE</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- SHIRO -->
-            <div class="character-card" data-character="shiro">
-                <div class="card-background shiro"></div>
-
-                <div class="character-info">
-                    <div class="character-category">USUARIO ANIMA // TERRA</div>
-                    <div class="character-name">SHIRO</div>
-
-                    <div class="tags">
-                        <div class="tag">Petrificación</div>
-                        <div class="tag">Transmutación</div>
-                    </div>
-
-                    <div class="info-description">
-                        <strong>Petrificación</strong> endurece la piel en metal/roca.
-                        <br><br>
-                        <strong>Transmutación</strong> crea armas pesadas con materiales absorbidos.
-                    </div>
-
-                    <div class="character-footer">
-                        <div style="font-weight:700">SHIRO</div>
-                        <div class="character-id">UA-004</div>
-                    </div>
-                </div>
-
-                <div class="character-image">
-                    <div class="image-placeholder">
-                        <span class="placeholder-text">ILUSTRACIÓN DEL PERSONAJE</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- UENOYAMA -->
-            <div class="character-card" data-character="uenoyama">
-                <div class="card-background uenoyama"></div>
-
-                <div class="character-info">
-                    <div class="character-category">USUARIO ANIMA // TERRA</div>
-                    <div class="character-name">UENOYAMA <small>RINGO</small></div>
-
-                    <div class="tags">
-                        <div class="tag">Génesis Helada</div>
-                        <div class="tag">Estasis Perpetua</div>
-                    </div>
-
-                    <div class="info-description">
-                        <strong>Génesis Helada</strong> materializa hielo y estructuras sólidas.
-                        <br><br>
-                        <strong>Estasis Perpetua</strong> congela áreas y objetos, creando sellos que pueden ser rotos por habilidades Mentem.
-                    </div>
-
-                    <div class="character-footer">
-                        <div style="font-weight:700">UENOYAMA</div>
-                        <div class="character-id">UA-005</div>
-                    </div>
-                </div>
-
-                <div class="character-image">
-                    <div class="image-placeholder">
-                        <span class="placeholder-text">ILUSTRACIÓN DEL PERSONAJE</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- SASAKI -->
-            <div class="character-card" data-character="sasaki">
-                <div class="card-background sasaki"></div>
-
-                <div class="character-info">
-                    <div class="character-category">USUARIO INDEPENDIENTE</div>
-                    <div class="character-name">SASAKI</div>
-
-                    <div class="tags">
-                        <div class="tag">Contrapunto</div>
-                        <div class="tag">Crescendo</div>
-                    </div>
-
-                    <div class="info-description">
-                        <strong>Contrapunto</strong> contraataca poderes enemigos.
-                        <br><br>
-                        <strong>Crescendo</strong> potencia habilidades aliadas. Requiere conocer previamente el poder del objetivo.
-                    </div>
-
-                    <div class="character-footer">
-                        <div style="font-weight:700">SASAKI</div>
-                        <div class="character-id">UI-001</div>
-                    </div>
-                </div>
-
-                <div class="character-image">
-                    <div class="image-placeholder">
-                        <span class="placeholder-text">ILUSTRACIÓN DEL PERSONAJE</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- USUI -->
-            <div class="character-card" data-character="usui">
-                <div class="card-background usui"></div>
-
-                <div class="character-info">
-                    <div class="character-category">LÍDER // SHINIGAMI TENSEI</div>
-                    <div class="character-name">USUI</div>
-
-                    <div class="tags">
-                        <div class="tag">Combustión</div>
-                        <div class="tag">Consanguíneo</div>
-                    </div>
-
-                    <div class="info-description">
-                        <strong>Combustión</strong> usa su sangre como combustible para aumentar capacidades físicas y crear armas ígneas.
-                        <br><br>
-                        <strong>Consanguíneo</strong> comparte su poder mediante transmisión sanguínea con aliados considerados "dignos".
-                    </div>
-
-                    <div class="character-footer">
-                        <div style="font-weight:700">USUI</div>
-                        <div class="character-id">ST-001</div>
-                    </div>
-                </div>
-
-                <div class="character-image">
-                    <div class="image-placeholder">
-                        <span class="placeholder-text">ILUSTRACIÓN DEL PERSONAJE</span>
-                    </div>
-                </div>
-            </div>
         </div>
+
     </div>
 
+ 
+
     <script>
-        const characters = ['kotarou', 'taichi', 'lucy', 'shiro', 'uenoyama', 'sasaki', 'usui'];
+
+        const charactersData = {
+
+            kotarou: {
+
+                name: 'KIRIGAYA KOTAROU',
+
+                role: 'ESTRATEGA DE CAMPO • AGENCIA ADE',
+
+                affiliation: 'AGENCIA DE DETECTIVES EXORCISTAS',
+
+                iris: 'SOL DE LA VERDAD',
+
+                color: 'var(--accent-kotarou)',
+
+                description: 'Especialista en manipulación energética con enfoque estratégico. Su capacidad para controlar la gravedad de objetos le permite redefinir el campo de batalla. Trabaja en estrecha coordinación con Taichi como el cerebro táctico del equipo.',
+
+                abilities: [
+
+                    {
+
+                        name: 'CONTROL',
+
+                        description: 'Absorbe energía del exterior para canalizarla en objetos, permitiendo su manipulación remota y alteración de masa. Puede manejar múltiples objetivos simultáneamente.'
+
+                    },
+
+                    {
+
+                        name: 'CONTENCIÓN',
+
+                        description: 'Libera energía almacenada para aumentar drásticamente sus capacidades físicas y perceptivas. Requiere activación mediante daño físico (sangre) y puede causar anemia por uso excesivo.'
+
+                    }
+
+                ],
+
+                details: 'Su Iris "Sol de la Verdad" le permite ver a través de ilusiones y falsedades. Físicamente interactuar con la realidad potencia este efecto. Puede otorgar cuerpo físico a almas errantes si tiene sus recuerdos.',
+
+                notes: 'Coordinación preferida con Taichi. Requiere superficies sólidas para manipulación óptima. Su capacidad de sellado es superior debido a la conexión solar.'
+
+            },
+
+            taichi: {
+
+                name: 'NATSUME TAICHI',
+
+                role: 'LÍDER DE OPERACIONES • AGENCIA ADE',
+
+                affiliation: 'AGENCIA DE DETECTIVES EXORCISTAS',
+
+                iris: 'LUNA DE DESINTEGRACIÓN',
+
+                color: 'var(--accent-taichi)',
+
+                description: 'Líder del sector de combate y primer exorcista usuario de técnica formado en la ADE. Su enfoque directo y habilidades de combate versátiles lo convierten en el pilar ofensivo del equipo. Especializado en combate cuerpo a cuerpo con armamento acuático.',
+
+                abilities: [
+
+                    {
+
+                        name: 'TORRENTE DEL JUICIO',
+
+                        description: 'Manifiesta y compacta energía vital en torrentes de agua moldeables en armas blancas (espadas, dagas, cuchillas). El filo y precisión aumentan con energía Anima física.'
+
+                    },
+
+                    {
+
+                        name: 'ROCÍO DE GRACIA',
+
+                        description: 'Herramienta curativa limitada que requiere daño grave para activarse. No puede curar a la misma persona dos veces consecutivas y no tiene capacidad de resurrección.'
+
+                    }
+
+                ],
+
+                details: 'Su Iris "Luna de Desintegración" está siempre activo y puede destruir cualquier cosa etérea (fantasmas, maldiciones, almas). Si no se mantiene sellado, absorbe vitalidad de seres cercanos con el tiempo.',
+
+                notes: 'Usa guantes negros cuando sus sellos están rotos. Su poder destructivo escala con su deseo de "tocar y ver el alma". Coordinación principal con Kotarou.'
+
+            },
+
+            lucy: {
+
+                name: 'LUCY',
+
+                role: 'ASALTA VELOZ • AGENCIA ADE',
+
+                affiliation: 'AGENCIA DE DETECTIVES EXORCISTAS',
+
+                iris: 'NO APLICA',
+
+                color: 'var(--accent-lucy)',
+
+                description: 'Especialista en movilidad ultrarrápida y ataques sorpresa. Encontrada junto a su hermana Shiro en circunstancias especiales, fue reclutada personalmente por Taichi. Una de las usuarias más veloces registradas en la agencia.',
+
+                abilities: [
+
+                    {
+
+                        name: 'LUZ INALCANZABLE',
+
+                        description: 'Genera energía cinética moldeando el flujo energético contra su posición actual. Duplica su velocidad normal, aumentando exponencialmente con la fricción contra energía externa.'
+
+                    },
+
+                    {
+
+                        name: 'TEJEDORA DE LUZ',
+
+                        description: 'Comparte energía acumulada desde la fricción al entorno, afectando vegetación y acelerando su crecimiento. Requiere haber usado previamente Luz Inalcanzable.'
+
+                    }
+
+                ],
+
+                details: 'Usuaria Corporis con conexión solar secundaria (no tan alta como Kotarou). Equipada con prótesis especializadas que acumulan energía para golpes de alta velocidad y fuerza.',
+
+                notes: 'Hermana gemela de Shiro. Velocidad máxima registrada: Mach 2.3. Mejora coordinación cuando trabaja con su hermana.'
+
+            },
+
+            shiro: {
+
+                name: 'SHIRO',
+
+                role: 'TANQUE OFENSIVO • AGENCIA ADE',
+
+                affiliation: 'AGENCIA DE DETECTIVES EXORCISTAS',
+
+                iris: 'NO APLICA',
+
+                color: 'var(--accent-shiro)',
+
+                description: 'Especialista en defensa y combate de alto impacto. Complementa perfectamente el estilo de combate de su hermana Lucy, proporcionando la fuerza bruta y resistencia que su hermana intercambia por velocidad. Encontrada en las mismas circunstancias especiales.',
+
+                abilities: [
+
+                    {
+
+                        name: 'PETRIFICACIÓN',
+
+                        description: 'Dirige energía Anima potencial hacia su interior, endureciendo su piel en materiales como metal y roca. Aumenta fuerza física y cambia fisiología celular temporalmente.'
+
+                    },
+
+                    {
+
+                        name: 'TRANSMUTACIÓN',
+
+                        description: 'Usa energía acumulada en combates para crear armas pesadas (espadones, hachas, lanzas). Requiere haber absorbido materiales previamente mediante impactos.'
+
+                    }
+
+                ],
+
+                details: 'Usuaria Corporis. Su velocidad disminuye al cambiar su fisiología celular. Lucy la ayuda proporcionando energía cinética para compactar armas más eficientemente.',
+
+                notes: 'Hermana gemela de Lucy. Su objeto vinculante está almacenado en las instalaciones de la ADE. Mejor rendimiento en combates prolongados.'
+
+            },
+
+            uenoyama: {
+
+                name: 'UENOYAMA RINGO',
+
+                role: 'ESPECIALISTA EN CONTROL • AGENCIA ADE',
+
+                affiliation: 'AGENCIA DE DETECTIVES EXORCISTAS',
+
+                iris: 'NO APLICA',
+
+                color: 'var(--accent-uenoyama)',
+
+                description: 'Especialista en control criogénico y una de las pocas usuarias bajo la categoría Mentem en la ADE. Aunque formalmente asignada al sector de combate, pasa más tiempo en investigación como mano derecha de Akane. Su precisión es legendaria.',
+
+                abilities: [
+
+                    {
+
+                        name: 'GÉNESIS HELADA',
+
+                        description: 'Materializa escarcha, hielo y estructuras sólidas usando energía Anima en estado cinético. Más efectivo en ambientes con vapor o humedad elevada.'
+
+                    },
+
+                    {
+
+                        name: 'ESTASIS PERPETUA',
+
+                        description: 'Transforma energía cinética en potencial, creando campos de congelación que ralentizan o inmovilizan objetivos. Puede generar sellos de hielo.'
+
+                    }
+
+                ],
+
+                details: 'Usuaria Mentem con habilidades psicoquinéticas (puede mover armas de cristalización con la mente). Objeto vinculante: una pipa antigua. Resistente a temperaturas extremadamente bajas.',
+
+                notes: 'Los sellos de hielo solo pueden ser rotos por habilidades Mentem. Pasa 70% de su tiempo en sector de investigación. Coordinación preferida con Akane.'
+
+            },
+
+            sasaki: {
+
+                name: 'SASAKI',
+
+                role: 'USUARIA ANIMA INDEPENDIENTE',
+
+                affiliation: 'OPERATIVA INDEPENDIENTE',
+
+                iris: 'ARMONÍA DEL VACÍO',
+
+                color: 'var(--accent-sasaki)',
+
+                description: 'Poseedora de habilidades musicales únicas heredadas de su padre. Opera de forma independiente pero mantiene contactos estratégicos con la ADE. Su enfoque basado en resonancias y contrapuntos la hace invaluable para operaciones específicas.',
+
+                abilities: [
+
+                    {
+
+                        name: 'CONTRAPUNTO',
+
+                        description: 'Libera energía vital hacia usuarios dentro de su rango (25m), manipulando sus poderes y usándolos en su contra. No puede potenciarse a sí misma mientras usa esta habilidad.'
+
+                    },
+
+                    {
+
+                        name: 'CRESCENDO',
+
+                        description: 'Potencia la energía de ella y usuarios aliados dentro de su rango, aumentando sus capacidades al límite. Requiere haber analizado previamente el poder del objetivo.'
+
+                    }
+
+                ],
+
+                details: 'Su Iris "Armonía del Vacío" usa música para entrar en mentes y ver deseos/recuerdos profundos. Puede otorgar cuerpos a almas errantes y controlar espectros mediante su sinfonía.',
+
+                notes: 'Heredó el Iris de categoría Sol de su padre. Puede sellar el Iris de Taichi temporalmente. Activar su Iris requiere instrumentos musicales u objetos relacionados con sonido.'
+
+            },
+
+            usui: {
+
+                name: 'USUI',
+
+                role: 'LÍDER DE SHINIGAMI TENSEI',
+
+                affiliation: 'SHINIGAMI TENSEI',
+
+                iris: 'NO APLICA',
+
+                color: 'var(--accent-usui)',
+
+                description: 'Líder carismático de la organización paralela Shinigami Tensei. Aunque sus métodos y filosofía difieren de la ADE, comparte el objetivo fundamental de protección contra amenazas sobrenaturales. Prefiere el combate estratégico sobre el confrontamiento directo.',
+
+                abilities: [
+
+                    {
+
+                        name: 'COMBUSTIÓN',
+
+                        description: 'Usa su sangre como combustible para aumentar capacidades físicas (fuerza, agilidad, velocidad) y crear armas ígneas. Consume su propia vitalidad, representando una desventaja táctica.'
+
+                    },
+
+                    {
+
+                        name: 'CONSANGUÍNEO',
+
+                        description: 'Comparte su poder mediante transmisión sanguínea con aliados considerados "dignos". Le permite monitorear el estado vital y uso de energía de todos vinculados.'
+
+                    }
+
+                ],
+
+                details: 'No se mantiene constantemente en campo de batalla, prefiriendo armas convencionales o tácticas estratégicas. Objeto vinculante: moneda de oro de la era Heian.',
+
+                notes: 'Puede rastrear el estado de todos vinculados a él. Su organización opera bajo principios diferentes pero complementarios a la ADE. Experiencia en combate: 12+ años.'
+
+            },
+
+            akane: {
+
+                name: 'AKANE NATSUME',
+
+                role: 'DIRECTOR Y FUNDADOR • AGENCIA ADE',
+
+                affiliation: 'AGENCIA DE DETECTIVES EXORCISTAS',
+
+                iris: 'NO APLICA',
+
+                color: 'var(--accent-akane)',
+
+                description: 'Fundador, director y estratega principal de la Agencia ADE. Su conocimiento enciclopédico del mundo sobrenatural es incomparable. Aunque no participa activamente en combates, su capacidad de sellado y estrategia definen cada operación importante.',
+
+                abilities: [
+
+                    {
+
+                        name: 'MARCA PERPETUA',
+
+                        description: 'Sella o marca a otros usuarios de habilidad, neutralizando y conteniendo su poder temporalmente. Puede aumentar la duración mediante vínculos alma-objeto.'
+
+                    },
+
+                    {
+
+                        name: 'ALMA DE MUÑECO',
+
+                        description: 'Introduce su energía vital en objetos/cuerpos sin alma, poseyéndolos y compartiendo mente, habilidades y recuerdos. Útil para espionaje y creación de recipientes.'
+
+                    }
+
+                ],
+
+                details: 'Puede crear "cortinas" protectoras alrededor de lugares que considera su dominio (como la agencia), impidiendo entrada a quimeras y fantasmas. Esta capacidad se refuerza por la naturaleza de su técnica.',
+
+                notes: 'Fundador de la ADE. Pasa 90% del tiempo en su oficina o sector de investigación. Si no recupera su energía vital a tiempo tras usar Alma de Muñeco, puede crear almas errantes o quimeras.'
+
+            }
+
+        };
+
+ 
+
+        const characters = ['kotarou', 'taichi', 'lucy', 'shiro', 'uenoyama', 'sasaki', 'usui', 'akane'];
+
         let currentIndex = 0;
 
+ 
+
+        // Generar HTML para cada personaje
+
+        function generateCharacterCard(charId, data) {
+
+            const abilitiesHTML = data.abilities.map(ability => `
+
+                <div class="ability">
+
+                    <div class="ability-name">${ability.name}</div>
+
+                    <div class="ability-description">${ability.description}</div>
+
+                </div>
+
+            `).join('');
+
+ 
+
+            return `
+
+                <div class="character-card ${charId === 'kotarou' ? 'active' : ''}" data-character="${charId}">
+
+                    <div class="card-background ${charId}"></div>
+
+ 
+
+                    <div class="character-info">
+
+                        <div class="info-content">
+
+                            <div class="character-category">${data.role}</div>
+
+                            <div class="character-name">${data.name}</div>
+
+                            <div class="character-affiliation">${data.affiliation}</div>
+
+                            <div class="character-iris">IRIS: ${data.iris}</div>
+
+ 
+
+                            <div class="character-description">${data.description}</div>
+
+ 
+
+                            <div class="abilities-section">
+
+                                <div class="section-title">HABILIDADES</div>
+
+                                ${abilitiesHTML}
+
+                            </div>
+
+ 
+
+                            <div class="details-section">
+
+                                <div class="details-text">${data.details}</div>
+
+                            </div>
+
+ 
+
+                            <div class="notes-section">${data.notes}</div>
+
+                        </div>
+
+                    </div>
+
+ 
+
+                    <div class="character-image">
+
+                        <div class="image-placeholder">
+
+                            <span class="placeholder-text">ILUSTRACIÓN DEL PERSONAJE</span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }
+
+ 
+
+        // Inicializar personajes
+
+        const displayContainer = document.getElementById('characterDisplay');
+
+        characters.forEach(charId => {
+
+            displayContainer.innerHTML += generateCharacterCard(charId, charactersData[charId]);
+
+        });
+
+ 
+
         function showCharacter(characterId) {
+
             // Remover active de todas las cards y thumbnails
+
             document.querySelectorAll('.character-card').forEach(card => {
+
                 card.classList.remove('active');
+
             });
+
             document.querySelectorAll('.character-thumbnail').forEach(thumb => {
+
                 thumb.classList.remove('active');
+
             });
+
+ 
 
             // Activar la card y thumbnail seleccionada
+
             document.querySelector(`.character-card[data-character="${characterId}"]`).classList.add('active');
+
             document.querySelector(`.character-thumbnail[data-character="${characterId}"]`).classList.add('active');
 
+ 
+
+            // Scroll al inicio del contenido
+
+            const activeCard = document.querySelector(`.character-card[data-character="${characterId}"]`);
+
+            const infoPanel = activeCard.querySelector('.character-info');
+
+            if (infoPanel) {
+
+                infoPanel.scrollTop = 0;
+
+            }
+
+ 
+
             // Actualizar índice actual
+
             currentIndex = characters.indexOf(characterId);
+
         }
+
+ 
 
         function navigateCharacter(direction) {
+
             currentIndex += direction;
 
+ 
+
             // Loop: si llega al final, vuelve al inicio y viceversa
+
             if (currentIndex >= characters.length) {
+
                 currentIndex = 0;
+
             } else if (currentIndex < 0) {
+
                 currentIndex = characters.length - 1;
+
             }
+
+ 
 
             showCharacter(characters[currentIndex]);
+
         }
 
+ 
+
         // Navegación con teclado
+
         document.addEventListener('keydown', (e) => {
+
             if (e.key === 'ArrowLeft') {
+
                 navigateCharacter(-1);
+
             } else if (e.key === 'ArrowRight') {
+
                 navigateCharacter(1);
+
             }
+
         });
+
+ 
+
+        // Navegación con rueda del mouse (scroll horizontal)
+
+        let scrollTimeout;
+
+        document.addEventListener('wheel', (e) => {
+
+            // Solo navegar si no estamos haciendo scroll dentro del panel de información
+
+            const activeInfo = document.querySelector('.character-card.active .character-info');
+
+            if (!activeInfo || !activeInfo.contains(e.target)) {
+
+                clearTimeout(scrollTimeout);
+
+                scrollTimeout = setTimeout(() => {
+
+                    if (e.deltaY > 0) {
+
+                        navigateCharacter(1);
+
+                    } else if (e.deltaY < 0) {
+
+                        navigateCharacter(-1);
+
+                    }
+
+                }, 50);
+
+            }
+
+        }, { passive: true });
+
     </script>
+
 </body>
 </html>
