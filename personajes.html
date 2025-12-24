@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TERRA - Personajes</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Rajdhani:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Rajdhani:wght@400;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -16,6 +16,7 @@
             font-family: 'Inter', sans-serif;
             background: #08080c;
             color: #ffffff;
+            overflow-x: hidden;
             min-height: 100vh;
         }
 
@@ -24,125 +25,157 @@
             min-height: 100vh;
         }
 
-        /* Panel lateral */
-        .side-panel {
-            width: 240px;
-            background: #0a0a10;
-            border-right: 1px solid rgba(255, 255, 255, 0.06);
-            padding: 30px 20px;
-            position: fixed;
-            height: 100vh;
+        /* Panel izquierdo */
+        .left-panel {
+            width: 260px;
+            background: #0a0a0f;
+            border-right: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 40px 25px;
             display: flex;
             flex-direction: column;
+            justify-content: space-between;
+            position: fixed;
+            height: 100vh;
+            z-index: 100;
         }
 
-        .logo {
+        .panel-logo {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 12px;
+            opacity: 0.25;
+            color: #ffffff;
+        }
+
+        .panel-title {
             font-family: 'Rajdhani', sans-serif;
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             font-weight: 700;
-            letter-spacing: 4px;
+            letter-spacing: 6px;
             text-align: center;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
         }
 
-        .logo-sub {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.6rem;
+        .panel-subtitle {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.55rem;
             letter-spacing: 2px;
             color: rgba(255, 255, 255, 0.3);
             text-align: center;
             margin-bottom: 40px;
         }
 
-        .nav-menu {
+        .panel-nav {
             display: flex;
             flex-direction: column;
-            gap: 4px;
-            flex: 1;
+            gap: 6px;
         }
 
-        .nav-item {
-            font-family: 'JetBrains Mono', monospace;
+        .panel-nav-link {
+            font-family: 'Roboto Mono', monospace;
             font-size: 0.75rem;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
             color: rgba(255, 255, 255, 0.4);
             text-decoration: none;
             padding: 12px 15px;
-            transition: all 0.2s ease;
             border-left: 2px solid transparent;
+            transition: all 0.2s ease;
         }
 
-        .nav-item:hover {
+        .panel-nav-link:hover {
             color: rgba(255, 255, 255, 0.7);
-            background: rgba(255, 255, 255, 0.02);
+            background: rgba(255, 255, 255, 0.03);
         }
 
-        .nav-item.active {
-            color: #fff;
-            border-left-color: #00b4d8;
-            background: rgba(0, 180, 216, 0.05);
+        .panel-nav-link.active {
+            color: #ffffff;
+            border-left-color: #ffffff;
+            background: rgba(255, 255, 255, 0.05);
         }
 
-        /* Contenido principal */
-        .main-content {
-            margin-left: 240px;
+        .panel-info {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.55rem;
+            letter-spacing: 1px;
+            color: rgba(255, 255, 255, 0.2);
+            text-align: center;
+        }
+
+        /* Área de contenido */
+        .content-area {
+            margin-left: 260px;
             flex: 1;
-            padding: 50px;
-            background: linear-gradient(180deg, #08080c 0%, #0c0c14 100%);
+            position: relative;
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
-        .page-header {
-            margin-bottom: 40px;
+        /* Header de sección */
+        .section-header {
+            padding: 30px 50px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
         }
 
-        .page-title {
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 1.8rem;
-            font-weight: 600;
-            letter-spacing: 3px;
-            margin-bottom: 8px;
-        }
-
-        .page-subtitle {
-            font-family: 'JetBrains Mono', monospace;
+        .section-title {
+            font-family: 'Roboto Mono', monospace;
             font-size: 0.7rem;
+            letter-spacing: 3px;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        /* Grid de cards - ocupa toda la pantalla */
+        .cards-container {
+            flex: 1;
+            padding: 40px 50px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .cards-group-title {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.65rem;
             letter-spacing: 2px;
             color: rgba(255, 255, 255, 0.35);
+            margin-bottom: 15px;
         }
 
-        /* Grid de cards */
         .cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
         }
 
-        /* Card de personaje - con imagen */
+        /* Card de personaje - GRANDE */
         .character-card {
-            background: linear-gradient(180deg, #0c0c14 0%, #14141e 100%);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            cursor: pointer;
-            transition: all 0.3s ease;
+            aspect-ratio: 3/4;
+            background: linear-gradient(180deg, #12121a 0%, #0a0a0f 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             position: relative;
             overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
 
         .character-card:hover {
-            border-color: rgba(255, 255, 255, 0.2);
-            transform: translateY(-4px);
+            border-color: rgba(255, 255, 255, 0.25);
+            transform: translateY(-5px);
+        }
+
+        .character-card.active {
+            border-color: var(--char-color);
         }
 
         /* Imagen del personaje */
         .card-image {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
-            aspect-ratio: 3/4;
-            background: linear-gradient(180deg, #15151f 0%, #0a0a12 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
         }
 
         .card-image img {
@@ -159,183 +192,105 @@
             align-items: center;
             justify-content: center;
             font-family: 'Rajdhani', sans-serif;
-            font-size: 4rem;
+            font-size: 5rem;
             font-weight: 700;
-            opacity: 0.15;
+            opacity: 0.08;
+            color: var(--char-color);
         }
 
-        /* Info en la parte inferior de la card */
-        .card-footer {
-            padding: 15px 18px;
-            background: rgba(0, 0, 0, 0.4);
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
+        /* Degradado inferior */
+        .card-gradient {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 50%;
+            background: linear-gradient(to top,
+                rgba(8, 8, 12, 0.95) 0%,
+                rgba(8, 8, 12, 0.7) 40%,
+                transparent 100%);
+            pointer-events: none;
+        }
+
+        /* Info en la card */
+        .card-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px;
+            z-index: 2;
         }
 
         .card-name {
             font-family: 'Rajdhani', sans-serif;
-            font-size: 1.1rem;
+            font-size: 1.3rem;
             font-weight: 600;
             letter-spacing: 2px;
-            line-height: 1.2;
+            color: var(--char-color);
             margin-bottom: 4px;
         }
 
         .card-title {
-            font-family: 'JetBrains Mono', monospace;
+            font-family: 'Roboto Mono', monospace;
             font-size: 0.6rem;
             letter-spacing: 1px;
             color: rgba(255, 255, 255, 0.4);
         }
 
-        /* Borde de color en la card */
-        .character-card::before {
-            content: '';
+        /* Línea de color inferior */
+        .card-line {
             position: absolute;
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 3px;
+            height: 2px;
             background: var(--char-color);
+            opacity: 0.6;
         }
 
         /* Colores por personaje */
         .character-card[data-character="kotarou"] { --char-color: #ff5a5a; }
-        .character-card[data-character="kotarou"] .card-name { color: #ff5a5a; }
-        .character-card[data-character="kotarou"] .card-placeholder { color: #ff5a5a; }
-
         .character-card[data-character="taichi"] { --char-color: #5a9fff; }
-        .character-card[data-character="taichi"] .card-name { color: #5a9fff; }
-        .character-card[data-character="taichi"] .card-placeholder { color: #5a9fff; }
-
         .character-card[data-character="lucy"] { --char-color: #ffc95a; }
-        .character-card[data-character="lucy"] .card-name { color: #ffc95a; }
-        .character-card[data-character="lucy"] .card-placeholder { color: #ffc95a; }
-
         .character-card[data-character="shiro"] { --char-color: #5aff8f; }
-        .character-card[data-character="shiro"] .card-name { color: #5aff8f; }
-        .character-card[data-character="shiro"] .card-placeholder { color: #5aff8f; }
-
         .character-card[data-character="uenoyama"] { --char-color: #8f5aff; }
-        .character-card[data-character="uenoyama"] .card-name { color: #8f5aff; }
-        .character-card[data-character="uenoyama"] .card-placeholder { color: #8f5aff; }
-
         .character-card[data-character="sasaki"] { --char-color: #cc5aff; }
-        .character-card[data-character="sasaki"] .card-name { color: #cc5aff; }
-        .character-card[data-character="sasaki"] .card-placeholder { color: #cc5aff; }
-
         .character-card[data-character="usui"] { --char-color: #ff3b3b; }
-        .character-card[data-character="usui"] .card-name { color: #ff3b3b; }
-        .character-card[data-character="usui"] .card-placeholder { color: #ff3b3b; }
-
         .character-card[data-character="akane"] { --char-color: #5ad4ff; }
-        .character-card[data-character="akane"] .card-name { color: #5ad4ff; }
-        .character-card[data-character="akane"] .card-placeholder { color: #5ad4ff; }
 
-        /* Vista de detalle */
-        .detail-overlay {
+        /* Overlay de información */
+        .info-overlay {
             position: fixed;
             top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(5, 5, 8, 0.95);
-            z-index: 1000;
+            left: 260px;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg,
+                rgba(8, 8, 12, 0.98) 0%,
+                rgba(12, 12, 18, 0.95) 100%);
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.4s ease;
+            z-index: 50;
+            padding: 80px;
+            overflow-y: auto;
         }
 
-        .detail-overlay.active {
+        .info-overlay.active {
             opacity: 1;
             pointer-events: auto;
         }
 
-        .detail-container {
+        .info-close {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 90%;
-            max-width: 900px;
-            max-height: 90vh;
-            overflow-y: auto;
-            background: linear-gradient(135deg, #0a0a12 0%, #14141e 100%);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .detail-header {
-            padding: 40px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-        }
-
-        .detail-name {
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 3rem;
-            font-weight: 700;
-            letter-spacing: 4px;
-            margin-bottom: 10px;
-        }
-
-        .detail-title {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.8rem;
-            letter-spacing: 2px;
-            color: rgba(255, 255, 255, 0.4);
-        }
-
-        .detail-content {
-            padding: 40px;
-        }
-
-        .detail-section {
-            margin-bottom: 30px;
-        }
-
-        .detail-section-title {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.7rem;
-            letter-spacing: 2px;
-            color: rgba(255, 255, 255, 0.35);
-            margin-bottom: 12px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-        }
-
-        .detail-section-content {
-            font-size: 1rem;
-            line-height: 1.8;
-            color: rgba(255, 255, 255, 0.8);
-        }
-
-        .ability-block {
-            background: rgba(255, 255, 255, 0.02);
-            padding: 20px;
-            margin-bottom: 15px;
-            border-left: 3px solid;
-        }
-
-        .ability-name {
-            font-family: 'Rajdhani', sans-serif;
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-
-        .ability-desc {
-            font-size: 0.9rem;
-            line-height: 1.6;
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        .close-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
+            top: 30px;
+            right: 40px;
             width: 40px;
             height: 40px;
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            color: rgba(255, 255, 255, 0.6);
+            color: rgba(255, 255, 255, 0.5);
             font-size: 1.2rem;
             cursor: pointer;
             display: flex;
@@ -344,28 +299,99 @@
             transition: all 0.2s ease;
         }
 
-        .close-btn:hover {
+        .info-close:hover {
             background: rgba(255, 255, 255, 0.1);
             color: #fff;
         }
 
+        .info-content {
+            max-width: 700px;
+        }
+
+        .info-name {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            letter-spacing: 4px;
+            margin-bottom: 8px;
+        }
+
+        .info-title {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.8rem;
+            letter-spacing: 2px;
+            color: rgba(255, 255, 255, 0.4);
+            margin-bottom: 50px;
+        }
+
+        .info-section {
+            margin-bottom: 35px;
+        }
+
+        .info-label {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            color: rgba(255, 255, 255, 0.4);
+            margin-bottom: 10px;
+        }
+
+        .info-text {
+            font-size: 1.2rem;
+            line-height: 1.7;
+            padding-left: 15px;
+            border-left: 2px solid;
+        }
+
+        .info-description {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .ability-block {
+            background: rgba(255, 255, 255, 0.02);
+            padding: 18px 20px;
+            margin-bottom: 12px;
+            border-left: 2px solid;
+        }
+
+        .ability-name {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .ability-desc {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
         @media (max-width: 900px) {
-            .side-panel {
+            .left-panel {
                 display: none;
             }
-            .main-content {
+            .content-area {
                 margin-left: 0;
-                padding: 30px 20px;
+            }
+            .info-overlay {
+                left: 0;
+                padding: 40px 30px;
+            }
+            .cards-container {
+                padding: 30px 25px;
             }
             .cards-grid {
                 grid-template-columns: repeat(2, 1fr);
                 gap: 15px;
             }
-            .card-name {
-                font-size: 0.9rem;
-            }
-            .card-title {
-                font-size: 0.5rem;
+            .info-name {
+                font-size: 2.5rem;
             }
         }
 
@@ -378,223 +404,246 @@
 </head>
 <body>
     <div class="main-layout">
-        <div class="side-panel">
-            <div class="logo">TERRA</div>
-            <div class="logo-sub">ARCHIVO DE USUARIOS</div>
+        <!-- Panel izquierdo -->
+        <div class="left-panel">
+            <div>
+                <svg class="panel-logo" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="100" cy="100" r="80" stroke="currentColor" stroke-width="2"/>
+                    <circle cx="100" cy="100" r="60" stroke="currentColor" stroke-width="2"/>
+                    <circle cx="100" cy="100" r="40" stroke="currentColor" stroke-width="2"/>
+                    <path d="M100 40 L100 160 M40 100 L160 100" stroke="currentColor" stroke-width="2"/>
+                </svg>
+                <div class="panel-title">TERRA</div>
+                <div class="panel-subtitle">ARCHIVO DE USUARIOS</div>
 
-            <nav class="nav-menu">
-                <a href="#" class="nav-item active">USUARIOS ANIMA</a>
-                <a href="#" class="nav-item">ORGANIZACIONES</a>
-                <a href="#" class="nav-item">TÉCNICAS</a>
-                <a href="#" class="nav-item">EVENTOS</a>
-            </nav>
-        </div>
-
-        <div class="main-content">
-            <div class="page-header">
-                <h1 class="page-title">USUARIOS ANIMA</h1>
-                <p class="page-subtitle">REGISTRO DE PERFILES ACTIVOS</p>
+                <nav class="panel-nav">
+                    <a href="#" class="panel-nav-link">INICIO</a>
+                    <a href="#" class="panel-nav-link active">USUARIOS ANIMA</a>
+                    <a href="#" class="panel-nav-link">ORGANIZACIONES</a>
+                    <a href="#" class="panel-nav-link">TÉCNICAS</a>
+                    <a href="#" class="panel-nav-link">EVENTOS</a>
+                </nav>
             </div>
 
-            <div class="cards-grid" id="cardsGrid"></div>
+            <div class="panel-info">YOKOHAMA DIVISION</div>
+        </div>
+
+        <!-- Área de contenido -->
+        <div class="content-area">
+            <div class="section-header">
+                <div class="section-title">USUARIOS ANIMA // REGISTRO DE PERFILES</div>
+            </div>
+
+            <div class="cards-container">
+                <!-- Agencia ADE -->
+                <div>
+                    <div class="cards-group-title">▸ AGENCIA DE DETECTIVES EXORCISTAS</div>
+                    <div class="cards-grid" id="adeGrid"></div>
+                </div>
+
+                <!-- Otros -->
+                <div>
+                    <div class="cards-group-title">▸ OTROS USUARIOS</div>
+                    <div class="cards-grid" id="otherGrid"></div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="detail-overlay" id="detailOverlay">
-        <div class="detail-container" id="detailContainer">
-            <button class="close-btn" onclick="closeDetail()">×</button>
-            <div id="detailContent"></div>
-        </div>
+    <!-- Overlay de información -->
+    <div class="info-overlay" id="infoOverlay">
+        <button class="info-close" onclick="closeInfo()">×</button>
+        <div class="info-content" id="infoContent"></div>
     </div>
 
     <script>
-        const characters = [
-            {
-                id: 'kotarou',
-                name: 'KIRIGAYA KOTAROU',
-                title: 'USUARIO ANIMA // TERRA',
-                image: '', // Ruta a la imagen del personaje
-                iris: 'Sol de la Verdad',
-                technique: 'Control | Contención',
-                description: 'Control manipula la energía de objetos para moverlos y alterar su masa/gravedad. Contención libera energía almacenada para aumentar capacidades físicas y mentales, requiere daño físico para activarse.',
-                abilities: [
-                    { name: 'CONTROL', desc: 'Absorbe energía del exterior para canalizarla en objetos, permitiendo su manipulación remota y alteración de masa.' },
-                    { name: 'CONTENCIÓN', desc: 'Libera energía almacenada para aumentar capacidades físicas y perceptivas. Requiere activación mediante daño físico.' }
-                ]
-            },
-            {
-                id: 'taichi',
-                name: 'NATSUME TAICHI',
-                title: 'LÍDER // AGENCIA ADE',
-                image: '',
-                iris: 'Luna de Desintegración',
-                technique: 'Torrente del Juicio | Rocío de Gracia',
-                description: 'Torrente manifiesta energía en armas blancas de agua. Rocío cura heridas graves pero no puede usarse dos veces seguidas en la misma persona. No resucita.',
-                abilities: [
-                    { name: 'TORRENTE DEL JUICIO', desc: 'Manifiesta energía vital en torrentes de agua moldeables en armas blancas.' },
-                    { name: 'ROCÍO DE GRACIA', desc: 'Herramienta curativa limitada que requiere daño grave para activarse.' }
-                ]
-            },
-            {
-                id: 'lucy',
-                name: 'LUCY',
-                title: 'USUARIO ANIMA // AGENCIA ADE',
-                image: '',
-                iris: 'N/A',
-                technique: 'Luz Inalcanzable | Tejedora de Luz',
-                description: 'Luz genera energía cinética para aumentar velocidad exponencialmente. Tejedora revitaliza vegetación usando energía acumulada.',
-                abilities: [
-                    { name: 'LUZ INALCANZABLE', desc: 'Genera energía cinética duplicando su velocidad normal de forma exponencial.' },
-                    { name: 'TEJEDORA DE LUZ', desc: 'Comparte energía acumulada al entorno, afectando vegetación y acelerando su crecimiento.' }
-                ]
-            },
-            {
-                id: 'shiro',
-                name: 'SHIRO',
-                title: 'USUARIO ANIMA // AGENCIA ADE',
-                image: '',
-                iris: 'N/A',
-                technique: 'Petrificación | Transmutación',
-                description: 'Petrificación endurece la piel en metal/roca. Transmutación crea armas pesadas con materiales absorbidos.',
-                abilities: [
-                    { name: 'PETRIFICACIÓN', desc: 'Endurece su piel en materiales como metal y roca para defensa.' },
-                    { name: 'TRANSMUTACIÓN', desc: 'Crea armas pesadas usando energía y materiales absorbidos en combate.' }
-                ]
-            },
-            {
-                id: 'uenoyama',
-                name: 'UENOYAMA RINGO',
-                title: 'USUARIO ANIMA // AGENCIA ADE',
-                image: '',
-                iris: 'N/A',
-                technique: 'Génesis Helada | Estasis Perpetua',
-                description: 'Génesis materializa hielo y estructuras sólidas. Estasis congela áreas y objetos, creando sellos que pueden ser rotos por habilidades Mentem.',
-                abilities: [
-                    { name: 'GÉNESIS HELADA', desc: 'Materializa escarcha, hielo y estructuras sólidas a voluntad.' },
-                    { name: 'ESTASIS PERPETUA', desc: 'Congela áreas y objetos, creando sellos temporales.' }
-                ]
-            },
-            {
-                id: 'sasaki',
-                name: 'SASAKI',
-                title: 'USUARIO INDEPENDIENTE',
-                image: '',
-                iris: 'Armonía del Vacío',
-                technique: 'Contrapunto | Crescendo',
-                description: 'Contrapunto contraataca poderes enemigos. Crescendo potencia habilidades aliadas. Requiere conocer previamente el poder del objetivo.',
-                abilities: [
-                    { name: 'CONTRAPUNTO', desc: 'Contraataca y manipula poderes de usuarios dentro de su rango.' },
-                    { name: 'CRESCENDO', desc: 'Potencia la energía de usuarios aliados al límite.' }
-                ]
-            },
-            {
-                id: 'usui',
-                name: 'USUI',
-                title: 'LÍDER // SHINIGAMI TENSEI',
-                image: '',
-                iris: 'N/A',
-                technique: 'Combustión | Consanguíneo',
-                description: 'Combustión usa sangre para aumentar capacidades físicas y crear armas de fuego. Consanguíneo comparte poder con quienes considera dignos, monitoreando su energía vital.',
-                abilities: [
-                    { name: 'COMBUSTIÓN', desc: 'Usa su sangre como combustible para aumentar capacidades y crear armas ígneas.' },
-                    { name: 'CONSANGUÍNEO', desc: 'Comparte su poder mediante transmisión sanguínea con aliados.' }
-                ]
-            },
-            {
-                id: 'akane',
-                name: 'AKANE',
-                title: 'DIRECTOR // AGENCIA ADE',
-                image: '',
-                iris: 'N/A',
-                technique: 'Marca Perpetua | Alma de Muñeco',
-                description: 'Marca Perpetua sella o neutraliza poderes de otros usuarios. Alma de Muñeco introduce energía vital en objetos o cuerpos sin alma.',
-                abilities: [
-                    { name: 'MARCA PERPETUA', desc: 'Sella o marca a otros usuarios, neutralizando temporalmente su poder.' },
-                    { name: 'ALMA DE MUÑECO', desc: 'Introduce su energía vital en objetos o cuerpos sin alma, animándolos.' }
-                ]
-            }
-        ];
-
-        const colors = {
-            kotarou: '#ff5a5a',
-            taichi: '#5a9fff',
-            lucy: '#ffc95a',
-            shiro: '#5aff8f',
-            uenoyama: '#8f5aff',
-            sasaki: '#cc5aff',
-            usui: '#ff3b3b',
-            akane: '#5ad4ff'
+        const characters = {
+            ade: [
+                {
+                    id: 'kotarou',
+                    name: 'KIRIGAYA KOTAROU',
+                    title: 'USUARIO ANIMA // TERRA',
+                    image: '',
+                    iris: 'Sol de la Verdad',
+                    technique: 'Control | Contención',
+                    description: 'Control manipula la energía de objetos para moverlos y alterar su masa/gravedad. Contención libera energía almacenada para aumentar capacidades físicas y mentales, requiere daño físico para activarse.',
+                    abilities: [
+                        { name: 'CONTROL', desc: 'Absorbe energía del exterior para canalizarla en objetos, permitiendo su manipulación remota y alteración de masa.' },
+                        { name: 'CONTENCIÓN', desc: 'Libera energía almacenada para aumentar capacidades físicas y perceptivas. Requiere activación mediante daño físico.' }
+                    ]
+                },
+                {
+                    id: 'taichi',
+                    name: 'NATSUME TAICHI',
+                    title: 'LÍDER // AGENCIA ADE',
+                    image: '',
+                    iris: 'Luna de Desintegración',
+                    technique: 'Torrente del Juicio | Rocío de Gracia',
+                    description: 'Torrente manifiesta energía en armas blancas de agua. Rocío cura heridas graves pero no puede usarse dos veces seguidas en la misma persona. No resucita.',
+                    abilities: [
+                        { name: 'TORRENTE DEL JUICIO', desc: 'Manifiesta energía vital en torrentes de agua moldeables en armas blancas.' },
+                        { name: 'ROCÍO DE GRACIA', desc: 'Herramienta curativa limitada que requiere daño grave para activarse.' }
+                    ]
+                },
+                {
+                    id: 'akane',
+                    name: 'AKANE',
+                    title: 'DIRECTOR // AGENCIA ADE',
+                    image: '',
+                    iris: 'N/A',
+                    technique: 'Marca Perpetua | Alma de Muñeco',
+                    description: 'Marca Perpetua sella o neutraliza poderes de otros usuarios. Alma de Muñeco introduce energía vital en objetos o cuerpos sin alma.',
+                    abilities: [
+                        { name: 'MARCA PERPETUA', desc: 'Sella o marca a otros usuarios, neutralizando temporalmente su poder.' },
+                        { name: 'ALMA DE MUÑECO', desc: 'Introduce su energía vital en objetos o cuerpos sin alma, animándolos.' }
+                    ]
+                },
+                {
+                    id: 'lucy',
+                    name: 'LUCY',
+                    title: 'USUARIO ANIMA // AGENCIA ADE',
+                    image: '',
+                    iris: 'N/A',
+                    technique: 'Luz Inalcanzable | Tejedora de Luz',
+                    description: 'Luz genera energía cinética para aumentar velocidad exponencialmente. Tejedora revitaliza vegetación usando energía acumulada.',
+                    abilities: [
+                        { name: 'LUZ INALCANZABLE', desc: 'Genera energía cinética duplicando su velocidad normal de forma exponencial.' },
+                        { name: 'TEJEDORA DE LUZ', desc: 'Comparte energía acumulada al entorno, afectando vegetación y acelerando su crecimiento.' }
+                    ]
+                },
+                {
+                    id: 'shiro',
+                    name: 'SHIRO',
+                    title: 'USUARIO ANIMA // AGENCIA ADE',
+                    image: '',
+                    iris: 'N/A',
+                    technique: 'Petrificación | Transmutación',
+                    description: 'Petrificación endurece la piel en metal/roca. Transmutación crea armas pesadas con materiales absorbidos.',
+                    abilities: [
+                        { name: 'PETRIFICACIÓN', desc: 'Endurece su piel en materiales como metal y roca para defensa.' },
+                        { name: 'TRANSMUTACIÓN', desc: 'Crea armas pesadas usando energía y materiales absorbidos en combate.' }
+                    ]
+                },
+                {
+                    id: 'uenoyama',
+                    name: 'UENOYAMA RINGO',
+                    title: 'USUARIO ANIMA // AGENCIA ADE',
+                    image: '',
+                    iris: 'N/A',
+                    technique: 'Génesis Helada | Estasis Perpetua',
+                    description: 'Génesis materializa hielo y estructuras sólidas. Estasis congela áreas y objetos, creando sellos que pueden ser rotos por habilidades Mentem.',
+                    abilities: [
+                        { name: 'GÉNESIS HELADA', desc: 'Materializa escarcha, hielo y estructuras sólidas a voluntad.' },
+                        { name: 'ESTASIS PERPETUA', desc: 'Congela áreas y objetos, creando sellos temporales.' }
+                    ]
+                }
+            ],
+            other: [
+                {
+                    id: 'sasaki',
+                    name: 'SASAKI',
+                    title: 'USUARIO INDEPENDIENTE',
+                    image: '',
+                    iris: 'Armonía del Vacío',
+                    technique: 'Contrapunto | Crescendo',
+                    description: 'Contrapunto contraataca poderes enemigos. Crescendo potencia habilidades aliadas. Requiere conocer previamente el poder del objetivo.',
+                    abilities: [
+                        { name: 'CONTRAPUNTO', desc: 'Contraataca y manipula poderes de usuarios dentro de su rango.' },
+                        { name: 'CRESCENDO', desc: 'Potencia la energía de usuarios aliados al límite.' }
+                    ]
+                },
+                {
+                    id: 'usui',
+                    name: 'USUI',
+                    title: 'LÍDER // SHINIGAMI TENSEI',
+                    image: '',
+                    iris: 'N/A',
+                    technique: 'Combustión | Consanguíneo',
+                    description: 'Combustión usa sangre para aumentar capacidades físicas y crear armas de fuego. Consanguíneo comparte poder con quienes considera dignos, monitoreando su energía vital.',
+                    abilities: [
+                        { name: 'COMBUSTIÓN', desc: 'Usa su sangre como combustible para aumentar capacidades y crear armas ígneas.' },
+                        { name: 'CONSANGUÍNEO', desc: 'Comparte su poder mediante transmisión sanguínea con aliados.' }
+                    ]
+                }
+            ]
         };
 
-        function renderCards() {
-            const grid = document.getElementById('cardsGrid');
-            grid.innerHTML = characters.map(char => `
-                <div class="character-card" data-character="${char.id}" onclick="openDetail('${char.id}')">
+        function createCard(char) {
+            return `
+                <div class="character-card" data-character="${char.id}" onclick="showInfo('${char.id}')">
                     <div class="card-image">
                         ${char.image
                             ? `<img src="${char.image}" alt="${char.name}">`
                             : `<div class="card-placeholder">${char.name.charAt(0)}</div>`
                         }
                     </div>
-                    <div class="card-footer">
-                        <div class="card-name">${char.name}</div>
+                    <div class="card-gradient"></div>
+                    <div class="card-info">
+                        <div class="card-name">${char.name.split(' ').pop()}</div>
                         <div class="card-title">${char.title}</div>
                     </div>
-                </div>
-            `).join('');
-        }
-
-        function openDetail(id) {
-            const char = characters.find(c => c.id === id);
-            const color = colors[id];
-            const overlay = document.getElementById('detailOverlay');
-            const content = document.getElementById('detailContent');
-
-            content.innerHTML = `
-                <div class="detail-header">
-                    <div class="detail-name" style="color: ${color}">${char.name}</div>
-                    <div class="detail-title">${char.title}</div>
-                </div>
-                <div class="detail-content">
-                    <div class="detail-section">
-                        <div class="detail-section-title">IRIS</div>
-                        <div class="detail-section-content">${char.iris}</div>
-                    </div>
-                    <div class="detail-section">
-                        <div class="detail-section-title">TÉCNICA ANIMA</div>
-                        <div class="detail-section-content">${char.technique}</div>
-                    </div>
-                    <div class="detail-section">
-                        <div class="detail-section-title">HABILIDADES</div>
-                        ${char.abilities.map(ab => `
-                            <div class="ability-block" style="border-left-color: ${color}">
-                                <div class="ability-name" style="color: ${color}">${ab.name}</div>
-                                <div class="ability-desc">${ab.desc}</div>
-                            </div>
-                        `).join('')}
-                    </div>
-                    <div class="detail-section">
-                        <div class="detail-section-title">DESCRIPCIÓN</div>
-                        <div class="detail-section-content">${char.description}</div>
-                    </div>
+                    <div class="card-line"></div>
                 </div>
             `;
+        }
 
-            document.getElementById('detailContainer').style.borderLeftColor = color;
-            document.getElementById('detailContainer').style.borderLeftWidth = '4px';
+        function renderCards() {
+            document.getElementById('adeGrid').innerHTML = characters.ade.map(createCard).join('');
+            document.getElementById('otherGrid').innerHTML = characters.other.map(createCard).join('');
+        }
+
+        function getAllCharacters() {
+            return [...characters.ade, ...characters.other];
+        }
+
+        function showInfo(id) {
+            const char = getAllCharacters().find(c => c.id === id);
+            const overlay = document.getElementById('infoOverlay');
+            const content = document.getElementById('infoContent');
+
+            // Marcar card activa
+            document.querySelectorAll('.character-card').forEach(c => c.classList.remove('active'));
+            document.querySelector(`[data-character="${id}"]`).classList.add('active');
+
+            const color = getComputedStyle(document.querySelector(`[data-character="${id}"]`)).getPropertyValue('--char-color');
+
+            content.innerHTML = `
+                <div class="info-name" style="color: ${color}">${char.name}</div>
+                <div class="info-title">${char.title}</div>
+
+                <div class="info-section">
+                    <div class="info-label">IRIS</div>
+                    <div class="info-text" style="border-color: ${color}">${char.iris}</div>
+                </div>
+
+                <div class="info-section">
+                    <div class="info-label">TÉCNICA ANIMA</div>
+                    <div class="info-text" style="border-color: ${color}">${char.technique}</div>
+                </div>
+
+                <div class="info-section">
+                    <div class="info-label">HABILIDADES</div>
+                    ${char.abilities.map(ab => `
+                        <div class="ability-block" style="border-color: ${color}">
+                            <div class="ability-name" style="color: ${color}">${ab.name}</div>
+                            <div class="ability-desc">${ab.desc}</div>
+                        </div>
+                    `).join('')}
+                </div>
+
+                <div class="info-description">${char.description}</div>
+            `;
+
             overlay.classList.add('active');
         }
 
-        function closeDetail() {
-            document.getElementById('detailOverlay').classList.remove('active');
+        function closeInfo() {
+            document.getElementById('infoOverlay').classList.remove('active');
+            document.querySelectorAll('.character-card').forEach(c => c.classList.remove('active'));
         }
 
-        document.getElementById('detailOverlay').addEventListener('click', function(e) {
-            if (e.target === this) closeDetail();
-        });
-
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') closeDetail();
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') closeInfo();
         });
 
         renderCards();
