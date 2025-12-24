@@ -11,28 +11,27 @@
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             font-family: 'Inter', sans-serif;
             background: #0a0a0f;
             color: #ffffff;
-            overflow-x: hidden;
-            min-height: 100vh;
+            overflow: hidden;
+            height: 100vh;
         }
-        
+
         /* Layout principal */
         .main-layout {
             display: flex;
-            min-height: 100vh;
+            height: 100vh;
         }
-        
+
         /* Panel izquierdo con menú */
         .left-panel {
-            width: 300px;
-            background: rgba(10, 10, 10, 0.95);
-            backdrop-filter: blur(20px);
-            border-right: 1px solid rgba(0, 212, 255, 0.2);
-            padding: 40px 25px;
+            width: 240px;
+            background: rgba(8, 8, 12, 0.98);
+            border-right: 1px solid rgba(0, 212, 255, 0.15);
+            padding: 25px 18px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -40,215 +39,271 @@
             height: 100vh;
             z-index: 100;
         }
-        
+
         .panel-logo {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 15px;
-            opacity: 0.3;
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 10px;
+            opacity: 0.25;
             color: #00d4ff;
         }
-        
+
         .panel-title {
-            font-size: 1.8rem;
+            font-size: 1.4rem;
             font-weight: 700;
             letter-spacing: 8px;
             text-align: center;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
             background: linear-gradient(135deg, #ffffff 0%, #00d4ff 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        
+
         .panel-subtitle {
             font-family: 'Roboto Mono', monospace;
-            font-size: 0.65rem;
+            font-size: 0.55rem;
             letter-spacing: 2px;
-            color: rgba(255, 255, 255, 0.4);
+            color: rgba(255, 255, 255, 0.35);
             text-align: center;
-            margin-bottom: 35px;
+            margin-bottom: 25px;
         }
-        
+
         .panel-nav {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 6px;
         }
-        
+
         .panel-nav-link {
             font-family: 'Roboto Mono', monospace;
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             letter-spacing: 2px;
-            color: rgba(255, 255, 255, 0.5);
+            color: rgba(255, 255, 255, 0.45);
             text-decoration: none;
             text-align: center;
-            padding: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 9px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
             background: rgba(255, 255, 255, 0.02);
             transition: all 0.3s ease;
             position: relative;
         }
-        
+
         .panel-nav-link::before {
             content: '';
             position: absolute;
             left: 0;
             top: 0;
-            width: 3px;
+            width: 2px;
             height: 100%;
             background: #00d4ff;
             transform: scaleY(0);
             transition: transform 0.3s ease;
         }
-        
+
         .panel-nav-link:hover,
         .panel-nav-link.active {
             color: #00d4ff;
-            border-color: rgba(0, 212, 255, 0.4);
-            background: rgba(0, 212, 255, 0.08);
+            border-color: rgba(0, 212, 255, 0.3);
+            background: rgba(0, 212, 255, 0.06);
         }
-        
+
         .panel-nav-link.active::before {
             transform: scaleY(1);
         }
-        
+
         .panel-info {
             font-family: 'Roboto Mono', monospace;
-            font-size: 0.6rem;
+            font-size: 0.5rem;
             letter-spacing: 1px;
-            color: rgba(255, 255, 255, 0.25);
+            color: rgba(255, 255, 255, 0.2);
             text-align: center;
-            padding-top: 15px;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding-top: 12px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
         }
-        
+
         /* Área de contenido */
         .content-area {
-            margin-left: 300px;
+            margin-left: 240px;
             flex: 1;
             position: relative;
-            min-height: 100vh;
-            background: linear-gradient(135deg, 
-                #0a0a0f 0%, 
-                #141420 25%, 
-                #1a1a2e 50%, 
-                #0f2027 75%, 
-                #203a43 100%);
+            height: 100vh;
+            background: linear-gradient(160deg,
+                #0c0c12 0%,
+                #12121a 30%,
+                #0f1318 60%,
+                #0a0f14 100%);
+            overflow: hidden;
         }
-        
-        /* Overlay de información (FONDO COMPLETO) */
-        .info-overlay {
+
+        /* Elementos decorativos UI */
+        .ui-decorations {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            padding: 100px 80px;
-            background: linear-gradient(135deg,
-                rgba(10, 10, 15, 0.95) 0%,
-                rgba(20, 20, 30, 0.9) 50%,
-                rgba(15, 32, 39, 0.95) 100%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .ui-cross {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            opacity: 0.25;
+        }
+
+        .ui-cross::before,
+        .ui-cross::after {
+            content: '';
+            position: absolute;
+            background: #ffffff;
+        }
+
+        .ui-cross::before {
+            width: 100%;
+            height: 1px;
+            top: 50%;
+            left: 0;
+        }
+
+        .ui-cross::after {
+            width: 1px;
+            height: 100%;
+            left: 50%;
+            top: 0;
+        }
+
+        .ui-corner {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            opacity: 0.5;
+        }
+
+        .ui-corner.top-left { border-right: none; border-bottom: none; }
+        .ui-corner.top-right { border-left: none; border-bottom: none; }
+        .ui-corner.bottom-left { border-right: none; border-top: none; }
+        .ui-corner.bottom-right { border-left: none; border-top: none; }
+
+        .ui-line {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .ui-line.horizontal {
+            height: 1px;
+            width: 100px;
+        }
+
+        .ui-line.vertical {
+            width: 1px;
+            height: 80px;
+        }
+
+        .ui-circle {
+            position: absolute;
+            border: 1px solid rgba(255, 100, 100, 0.2);
+            border-radius: 50%;
+        }
+
+        .ui-text {
+            position: absolute;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.55rem;
+            letter-spacing: 2px;
+            color: rgba(255, 255, 255, 0.2);
+        }
+
+        .ui-dot {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 80, 80, 0.6);
+        }
+
+        /* Vista de lista */
+        .list-view {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            z-index: 10;
+        }
+
+        .list-view.hidden {
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.5s ease;
-            z-index: 1;
-            overflow-y: auto;
+            transform: translateX(-30px);
         }
-        
-        .info-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-        
-        .info-content {
-            max-width: 800px;
-        }
-        
-        .info-name {
-            font-size: 4rem;
-            font-weight: 700;
-            letter-spacing: 8px;
-            margin-bottom: 50px;
-            text-shadow: 2px 2px 30px rgba(0, 0, 0, 0.8);
-        }
-        
-        .info-section {
-            margin-bottom: 35px;
-        }
-        
-        .info-label {
-            font-family: 'Roboto Mono', monospace;
-            font-size: 0.9rem;
-            letter-spacing: 2px;
-            margin-bottom: 10px;
-            opacity: 0.7;
-        }
-        
-        .info-text {
-            font-size: 1.3rem;
-            line-height: 1.8;
-            padding-left: 20px;
-            border-left: 3px solid;
-        }
-        
-        .info-description {
-            font-size: 1.15rem;
-            line-height: 1.9;
-            opacity: 0.9;
-            margin-top: 30px;
-        }
-        
-        /* Área de cards */
-        .cards-area {
-            position: relative;
-            z-index: 10;
-            padding: 60px 80px 40px;
-        }
-        
+
         .section-title {
             font-family: 'Roboto Mono', monospace;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             letter-spacing: 3px;
-            color: rgba(255, 255, 255, 0.5);
-            margin-bottom: 25px;
+            color: rgba(255, 255, 255, 0.45);
+            margin-bottom: 30px;
             padding-bottom: 12px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
-        
-        /* Grid horizontal de cards */
+
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 4px;
+            background: #ff5050;
+        }
+
         .cards-grid {
             display: flex;
-            gap: 20px;
-            margin-bottom: 50px;
+            gap: 25px;
             flex-wrap: wrap;
+            align-content: flex-start;
         }
-        
-        /* Cards verticales */
-        .character-card {
+
+        .character-card-small {
             width: 180px;
-            height: 260px;
-            background: rgba(20, 20, 25, 0.6);
-            border: 2px solid rgba(255, 255, 255, 0.15);
-            border-radius: 8px;
+            height: 270px;
+            background: rgba(15, 15, 20, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             position: relative;
             overflow: hidden;
             cursor: pointer;
-            transition: all 0.3s ease;
-            flex-shrink: 0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        
-        .character-card:hover {
-            border-color: rgba(255, 255, 255, 0.4);
-            transform: translateY(-8px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+
+        .character-card-small::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: currentColor;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
-        
-        .character-card.active {
-            border-width: 3px;
-            box-shadow: 0 0 40px currentColor;
+
+        .character-card-small:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
         }
-        
-        .card-image {
+
+        .character-card-small:hover::before {
+            opacity: 1;
+        }
+
+        .character-card-small .card-image {
             position: absolute;
             top: 0;
             left: 0;
@@ -256,42 +311,376 @@
             height: 100%;
             background-size: cover;
             background-position: center;
-            opacity: 0.6;
-            transition: opacity 0.3s ease;
+            opacity: 0.5;
+            transition: opacity 0.4s ease;
         }
-        
-        .character-card:hover .card-image {
-            opacity: 0.85;
+
+        .character-card-small:hover .card-image {
+            opacity: 0.75;
         }
-        
-        .card-overlay {
+
+        .character-card-small .card-overlay {
             position: absolute;
             bottom: 0;
             left: 0;
             right: 0;
-            padding: 15px;
-            background: linear-gradient(to top, 
-                rgba(0, 0, 0, 0.95) 0%, 
+            padding: 20px 15px;
+            background: linear-gradient(to top,
+                rgba(0, 0, 0, 0.95) 0%,
+                rgba(0, 0, 0, 0.5) 70%,
+                transparent 100%);
+        }
+
+        .character-card-small .card-name {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-align: center;
+        }
+
+        .character-card-small .card-id {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.55rem;
+            letter-spacing: 1px;
+            text-align: center;
+            opacity: 0.4;
+            margin-top: 5px;
+        }
+
+        /* Vista de detalle */
+        .detail-view {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+            z-index: 10;
+        }
+
+        .detail-view.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Card grande del personaje */
+        .character-showcase {
+            width: 420px;
+            height: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 50px 40px;
+        }
+
+        .character-card-large {
+            width: 320px;
+            height: 500px;
+            background: rgba(12, 12, 16, 0.9);
+            border: 2px solid;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 100px currentColor;
+        }
+
+        .character-card-large::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: currentColor;
+        }
+
+        .character-card-large .card-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center top;
+            opacity: 0.8;
+        }
+
+        .character-card-large .card-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 30px;
+            background: linear-gradient(to top,
+                rgba(0, 0, 0, 0.98) 0%,
                 rgba(0, 0, 0, 0.7) 50%,
                 transparent 100%);
-            z-index: 2;
         }
-        
-        .card-name {
+
+        .character-card-large .card-name {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: 5px;
+            text-align: center;
+        }
+
+        .character-card-large .card-id {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 2px;
+            text-align: center;
+            opacity: 0.5;
+            margin-top: 8px;
+        }
+
+        /* Información del personaje */
+        .character-info {
+            flex: 1;
+            padding: 80px 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            max-width: 500px;
+            position: relative;
+        }
+
+        .info-header {
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .info-header::before {
+            content: '';
+            position: absolute;
+            left: -30px;
+            top: 0;
+            width: 3px;
+            height: 100%;
+            background: currentColor;
+            opacity: 0.5;
+        }
+
+        .info-name {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            letter-spacing: 8px;
+            line-height: 1.1;
+            text-shadow: 0 0 60px currentColor;
+        }
+
+        .info-subtitle {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 4px;
+            opacity: 0.4;
+            margin-top: 15px;
+        }
+
+        .info-sections {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .info-section {
+            background: rgba(255, 255, 255, 0.02);
+            border-left: 3px solid;
+            padding: 18px 22px;
+            position: relative;
+        }
+
+        .info-section::before {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 20px;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .info-label {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+            opacity: 0.5;
+        }
+
+        .info-text {
             font-size: 1.1rem;
+            line-height: 1.5;
+            letter-spacing: 1px;
+        }
+
+        .info-description {
+            font-size: 0.95rem;
+            line-height: 1.9;
+            opacity: 0.75;
+            margin-top: 30px;
+            padding: 22px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            position: relative;
+        }
+
+        .info-description::before {
+            content: '"';
+            position: absolute;
+            top: 10px;
+            left: 15px;
+            font-size: 2rem;
+            opacity: 0.2;
+            font-family: serif;
+        }
+
+        /* Stack de cards - MÁS GRANDES */
+        .cards-stack {
+            width: 350px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-end;
+            padding-right: 40px;
+            position: relative;
+        }
+
+        .stack-container {
+            position: relative;
+            height: 500px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+        }
+
+        .stack-card {
+            width: 200px;
+            height: 300px;
+            background: rgba(15, 15, 20, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            position: absolute;
+            right: 0;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: -10px 10px 40px rgba(0, 0, 0, 0.6);
+        }
+
+        .stack-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: currentColor;
+            opacity: 0.6;
+        }
+
+        .stack-card:hover {
+            transform: translateX(-40px) scale(1.02) !important;
+            z-index: 20 !important;
+            border-color: rgba(255, 255, 255, 0.4);
+            box-shadow: -15px 15px 50px rgba(0, 0, 0, 0.7);
+        }
+
+        .stack-card:nth-child(1) { transform: translateX(0px) translateY(-100px); z-index: 6; }
+        .stack-card:nth-child(2) { transform: translateX(25px) translateY(-50px); z-index: 5; }
+        .stack-card:nth-child(3) { transform: translateX(50px) translateY(0px); z-index: 4; }
+        .stack-card:nth-child(4) { transform: translateX(75px) translateY(50px); z-index: 3; }
+        .stack-card:nth-child(5) { transform: translateX(100px) translateY(100px); z-index: 2; }
+        .stack-card:nth-child(6) { transform: translateX(125px) translateY(150px); z-index: 1; }
+
+        .stack-card .card-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0.55;
+            transition: opacity 0.3s ease;
+        }
+
+        .stack-card:hover .card-image {
+            opacity: 0.8;
+        }
+
+        .stack-card .card-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 18px;
+            background: linear-gradient(to top,
+                rgba(0, 0, 0, 0.95) 0%,
+                rgba(0, 0, 0, 0.5) 60%,
+                transparent 100%);
+        }
+
+        .stack-card .card-name {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1rem;
             font-weight: 600;
             letter-spacing: 2px;
             text-align: center;
         }
-        
+
+        /* Botón volver */
+        .back-btn {
+            position: absolute;
+            top: 35px;
+            left: 35px;
+            padding: 12px 28px;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: rgba(255, 255, 255, 0.6);
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 50;
+        }
+
+        .back-btn::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 3px;
+            height: 100%;
+            background: #ff5050;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .back-btn:hover {
+            border-color: rgba(255, 255, 255, 0.3);
+            color: #fff;
+        }
+
+        .back-btn:hover::before {
+            opacity: 1;
+        }
+
         /* Colores por personaje */
-        .character-card[data-character="kotarou"] { color: #ff453a; }
-        .character-card[data-character="taichi"] { color: #0a84ff; }
-        .character-card[data-character="lucy"] { color: #ffd60a; }
-        .character-card[data-character="shiro"] { color: #30d158; }
-        .character-card[data-character="uenoyama"] { color: #5e5ce6; }
-        .character-card[data-character="sasaki"] { color: #bf5af2; }
-        .character-card[data-character="usui"] { color: #ff9f0a; }
+        [data-character="kotarou"] { color: #ff453a; }
+        [data-character="taichi"] { color: #0a84ff; }
+        [data-character="lucy"] { color: #ffd60a; }
+        [data-character="shiro"] { color: #30d158; }
+        [data-character="uenoyama"] { color: #5e5ce6; }
+        [data-character="sasaki"] { color: #bf5af2; }
+        [data-character="usui"] { color: #ff9f0a; }
     </style>
 </head>
 <body>
@@ -300,14 +689,14 @@
         <div class="left-panel">
             <div>
                 <svg class="panel-logo" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="100" cy="100" r="80" stroke="currentColor" stroke-width="2"/>
-                    <circle cx="100" cy="100" r="60" stroke="currentColor" stroke-width="2"/>
-                    <circle cx="100" cy="100" r="40" stroke="currentColor" stroke-width="2"/>
-                    <path d="M100 40 L100 160 M40 100 L160 100" stroke="currentColor" stroke-width="2"/>
+                    <circle cx="100" cy="100" r="80" stroke="currentColor" stroke-width="1.5"/>
+                    <circle cx="100" cy="100" r="60" stroke="currentColor" stroke-width="1.5"/>
+                    <circle cx="100" cy="100" r="40" stroke="currentColor" stroke-width="1.5"/>
+                    <path d="M100 40 L100 160 M40 100 L160 100" stroke="currentColor" stroke-width="1.5"/>
                 </svg>
                 <div class="panel-title">TERRA</div>
                 <div class="panel-subtitle">AGENCIA DE EXORCISTAS</div>
-                
+
                 <nav class="panel-nav">
                     <a href="#" class="panel-nav-link">INICIO</a>
                     <a href="#" class="panel-nav-link active">PERSONAJES</a>
@@ -316,125 +705,213 @@
                     <a href="#" class="panel-nav-link">CONTACTO</a>
                 </nav>
             </div>
-            
-            <div class="panel-info">ARCHIVO_TERRA<br/>YOKOHAMA_DIVISION</div>
+
+            <div class="panel-info">ARCHIVO_TERRA // YOKOHAMA</div>
         </div>
-        
+
         <!-- Área de contenido -->
         <div class="content-area">
-            <!-- Overlay de información (FONDO) -->
-            <div class="info-overlay" id="infoOverlay">
-                <div class="info-content" id="infoContent"></div>
+            <!-- Decoraciones UI -->
+            <div class="ui-decorations">
+                <!-- Cruces -->
+                <div class="ui-cross" style="top: 80px; left: 60px;"></div>
+                <div class="ui-cross" style="top: 80px; right: 100px;"></div>
+                <div class="ui-cross" style="bottom: 100px; left: 150px;"></div>
+                <div class="ui-cross" style="bottom: 150px; right: 200px;"></div>
+                <div class="ui-cross" style="top: 50%; left: 30px;"></div>
+                <div class="ui-cross" style="top: 30%; right: 50px;"></div>
+
+                <!-- Esquinas -->
+                <div class="ui-corner top-left" style="top: 40px; left: 40px;"></div>
+                <div class="ui-corner top-right" style="top: 40px; right: 40px;"></div>
+                <div class="ui-corner bottom-left" style="bottom: 40px; left: 40px;"></div>
+                <div class="ui-corner bottom-right" style="bottom: 40px; right: 40px;"></div>
+
+                <!-- Líneas -->
+                <div class="ui-line horizontal" style="top: 120px; right: 80px;"></div>
+                <div class="ui-line horizontal" style="bottom: 80px; left: 100px;"></div>
+                <div class="ui-line vertical" style="top: 200px; right: 60px;"></div>
+
+                <!-- Círculos -->
+                <div class="ui-circle" style="width: 150px; height: 150px; top: 20%; right: 15%; opacity: 0.3;"></div>
+                <div class="ui-circle" style="width: 80px; height: 80px; bottom: 25%; left: 10%; opacity: 0.2;"></div>
+
+                <!-- Texto decorativo -->
+                <div class="ui-text" style="top: 60px; right: 120px;">SYS_ACTIVE</div>
+                <div class="ui-text" style="bottom: 60px; left: 60px;">DATASET_ONLINE</div>
+                <div class="ui-text" style="top: 50%; right: 30px; writing-mode: vertical-rl;">TERRA_ARCHIVE</div>
+
+                <!-- Puntos rojos -->
+                <div class="ui-dot" style="top: 100px; left: 100px;"></div>
+                <div class="ui-dot" style="top: 200px; right: 150px;"></div>
+                <div class="ui-dot" style="bottom: 120px; right: 80px;"></div>
             </div>
-            
-            <!-- Cards -->
-            <div class="cards-area">
-                <!-- Miembros ADE -->
-                <div class="section-title">▸ AGENCIA DE DETECTIVES EXORCISTAS</div>
+
+            <!-- Vista de lista -->
+            <div class="list-view" id="listView">
+                <div class="section-title">USUARIOS ANIMA</div>
                 <div class="cards-grid">
-                    <div class="character-card" data-character="kotarou" onclick="showCharacter('kotarou', this)">
-                        <div class="card-image" style="background-color: rgba(40,40,40,0.5);"></div>
+                    <div class="character-card-small" data-character="kotarou" onclick="showCharacter('kotarou')">
+                        <div class="card-image" style="background-color: rgba(100,35,35,0.7);"></div>
                         <div class="card-overlay">
                             <div class="card-name">KOTAROU</div>
+                            <div class="card-id">UA-001</div>
                         </div>
                     </div>
-                    
-                    <div class="character-card" data-character="taichi" onclick="showCharacter('taichi', this)">
-                        <div class="card-image" style="background-color: rgba(40,40,40,0.5);"></div>
+                    <div class="character-card-small" data-character="taichi" onclick="showCharacter('taichi')">
+                        <div class="card-image" style="background-color: rgba(35,55,100,0.7);"></div>
                         <div class="card-overlay">
                             <div class="card-name">TAICHI</div>
+                            <div class="card-id">UA-002</div>
                         </div>
                     </div>
-                    
-                    <div class="character-card" data-character="lucy" onclick="showCharacter('lucy', this)">
-                        <div class="card-image" style="background-color: rgba(40,40,40,0.5);"></div>
+                    <div class="character-card-small" data-character="lucy" onclick="showCharacter('lucy')">
+                        <div class="card-image" style="background-color: rgba(100,90,35,0.7);"></div>
                         <div class="card-overlay">
                             <div class="card-name">LUCY</div>
+                            <div class="card-id">UA-003</div>
                         </div>
                     </div>
-                    
-                    <div class="character-card" data-character="shiro" onclick="showCharacter('shiro', this)">
-                        <div class="card-image" style="background-color: rgba(40,40,40,0.5);"></div>
+                    <div class="character-card-small" data-character="shiro" onclick="showCharacter('shiro')">
+                        <div class="card-image" style="background-color: rgba(35,75,55,0.7);"></div>
                         <div class="card-overlay">
                             <div class="card-name">SHIRO</div>
+                            <div class="card-id">UA-004</div>
                         </div>
                     </div>
-                    
-                    <div class="character-card" data-character="uenoyama" onclick="showCharacter('uenoyama', this)">
-                        <div class="card-image" style="background-color: rgba(40,40,40,0.5);"></div>
+                    <div class="character-card-small" data-character="uenoyama" onclick="showCharacter('uenoyama')">
+                        <div class="card-image" style="background-color: rgba(55,55,90,0.7);"></div>
                         <div class="card-overlay">
                             <div class="card-name">UENOYAMA</div>
+                            <div class="card-id">UA-005</div>
+                        </div>
+                    </div>
+                    <div class="character-card-small" data-character="sasaki" onclick="showCharacter('sasaki')">
+                        <div class="card-image" style="background-color: rgba(75,50,90,0.7);"></div>
+                        <div class="card-overlay">
+                            <div class="card-name">SASAKI</div>
+                            <div class="card-id">UA-006</div>
+                        </div>
+                    </div>
+                    <div class="character-card-small" data-character="usui" onclick="showCharacter('usui')">
+                        <div class="card-image" style="background-color: rgba(90,60,35,0.7);"></div>
+                        <div class="card-overlay">
+                            <div class="card-name">USUI</div>
+                            <div class="card-id">UA-007</div>
                         </div>
                     </div>
                 </div>
-                
-                <!-- Usuarios independientes -->
-                <div class="section-title">▸ USUARIOS INDEPENDIENTES</div>
-                <div class="cards-grid">
-                    <div class="character-card" data-character="sasaki" onclick="showCharacter('sasaki', this)">
-                        <div class="card-image" style="background-color: rgba(40,40,40,0.5);"></div>
+            </div>
+
+            <!-- Vista de detalle -->
+            <div class="detail-view" id="detailView">
+                <button class="back-btn" onclick="goBack()">← VOLVER</button>
+
+                <div class="character-showcase">
+                    <div class="character-card-large" id="mainCard" data-character="">
+                        <div class="card-image" id="mainCardImage"></div>
                         <div class="card-overlay">
-                            <div class="card-name">SASAKI</div>
+                            <div class="card-name" id="mainCardName"></div>
+                            <div class="card-id" id="mainCardId"></div>
                         </div>
                     </div>
-                    
-                    <div class="character-card" data-character="usui" onclick="showCharacter('usui', this)">
-                        <div class="card-image" style="background-color: rgba(40,40,40,0.5);"></div>
-                        <div class="card-overlay">
-                            <div class="card-name">USUI</div>
+                </div>
+
+                <div class="character-info" id="characterInfo">
+                    <div class="info-header">
+                        <div class="info-name" id="infoName"></div>
+                        <div class="info-subtitle">USUARIO ANIMA // TERRA</div>
+                    </div>
+
+                    <div class="info-sections">
+                        <div class="info-section" id="irisSection">
+                            <div class="info-label">IRIS</div>
+                            <div class="info-text" id="infoIris"></div>
+                        </div>
+
+                        <div class="info-section" id="techniqueSection">
+                            <div class="info-label">TÉCNICA ANIMA</div>
+                            <div class="info-text" id="infoTechnique"></div>
                         </div>
                     </div>
+
+                    <div class="info-description" id="infoDescription"></div>
+                </div>
+
+                <div class="cards-stack">
+                    <div class="stack-container" id="cardsStack"></div>
                 </div>
             </div>
         </div>
     </div>
-    
+
     <script>
         const charactersData = {
             kotarou: {
                 name: 'KIRIGAYA KOTAROU',
+                shortName: 'KOTAROU',
+                id: 'UA-001',
                 iris: 'Sol de la Verdad',
                 technique: 'Control | Contención',
-                techniqueDesc: 'Control manipula la energía de objetos para moverlos y alterar su masa/gravedad. Contención libera energía almacenada para aumentar capacidades físicas y mentales, requiere daño físico para activarse.'
+                techniqueDesc: 'Control manipula la energía de objetos para moverlos y alterar su masa/gravedad. Contención libera energía almacenada para aumentar capacidades físicas y mentales, requiere daño físico para activarse.',
+                bgColor: 'rgba(100,35,35,0.7)'
             },
             taichi: {
                 name: 'NATSUME TAICHI',
+                shortName: 'TAICHI',
+                id: 'UA-002',
                 iris: 'Luna de Desintegración',
                 technique: 'Torrente del Juicio | Rocío de Gracia',
-                techniqueDesc: 'Torrente manifiesta energía en armas blancas de agua. Rocío cura heridas graves pero no puede usarse dos veces seguidas en la misma persona. No resucita.'
+                techniqueDesc: 'Torrente manifiesta energía en armas blancas de agua. Rocío cura heridas graves pero no puede usarse dos veces seguidas en la misma persona. No resucita.',
+                bgColor: 'rgba(35,55,100,0.7)'
             },
             lucy: {
                 name: 'LUCY',
+                shortName: 'LUCY',
+                id: 'UA-003',
                 iris: 'N/A',
                 technique: 'Luz Inalcanzable | Tejedora de Luz',
-                techniqueDesc: 'Luz genera energía cinética para aumentar velocidad exponencialmente. Tejedora revitaliza vegetación usando energía acumulada.'
+                techniqueDesc: 'Luz genera energía cinética para aumentar velocidad exponencialmente. Tejedora revitaliza vegetación usando energía acumulada.',
+                bgColor: 'rgba(100,90,35,0.7)'
             },
             shiro: {
                 name: 'SHIRO',
+                shortName: 'SHIRO',
+                id: 'UA-004',
                 iris: 'N/A',
                 technique: 'Petrificación | Transmutación',
-                techniqueDesc: 'Petrificación endurece la piel en metal/roca. Transmutación crea armas pesadas con materiales absorbidos.'
+                techniqueDesc: 'Petrificación endurece la piel en metal/roca. Transmutación crea armas pesadas con materiales absorbidos.',
+                bgColor: 'rgba(35,75,55,0.7)'
             },
             uenoyama: {
                 name: 'UENOYAMA RINGO',
+                shortName: 'UENOYAMA',
+                id: 'UA-005',
                 iris: 'N/A',
                 technique: 'Génesis Helada | Estasis Perpetua',
-                techniqueDesc: 'Génesis materializa hielo y estructuras sólidas. Estasis congela áreas y objetos, creando sellos que pueden ser rotos por habilidades Mentem.'
+                techniqueDesc: 'Génesis materializa hielo y estructuras sólidas. Estasis congela áreas y objetos, creando sellos que pueden ser rotos por habilidades Mentem.',
+                bgColor: 'rgba(55,55,90,0.7)'
             },
             sasaki: {
                 name: 'SASAKI',
+                shortName: 'SASAKI',
+                id: 'UA-006',
                 iris: 'Armonía del Vacío',
                 technique: 'Contrapunto | Crescendo',
-                techniqueDesc: 'Contrapunto contraataca poderes enemigos. Crescendo potencia habilidades aliadas. Requiere conocer previamente el poder del objetivo.'
+                techniqueDesc: 'Contrapunto contraataca poderes enemigos. Crescendo potencia habilidades aliadas. Requiere conocer previamente el poder del objetivo.',
+                bgColor: 'rgba(75,50,90,0.7)'
             },
             usui: {
                 name: 'KIRIGAYA USUI',
+                shortName: 'USUI',
+                id: 'UA-007',
                 iris: 'N/A',
                 technique: 'Combustión | Consanguíneo',
-                techniqueDesc: 'Combustión usa sangre para aumentar capacidades físicas y crear armas de fuego. Consanguíneo comparte poder con quienes considera dignos, monitoreando su energía vital.'
+                techniqueDesc: 'Combustión usa sangre para aumentar capacidades físicas y crear armas de fuego. Consanguíneo comparte poder con quienes considera dignos, monitoreando su energía vital.',
+                bgColor: 'rgba(90,60,35,0.7)'
             }
         };
-        
+
         const colors = {
             kotarou: '#ff453a',
             taichi: '#0a84ff',
@@ -444,42 +921,63 @@
             sasaki: '#bf5af2',
             usui: '#ff9f0a'
         };
-        
-        function showCharacter(characterId, cardElement) {
+
+        const characterOrder = ['kotarou', 'taichi', 'lucy', 'shiro', 'uenoyama', 'sasaki', 'usui'];
+
+        function showCharacter(characterId) {
             const data = charactersData[characterId];
             const color = colors[characterId];
-            const infoOverlay = document.getElementById('infoOverlay');
-            const infoContent = document.getElementById('infoContent');
-            
-            // Remover active de todas las cards
-            document.querySelectorAll('.character-card').forEach(card => {
-                card.classList.remove('active');
+
+            document.getElementById('listView').classList.add('hidden');
+            document.getElementById('detailView').classList.add('active');
+
+            const mainCard = document.getElementById('mainCard');
+            mainCard.dataset.character = characterId;
+            mainCard.style.borderColor = color;
+            mainCard.style.color = color;
+            document.getElementById('mainCardImage').style.backgroundColor = data.bgColor;
+            document.getElementById('mainCardName').textContent = data.shortName;
+            document.getElementById('mainCardId').textContent = data.id;
+
+            const infoName = document.getElementById('infoName');
+            infoName.textContent = data.name;
+            infoName.style.color = color;
+
+            const infoHeader = document.querySelector('.info-header');
+            infoHeader.style.color = color;
+
+            document.getElementById('irisSection').style.borderColor = color;
+            document.getElementById('infoIris').textContent = data.iris;
+
+            document.getElementById('techniqueSection').style.borderColor = color;
+            document.getElementById('infoTechnique').textContent = data.technique;
+
+            document.getElementById('infoDescription').textContent = data.techniqueDesc;
+
+            const stack = document.getElementById('cardsStack');
+            stack.innerHTML = '';
+
+            const otherCharacters = characterOrder.filter(id => id !== characterId);
+
+            otherCharacters.forEach((id, index) => {
+                const charData = charactersData[id];
+                const card = document.createElement('div');
+                card.className = 'stack-card';
+                card.dataset.character = id;
+                card.onclick = () => showCharacter(id);
+                card.innerHTML = `
+                    <div class="card-image" style="background-color: ${charData.bgColor}"></div>
+                    <div class="card-overlay">
+                        <div class="card-name">${charData.shortName}</div>
+                    </div>
+                `;
+                stack.appendChild(card);
             });
-            
-            // Activar card clickeada
-            cardElement.classList.add('active');
-            
-            // Cargar información
-            infoContent.innerHTML = `
-                <div class="info-name" style="color: ${color}">${data.name}</div>
-                
-                <div class="info-section">
-                    <div class="info-label" style="color: ${color}">▸ IRIS</div>
-                    <div class="info-text" style="border-color: ${color}">${data.iris}</div>
-                </div>
-                
-                <div class="info-section">
-                    <div class="info-label" style="color: ${color}">▸ TÉCNICA ANIMA</div>
-                    <div class="info-text" style="border-color: ${color}">${data.technique}</div>
-                </div>
-                
-                <div class="info-description">
-                    ${data.techniqueDesc}
-                </div>
-            `;
-            
-            // Mostrar overlay
-            infoOverlay.classList.add('active');
+        }
+
+        function goBack() {
+            document.getElementById('listView').classList.remove('hidden');
+            document.getElementById('detailView').classList.remove('active');
         }
     </script>
 </body>
