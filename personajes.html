@@ -111,147 +111,125 @@
             color: rgba(255, 255, 255, 0.35);
         }
 
-        /* Grid de fichas */
+        /* Grid de cards */
         .cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-            gap: 30px;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 25px;
         }
 
-        /* Ficha de personaje - estilo limpio */
+        /* Card de personaje - con imagen */
         .character-card {
-            background: linear-gradient(135deg, #0a0a12 0%, #12121c 100%);
+            background: linear-gradient(180deg, #0c0c14 0%, #14141e 100%);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            border-left: 3px solid;
             cursor: pointer;
             transition: all 0.3s ease;
             position: relative;
+            overflow: hidden;
         }
 
         .character-card:hover {
-            border-color: rgba(255, 255, 255, 0.15);
-            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-4px);
         }
 
-        /* Header de la ficha */
-        .card-header {
-            padding: 30px 30px 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        /* Imagen del personaje */
+        .card-image {
+            width: 100%;
+            aspect-ratio: 3/4;
+            background: linear-gradient(180deg, #15151f 0%, #0a0a12 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Placeholder cuando no hay imagen */
+        .card-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 4rem;
+            font-weight: 700;
+            opacity: 0.15;
+        }
+
+        /* Info en la parte inferior de la card */
+        .card-footer {
+            padding: 15px 18px;
+            background: rgba(0, 0, 0, 0.4);
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
         }
 
         .card-name {
             font-family: 'Rajdhani', sans-serif;
-            font-size: 2rem;
-            font-weight: 700;
-            letter-spacing: 3px;
-            line-height: 1.1;
-            margin-bottom: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            line-height: 1.2;
+            margin-bottom: 4px;
         }
 
         .card-title {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.7rem;
-            letter-spacing: 2px;
+            font-size: 0.6rem;
+            letter-spacing: 1px;
             color: rgba(255, 255, 255, 0.4);
         }
 
-        /* Secciones de información */
-        .card-info {
-            padding: 20px 30px;
-        }
-
-        .info-row {
-            padding: 15px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-        }
-
-        .info-row:last-child {
-            border-bottom: none;
-        }
-
-        .info-label {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.65rem;
-            letter-spacing: 2px;
-            color: rgba(255, 255, 255, 0.35);
-            margin-bottom: 6px;
-        }
-
-        .info-value {
-            font-family: 'Inter', sans-serif;
-            font-size: 1rem;
-            line-height: 1.5;
-        }
-
-        /* Descripción */
-        .card-description {
-            padding: 20px 30px 25px;
-            background: rgba(0, 0, 0, 0.2);
-            border-top: 1px solid rgba(255, 255, 255, 0.04);
-        }
-
-        .card-description p {
-            font-size: 0.85rem;
-            line-height: 1.7;
-            color: rgba(255, 255, 255, 0.6);
+        /* Borde de color en la card */
+        .character-card::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--char-color);
         }
 
         /* Colores por personaje */
-        .character-card[data-character="kotarou"] {
-            border-left-color: #ff5a5a;
-        }
-        .character-card[data-character="kotarou"] .card-name {
-            color: #ff5a5a;
-        }
+        .character-card[data-character="kotarou"] { --char-color: #ff5a5a; }
+        .character-card[data-character="kotarou"] .card-name { color: #ff5a5a; }
+        .character-card[data-character="kotarou"] .card-placeholder { color: #ff5a5a; }
 
-        .character-card[data-character="taichi"] {
-            border-left-color: #5a9fff;
-        }
-        .character-card[data-character="taichi"] .card-name {
-            color: #5a9fff;
-        }
+        .character-card[data-character="taichi"] { --char-color: #5a9fff; }
+        .character-card[data-character="taichi"] .card-name { color: #5a9fff; }
+        .character-card[data-character="taichi"] .card-placeholder { color: #5a9fff; }
 
-        .character-card[data-character="lucy"] {
-            border-left-color: #ffc95a;
-        }
-        .character-card[data-character="lucy"] .card-name {
-            color: #ffc95a;
-        }
+        .character-card[data-character="lucy"] { --char-color: #ffc95a; }
+        .character-card[data-character="lucy"] .card-name { color: #ffc95a; }
+        .character-card[data-character="lucy"] .card-placeholder { color: #ffc95a; }
 
-        .character-card[data-character="shiro"] {
-            border-left-color: #5aff8f;
-        }
-        .character-card[data-character="shiro"] .card-name {
-            color: #5aff8f;
-        }
+        .character-card[data-character="shiro"] { --char-color: #5aff8f; }
+        .character-card[data-character="shiro"] .card-name { color: #5aff8f; }
+        .character-card[data-character="shiro"] .card-placeholder { color: #5aff8f; }
 
-        .character-card[data-character="uenoyama"] {
-            border-left-color: #8f5aff;
-        }
-        .character-card[data-character="uenoyama"] .card-name {
-            color: #8f5aff;
-        }
+        .character-card[data-character="uenoyama"] { --char-color: #8f5aff; }
+        .character-card[data-character="uenoyama"] .card-name { color: #8f5aff; }
+        .character-card[data-character="uenoyama"] .card-placeholder { color: #8f5aff; }
 
-        .character-card[data-character="sasaki"] {
-            border-left-color: #cc5aff;
-        }
-        .character-card[data-character="sasaki"] .card-name {
-            color: #cc5aff;
-        }
+        .character-card[data-character="sasaki"] { --char-color: #cc5aff; }
+        .character-card[data-character="sasaki"] .card-name { color: #cc5aff; }
+        .character-card[data-character="sasaki"] .card-placeholder { color: #cc5aff; }
 
-        .character-card[data-character="usui"] {
-            border-left-color: #ff3b3b;
-        }
-        .character-card[data-character="usui"] .card-name {
-            color: #ff3b3b;
-        }
+        .character-card[data-character="usui"] { --char-color: #ff3b3b; }
+        .character-card[data-character="usui"] .card-name { color: #ff3b3b; }
+        .character-card[data-character="usui"] .card-placeholder { color: #ff3b3b; }
 
-        .character-card[data-character="akane"] {
-            border-left-color: #5ad4ff;
-        }
-        .character-card[data-character="akane"] .card-name {
-            color: #5ad4ff;
-        }
+        .character-card[data-character="akane"] { --char-color: #5ad4ff; }
+        .character-card[data-character="akane"] .card-name { color: #5ad4ff; }
+        .character-card[data-character="akane"] .card-placeholder { color: #5ad4ff; }
 
         /* Vista de detalle */
         .detail-overlay {
@@ -380,10 +358,20 @@
                 padding: 30px 20px;
             }
             .cards-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
             }
             .card-name {
-                font-size: 1.6rem;
+                font-size: 0.9rem;
+            }
+            .card-title {
+                font-size: 0.5rem;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .cards-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -425,6 +413,7 @@
                 id: 'kotarou',
                 name: 'KIRIGAYA KOTAROU',
                 title: 'USUARIO ANIMA // TERRA',
+                image: '', // Ruta a la imagen del personaje
                 iris: 'Sol de la Verdad',
                 technique: 'Control | Contención',
                 description: 'Control manipula la energía de objetos para moverlos y alterar su masa/gravedad. Contención libera energía almacenada para aumentar capacidades físicas y mentales, requiere daño físico para activarse.',
@@ -437,6 +426,7 @@
                 id: 'taichi',
                 name: 'NATSUME TAICHI',
                 title: 'LÍDER // AGENCIA ADE',
+                image: '',
                 iris: 'Luna de Desintegración',
                 technique: 'Torrente del Juicio | Rocío de Gracia',
                 description: 'Torrente manifiesta energía en armas blancas de agua. Rocío cura heridas graves pero no puede usarse dos veces seguidas en la misma persona. No resucita.',
@@ -449,6 +439,7 @@
                 id: 'lucy',
                 name: 'LUCY',
                 title: 'USUARIO ANIMA // AGENCIA ADE',
+                image: '',
                 iris: 'N/A',
                 technique: 'Luz Inalcanzable | Tejedora de Luz',
                 description: 'Luz genera energía cinética para aumentar velocidad exponencialmente. Tejedora revitaliza vegetación usando energía acumulada.',
@@ -461,6 +452,7 @@
                 id: 'shiro',
                 name: 'SHIRO',
                 title: 'USUARIO ANIMA // AGENCIA ADE',
+                image: '',
                 iris: 'N/A',
                 technique: 'Petrificación | Transmutación',
                 description: 'Petrificación endurece la piel en metal/roca. Transmutación crea armas pesadas con materiales absorbidos.',
@@ -473,6 +465,7 @@
                 id: 'uenoyama',
                 name: 'UENOYAMA RINGO',
                 title: 'USUARIO ANIMA // AGENCIA ADE',
+                image: '',
                 iris: 'N/A',
                 technique: 'Génesis Helada | Estasis Perpetua',
                 description: 'Génesis materializa hielo y estructuras sólidas. Estasis congela áreas y objetos, creando sellos que pueden ser rotos por habilidades Mentem.',
@@ -485,6 +478,7 @@
                 id: 'sasaki',
                 name: 'SASAKI',
                 title: 'USUARIO INDEPENDIENTE',
+                image: '',
                 iris: 'Armonía del Vacío',
                 technique: 'Contrapunto | Crescendo',
                 description: 'Contrapunto contraataca poderes enemigos. Crescendo potencia habilidades aliadas. Requiere conocer previamente el poder del objetivo.',
@@ -497,6 +491,7 @@
                 id: 'usui',
                 name: 'USUI',
                 title: 'LÍDER // SHINIGAMI TENSEI',
+                image: '',
                 iris: 'N/A',
                 technique: 'Combustión | Consanguíneo',
                 description: 'Combustión usa sangre para aumentar capacidades físicas y crear armas de fuego. Consanguíneo comparte poder con quienes considera dignos, monitoreando su energía vital.',
@@ -509,6 +504,7 @@
                 id: 'akane',
                 name: 'AKANE',
                 title: 'DIRECTOR // AGENCIA ADE',
+                image: '',
                 iris: 'N/A',
                 technique: 'Marca Perpetua | Alma de Muñeco',
                 description: 'Marca Perpetua sella o neutraliza poderes de otros usuarios. Alma de Muñeco introduce energía vital en objetos o cuerpos sin alma.',
@@ -534,22 +530,15 @@
             const grid = document.getElementById('cardsGrid');
             grid.innerHTML = characters.map(char => `
                 <div class="character-card" data-character="${char.id}" onclick="openDetail('${char.id}')">
-                    <div class="card-header">
+                    <div class="card-image">
+                        ${char.image
+                            ? `<img src="${char.image}" alt="${char.name}">`
+                            : `<div class="card-placeholder">${char.name.charAt(0)}</div>`
+                        }
+                    </div>
+                    <div class="card-footer">
                         <div class="card-name">${char.name}</div>
                         <div class="card-title">${char.title}</div>
-                    </div>
-                    <div class="card-info">
-                        <div class="info-row">
-                            <div class="info-label">IRIS</div>
-                            <div class="info-value">${char.iris}</div>
-                        </div>
-                        <div class="info-row">
-                            <div class="info-label">TÉCNICA ANIMA</div>
-                            <div class="info-value">${char.technique}</div>
-                        </div>
-                    </div>
-                    <div class="card-description">
-                        <p>${char.description}</p>
                     </div>
                 </div>
             `).join('');
