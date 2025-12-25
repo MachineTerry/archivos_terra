@@ -48,9 +48,9 @@
         .character-nav {
             width: 200px;
             height: 100vh;
-            background: rgba(10, 10, 12, 0.98);
+            background: rgba(20, 20, 30, 0.85);
             backdrop-filter: blur(10px);
-            border-right: 1px solid rgba(255, 255, 255, 0.06);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -134,14 +134,14 @@
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.7rem;
             letter-spacing: 2px;
-            color: rgba(255, 255, 255, 0.45);
+            color: rgba(255, 255, 255, 0.5);
             text-decoration: none;
             text-align: center;
             padding: 14px 12px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
             background: transparent;
-            transition: all 0.25s ease;
+            transition: all 0.3s ease;
             position: relative;
+            border: none;
         }
 
         .nav-link::before {
@@ -149,27 +149,31 @@
             position: absolute;
             left: 0;
             top: 0;
-            width: 2px;
+            width: 100%;
             height: 100%;
-            background: rgba(255, 255, 255, 0.8);
-            transform: scaleY(0);
-            transition: transform 0.25s ease;
+            background: linear-gradient(90deg, #4a9eff 0%, #5accff 100%);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s ease;
+            z-index: -1;
+            border-radius: 2px;
         }
 
         .nav-link:hover {
-            color: rgba(255, 255, 255, 0.8);
-            border-color: rgba(255, 255, 255, 0.15);
-            background: rgba(255, 255, 255, 0.03);
+            color: rgba(255, 255, 255, 1);
+        }
+
+        .nav-link:hover::before {
+            transform: scaleX(1);
         }
 
         .nav-link.active {
-            color: rgba(255, 255, 255, 0.95);
-            border-color: rgba(255, 255, 255, 0.2);
-            background: rgba(255, 255, 255, 0.05);
+            color: rgba(255, 255, 255, 1);
         }
 
         .nav-link.active::before {
-            transform: scaleY(1);
+            transform: scaleX(1);
+            background: linear-gradient(90deg, #5accff 0%, #4a9eff 100%);
         }
 
         /* Área principal */
@@ -192,10 +196,10 @@
             display: flex;
             transform: translateX(100px) scale(0.95);
             transition: opacity 0.5s ease, transform 0.5s ease;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(5px);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            background: rgba(15, 15, 20, 0.5);
+            backdrop-filter: blur(8px);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
         }
 
         .character-card.active {
@@ -218,8 +222,8 @@
             left: 60px;
             width: 150px;
             height: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(40, 40, 50, 0.8);
+            border: 2px solid rgba(255, 255, 255, 0.2);
             border-bottom: none;
             border-radius: 4px 4px 0 0;
         }
@@ -237,50 +241,50 @@
 
         .card-background.kotarou {
             background:
-                radial-gradient(circle at 75% 25%, rgba(180, 60, 60, 0.08) 0%, transparent 50%),
-                linear-gradient(135deg, #0d0809 0%, #1a0f10 40%, #0a0607 70%, #000 100%);
+                radial-gradient(circle at 75% 25%, rgba(180, 60, 60, 0.15) 0%, transparent 50%),
+                linear-gradient(135deg, #1a1215 0%, #2a1f22 40%, #150f11 70%, #0a0607 100%);
         }
 
         .card-background.taichi {
             background:
-                radial-gradient(circle at 75% 25%, rgba(70, 110, 200, 0.08) 0%, transparent 50%),
-                linear-gradient(135deg, #080c12 0%, #0f1620 40%, #060a0f 70%, #000 100%);
+                radial-gradient(circle at 75% 25%, rgba(70, 110, 200, 0.15) 0%, transparent 50%),
+                linear-gradient(135deg, #10161f 0%, #1a2530 40%, #0d1218 70%, #060a0f 100%);
         }
 
         .card-background.lucy {
             background:
-                radial-gradient(circle at 50% 50%, rgba(200, 160, 50, 0.07) 0%, transparent 50%),
-                linear-gradient(135deg, #0e0b08 0%, #1c1410 40%, #0a0806 70%, #000 100%);
+                radial-gradient(circle at 50% 50%, rgba(200, 160, 50, 0.12) 0%, transparent 50%),
+                linear-gradient(135deg, #1c1810 0%, #2c2418 40%, #131008 70%, #0a0806 100%);
         }
 
         .card-background.shiro {
             background:
-                radial-gradient(circle at 30% 70%, rgba(80, 150, 100, 0.07) 0%, transparent 50%),
-                linear-gradient(135deg, #080d0a 0%, #0f1a14 40%, #060a08 70%, #000 100%);
+                radial-gradient(circle at 30% 70%, rgba(80, 150, 100, 0.12) 0%, transparent 50%),
+                linear-gradient(135deg, #101814 0%, #1a2820 40%, #0c1210 70%, #060a08 100%);
         }
 
         .card-background.uenoyama {
             background:
-                radial-gradient(circle at 60% 40%, rgba(130, 110, 180, 0.08) 0%, transparent 50%),
-                linear-gradient(135deg, #0a0a10 0%, #14141f 40%, #08080e 70%, #000 100%);
+                radial-gradient(circle at 60% 40%, rgba(130, 110, 180, 0.15) 0%, transparent 50%),
+                linear-gradient(135deg, #12121c 0%, #1e1e2e 40%, #0e0e16 70%, #08080e 100%);
         }
 
         .card-background.sasaki {
             background:
-                radial-gradient(circle at 40% 60%, rgba(170, 100, 180, 0.08) 0%, transparent 50%),
-                linear-gradient(135deg, #0d0a10 0%, #1a141f 40%, #0a080e 70%, #000 100%);
+                radial-gradient(circle at 40% 60%, rgba(170, 100, 180, 0.15) 0%, transparent 50%),
+                linear-gradient(135deg, #16121c 0%, #241e2e 40%, #100e16 70%, #0a080e 100%);
         }
 
         .card-background.usui {
             background:
-                radial-gradient(circle at 70% 30%, rgba(180, 100, 120, 0.08) 0%, transparent 50%),
-                linear-gradient(135deg, #0f0a0c 0%, #1c1015 40%, #0b0709 70%, #000 100%);
+                radial-gradient(circle at 70% 30%, rgba(180, 100, 120, 0.15) 0%, transparent 50%),
+                linear-gradient(135deg, #1c1418 0%, #2a1e24 40%, #140f12 70%, #0b0709 100%);
         }
 
         .card-background.akane {
             background:
-                radial-gradient(circle at 50% 50%, rgba(70, 150, 180, 0.07) 0%, transparent 50%),
-                linear-gradient(135deg, #080e11 0%, #0f1c20 40%, #060b0d 70%, #000 100%);
+                radial-gradient(circle at 50% 50%, rgba(70, 150, 180, 0.12) 0%, transparent 50%),
+                linear-gradient(135deg, #10181d 0%, #1a2a30 40%, #0c1418 70%, #060b0d 100%);
         }
 
         /* Panel de información COMPACTO - SIN SCROLL */
