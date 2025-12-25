@@ -57,6 +57,7 @@
             padding: 50px 25px;
             gap: 12px;
             z-index: 100;
+            margin-left: 15%;
         }
 
         /* Logo estilo Moon&Terra horizontal */
@@ -180,7 +181,7 @@
             overflow: hidden;
         }
 
-        /* Cards fullscreen */
+        /* Cards fullscreen con efecto de expediente */
         .character-card {
             position: absolute;
             top: 0;
@@ -189,13 +190,21 @@
             height: 100%;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.6s ease;
             display: flex;
+            transform: translateX(100px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
         }
 
         .character-card.active {
             opacity: 1;
             pointer-events: auto;
+            transform: translateX(0);
+        }
+
+        /* Efecto de "cerrar expediente" */
+        .character-card.closing {
+            transform: translateX(-100px);
+            opacity: 0;
         }
 
         /* Fondos sutiles urbanos */
@@ -266,6 +275,20 @@
             justify-content: center;
             position: relative;
             z-index: 10;
+        }
+
+        /* Pestaña de expediente decorativa */
+        .character-info::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 120px;
+            background: linear-gradient(180deg,
+                rgba(255, 255, 255, 0.4) 0%,
+                rgba(255, 255, 255, 0.1) 100%);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
         }
 
         .character-category {
@@ -727,10 +750,20 @@
         });
 
         function showCharacter(characterId) {
-            document.querySelectorAll('.character-card').forEach(card => {
-                card.classList.remove('active');
-            });
-            document.querySelector(`.character-card[data-character="${characterId}"]`).classList.add('active');
+            // Agregar efecto de "cerrar expediente" a la carta actual
+            const currentCard = document.querySelector('.character-card.active');
+            if (currentCard) {
+                currentCard.classList.add('closing');
+                setTimeout(() => {
+                    currentCard.classList.remove('active', 'closing');
+                }, 250);
+            }
+
+            // Abrir nuevo expediente con delay
+            setTimeout(() => {
+                document.querySelector(`.character-card[data-character="${characterId}"]`).classList.add('active');
+            }, 250);
+
             currentIndex = characters.indexOf(characterId);
         }
 
