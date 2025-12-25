@@ -38,92 +38,86 @@
             display: flex;
         }
 
-        /* Panel lateral mejorado */
+        /* Panel lateral - diseño urbano limpio */
         .character-nav {
-            width: 180px;
+            width: 200px;
             height: 100vh;
-            background: linear-gradient(180deg, rgba(8, 8, 12, 0.98) 0%, rgba(12, 12, 18, 0.95) 100%);
-            backdrop-filter: blur(20px);
-            border-right: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(10, 10, 12, 0.98);
+            backdrop-filter: blur(10px);
+            border-right: 1px solid rgba(255, 255, 255, 0.06);
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 40px 20px;
-            gap: 15px;
+            padding: 50px 25px;
+            gap: 12px;
             z-index: 100;
-            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.5);
         }
 
-        /* Logo mejorado con luna */
+        /* Logo simple y limpio */
         .nav-logo-container {
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
         }
 
         .moon-icon {
-            width: 50px;
-            height: 50px;
-            margin-bottom: 15px;
+            width: 60px;
+            height: 60px;
+            margin-bottom: 20px;
             position: relative;
+            opacity: 0.7;
         }
 
         .moon-icon svg {
             width: 100%;
             height: 100%;
-            filter: drop-shadow(0 0 10px rgba(90, 204, 255, 0.3));
         }
 
         .nav-logo {
             font-family: 'Space Grotesk', sans-serif;
-            font-size: 2rem;
+            font-size: 2.2rem;
             font-weight: 700;
-            letter-spacing: 8px;
+            letter-spacing: 12px;
             text-align: center;
-            background: linear-gradient(135deg, #ffffff 0%, #5accff 50%, #4a9eff 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 30px rgba(90, 204, 255, 0.2);
+            color: #ffffff;
+            margin-bottom: 8px;
         }
 
         .nav-subtitle {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.6rem;
+            font-size: 0.55rem;
             letter-spacing: 3px;
-            color: rgba(255, 255, 255, 0.4);
+            color: rgba(255, 255, 255, 0.35);
             text-align: center;
-            margin-top: 5px;
         }
 
         .section-divider {
-            width: 60%;
+            width: 80%;
             height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(90, 204, 255, 0.3), transparent);
-            margin: 15px 0;
+            background: rgba(255, 255, 255, 0.1);
+            margin: 20px 0;
         }
 
         .nav-menu {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 8px;
             width: 100%;
         }
 
         .nav-link {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             letter-spacing: 2px;
-            color: rgba(255, 255, 255, 0.5);
+            color: rgba(255, 255, 255, 0.45);
             text-decoration: none;
             text-align: center;
-            padding: 12px 10px;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            background: rgba(255, 255, 255, 0.02);
-            transition: all 0.3s ease;
-            border-radius: 4px;
+            padding: 14px 12px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: transparent;
+            transition: all 0.25s ease;
             position: relative;
-            overflow: hidden;
         }
 
         .nav-link::before {
@@ -131,18 +125,23 @@
             position: absolute;
             left: 0;
             top: 0;
-            width: 3px;
+            width: 2px;
             height: 100%;
-            background: linear-gradient(180deg, #5accff, #4a9eff);
+            background: rgba(255, 255, 255, 0.8);
             transform: scaleY(0);
-            transition: transform 0.3s ease;
+            transition: transform 0.25s ease;
         }
 
-        .nav-link:hover,
+        .nav-link:hover {
+            color: rgba(255, 255, 255, 0.8);
+            border-color: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.03);
+        }
+
         .nav-link.active {
             color: rgba(255, 255, 255, 0.95);
-            border-color: rgba(90, 204, 255, 0.3);
-            background: rgba(90, 204, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.05);
         }
 
         .nav-link.active::before {
@@ -175,7 +174,7 @@
             pointer-events: auto;
         }
 
-        /* Fondos mejorados con degradados dinámicos */
+        /* Fondos sutiles urbanos */
         .card-background {
             position: absolute;
             top: 0;
@@ -187,52 +186,50 @@
 
         .card-background.kotarou {
             background:
-                radial-gradient(circle at 80% 20%, rgba(255, 90, 90, 0.15) 0%, transparent 40%),
-                radial-gradient(circle at 20% 80%, rgba(255, 50, 50, 0.1) 0%, transparent 40%),
-                linear-gradient(135deg, #0a0608 0%, #1a0a0f 30%, #0f0508 60%, #000 100%);
+                radial-gradient(circle at 75% 25%, rgba(180, 60, 60, 0.08) 0%, transparent 50%),
+                linear-gradient(135deg, #0d0809 0%, #1a0f10 40%, #0a0607 70%, #000 100%);
         }
 
         .card-background.taichi {
             background:
-                radial-gradient(circle at 80% 20%, rgba(90, 143, 255, 0.12) 0%, transparent 40%),
-                radial-gradient(circle at 20% 80%, rgba(74, 158, 255, 0.08) 0%, transparent 40%),
-                linear-gradient(135deg, #060a10 0%, #0a1420 30%, #050812 60%, #000 100%);
+                radial-gradient(circle at 75% 25%, rgba(70, 110, 200, 0.08) 0%, transparent 50%),
+                linear-gradient(135deg, #080c12 0%, #0f1620 40%, #060a0f 70%, #000 100%);
         }
 
         .card-background.lucy {
             background:
-                radial-gradient(circle at 50% 50%, rgba(255, 217, 61, 0.1) 0%, transparent 40%),
-                linear-gradient(135deg, #0f0a06 0%, #1f1508 30%, #0a0805 60%, #000 100%);
+                radial-gradient(circle at 50% 50%, rgba(200, 160, 50, 0.07) 0%, transparent 50%),
+                linear-gradient(135deg, #0e0b08 0%, #1c1410 40%, #0a0806 70%, #000 100%);
         }
 
         .card-background.shiro {
             background:
-                radial-gradient(circle at 30% 70%, rgba(107, 207, 127, 0.1) 0%, transparent 40%),
-                linear-gradient(135deg, #060f0a 0%, #0a1f12 30%, #050a08 60%, #000 100%);
+                radial-gradient(circle at 30% 70%, rgba(80, 150, 100, 0.07) 0%, transparent 50%),
+                linear-gradient(135deg, #080d0a 0%, #0f1a14 40%, #060a08 70%, #000 100%);
         }
 
         .card-background.uenoyama {
             background:
-                radial-gradient(circle at 60% 40%, rgba(167, 139, 250, 0.12) 0%, transparent 40%),
-                linear-gradient(135deg, #0a0a12 0%, #141420 30%, #080810 60%, #000 100%);
+                radial-gradient(circle at 60% 40%, rgba(130, 110, 180, 0.08) 0%, transparent 50%),
+                linear-gradient(135deg, #0a0a10 0%, #14141f 40%, #08080e 70%, #000 100%);
         }
 
         .card-background.sasaki {
             background:
-                radial-gradient(circle at 40% 60%, rgba(217, 127, 255, 0.12) 0%, transparent 40%),
-                linear-gradient(135deg, #0f0a12 0%, #1f1420 30%, #0a0810 60%, #000 100%);
+                radial-gradient(circle at 40% 60%, rgba(170, 100, 180, 0.08) 0%, transparent 50%),
+                linear-gradient(135deg, #0d0a10 0%, #1a141f 40%, #0a080e 70%, #000 100%);
         }
 
         .card-background.usui {
             background:
-                radial-gradient(circle at 70% 30%, rgba(255, 139, 167, 0.12) 0%, transparent 40%),
-                linear-gradient(135deg, #100a0c 0%, #200814 30%, #0c0608 60%, #000 100%);
+                radial-gradient(circle at 70% 30%, rgba(180, 100, 120, 0.08) 0%, transparent 50%),
+                linear-gradient(135deg, #0f0a0c 0%, #1c1015 40%, #0b0709 70%, #000 100%);
         }
 
         .card-background.akane {
             background:
-                radial-gradient(circle at 50% 50%, rgba(90, 204, 255, 0.1) 0%, transparent 40%),
-                linear-gradient(135deg, #060f12 0%, #0a1f25 30%, #050a0e 60%, #000 100%);
+                radial-gradient(circle at 50% 50%, rgba(70, 150, 180, 0.07) 0%, transparent 50%),
+                linear-gradient(135deg, #080e11 0%, #0f1c20 40%, #060b0d 70%, #000 100%);
         }
 
         /* Panel de información COMPACTO - SIN SCROLL */
@@ -263,7 +260,6 @@
             letter-spacing: 4px;
             line-height: 1;
             margin-bottom: 20px;
-            text-shadow: 0 2px 20px currentColor;
         }
 
         .character-iris {
@@ -355,7 +351,7 @@
             max-width: 90%;
             max-height: 90%;
             object-fit: contain;
-            filter: drop-shadow(0 30px 80px rgba(0, 0, 0, 0.9));
+            filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.6));
         }
 
         /* Colores por personaje */
@@ -415,7 +411,7 @@
             border-color: var(--accent-akane);
         }
 
-        /* Navegación con flechas */
+        /* Navegación con flechas - diseño limpio */
         .nav-arrows {
             position: absolute;
             top: 30px;
@@ -426,25 +422,24 @@
         }
 
         .nav-arrow {
-            width: 45px;
-            height: 45px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
+            width: 42px;
+            height: 42px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 2px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 1.3rem;
-            color: rgba(255, 255, 255, 0.5);
+            transition: all 0.2s ease;
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.4);
         }
 
         .nav-arrow:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: rgba(255, 255, 255, 0.9);
-            transform: scale(1.05);
-            border-color: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.08);
+            color: rgba(255, 255, 255, 0.85);
+            border-color: rgba(255, 255, 255, 0.2);
         }
 
         /* Responsive */
@@ -506,15 +501,15 @@
         <!-- Panel lateral -->
         <div class="character-nav">
             <div class="nav-logo-container">
-                <!-- Ícono de luna estilo pincel -->
+                <!-- Ícono de luna simple -->
                 <div class="moon-icon">
                     <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M30 15 Q 45 10, 55 20 Q 65 35, 60 50 Q 55 70, 40 80 Q 25 85, 20 70 Q 10 50, 15 35 Q 18 20, 30 15"
-                              fill="#5accff" opacity="0.9"/>
-                        <path d="M32 20 Q 40 18, 48 25 Q 54 35, 52 48 Q 48 62, 38 70 Q 28 73, 25 62 Q 18 48, 22 38 Q 25 25, 32 20"
-                              fill="#000" opacity="0.3"/>
-                        <path d="M28 12 L 32 18 M 55 18 L 58 25 M 62 48 L 66 52 M 42 78 L 38 85 M 18 68 L 12 70"
-                              stroke="#5accff" stroke-width="1.5" opacity="0.6" stroke-linecap="round"/>
+                        <path d="M35 20 Q 50 15, 60 25 Q 70 40, 65 55 Q 58 75, 42 82 Q 28 85, 22 72 Q 15 55, 20 40 Q 24 25, 35 20"
+                              fill="rgba(255, 255, 255, 0.6)"/>
+                        <path d="M38 25 Q 48 22, 55 30 Q 62 42, 58 54 Q 52 68, 40 73 Q 30 75, 26 65 Q 20 52, 25 42 Q 29 30, 38 25"
+                              fill="#000" opacity="0.5"/>
+                        <path d="M32 18 L 35 22 M 58 23 L 62 28 M 66 52 L 70 56 M 44 80 L 40 86 M 20 70 L 15 72"
+                              stroke="rgba(255, 255, 255, 0.4)" stroke-width="1.2" stroke-linecap="round"/>
                     </svg>
                 </div>
 
