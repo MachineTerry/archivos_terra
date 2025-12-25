@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TERRA - Usuarios Anima</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;500;600&family=Dancing+Script:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Space+Grotesk:wght@600;700&family=JetBrains+Mono:wght@400;500&family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
     <style>
         :root {
             --accent-kotarou: #ff6b6b;
@@ -35,6 +37,8 @@
             color: #ffffff;
             overflow: hidden;
             height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         .character-viewer {
@@ -157,6 +161,7 @@
             transition: transform 0.3s ease;
             z-index: -1;
             border-radius: 2px;
+            will-change: transform;
         }
 
         .nav-link:hover {
@@ -200,6 +205,7 @@
             background: rgba(15, 15, 20, 0.5);
             backdrop-filter: blur(8px);
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            will-change: transform, opacity;
         }
 
         .character-card.active {
@@ -717,6 +723,7 @@
 
         const characters = ['kotarou', 'taichi', 'lucy', 'shiro', 'uenoyama', 'sasaki', 'usui', 'akane'];
         let currentIndex = 0;
+        let isTransitioning = false;
 
         function generateCharacterCard(charId, data) {
             const abilitiesHTML = data.abilities.map(ability => `
@@ -758,8 +765,15 @@
         });
 
         function showCharacter(characterId) {
-            // Agregar efecto de "cerrar expediente" a la carta actual
+            if (isTransitioning) return;
+
+            const newCard = document.querySelector(`.character-card[data-character="${characterId}"]`);
             const currentCard = document.querySelector('.character-card.active');
+
+            if (currentCard === newCard) return;
+
+            isTransitioning = true;
+
             if (currentCard) {
                 currentCard.classList.add('closing');
                 setTimeout(() => {
@@ -767,15 +781,19 @@
                 }, 250);
             }
 
-            // Abrir nuevo expediente con delay
             setTimeout(() => {
-                document.querySelector(`.character-card[data-character="${characterId}"]`).classList.add('active');
+                newCard.classList.add('active');
+                setTimeout(() => {
+                    isTransitioning = false;
+                }, 500);
             }, 250);
 
             currentIndex = characters.indexOf(characterId);
         }
 
         function navigateCharacter(direction) {
+            if (isTransitioning) return;
+
             currentIndex += direction;
             if (currentIndex >= characters.length) currentIndex = 0;
             else if (currentIndex < 0) currentIndex = characters.length - 1;
@@ -788,12 +806,21 @@
         });
 
         let scrollTimeout;
+        let lastScrollTime = 0;
         document.addEventListener('wheel', (e) => {
+            const now = Date.now();
+            if (now - lastScrollTime < 800) return;
+
             clearTimeout(scrollTimeout);
             scrollTimeout = setTimeout(() => {
-                if (e.deltaY > 0) navigateCharacter(1);
-                else if (e.deltaY < 0) navigateCharacter(-1);
-            }, 50);
+                if (e.deltaY > 30) {
+                    navigateCharacter(1);
+                    lastScrollTime = Date.now();
+                } else if (e.deltaY < -30) {
+                    navigateCharacter(-1);
+                    lastScrollTime = Date.now();
+                }
+            }, 100);
         }, { passive: true });
     </script>
 </body>
